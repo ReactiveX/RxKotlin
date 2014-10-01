@@ -20,7 +20,6 @@ import rx.Observer
 import rx.Observable
 import rx.Observable.OnSubscribe
 import rx.Subscription
-import rx.Observable.OnSubscribeFunc
 import rx.Subscriber
 
 
@@ -33,13 +32,6 @@ public fun<T> Function1<Subscriber<in T>, Unit>.asObservable(): Observable<T> {
     })!!
 }
 
-[deprecated("Use Function1<Subscriber<in T>, Unit>.asObservable()")]
-public fun<T> Function1<Observer<in T>, Subscription>.asObservableFunc(): Observable<T> {
-    return Observable.create(OnSubscribeFunc<T>{ op ->
-        this(op!!)
-    })!!
-}
-
 public fun<T> Function0<Observable<T>>.defer(): Observable<T> {
     return Observable.defer(this)!!
 }
@@ -49,7 +41,7 @@ public fun<T> Iterable<T>.asObservable(): Observable<T> {
 }
 
 public fun<T> T.asObservable(): Observable<T> {
-    return Observable.from(this)!!
+    return Observable.just(this)!!
 }
 
 public fun<T> Throwable.asObservable(): Observable<T> {

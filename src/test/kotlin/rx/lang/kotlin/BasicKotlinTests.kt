@@ -68,7 +68,7 @@ public class BasicKotlinTests : KotlinTests() {
 
     [Test]
     public fun testMap1() {
-        Observable.from(1)!!.map { v -> "hello_$v" }!!.subscribe(received())
+        Observable.just(1)!!.map { v -> "hello_$v" }!!.subscribe(received())
         verify(a, times(1))!!.received("hello_1")
     }
 
@@ -92,9 +92,9 @@ public class BasicKotlinTests : KotlinTests() {
         Observable.merge(
                 Observable.from(listOf(1, 2, 3)),
                 Observable.merge(
-                        Observable.from(6),
+                        Observable.just(6),
                         Observable.error(NullPointerException()),
-                        Observable.from(7)
+                        Observable.just(7)
                 ),
                 Observable.from(listOf(4, 5))
         )!!.subscribe(received(), { e -> a!!.error(e) })
@@ -222,7 +222,7 @@ public class BasicKotlinTests : KotlinTests() {
 
     [Test(expected = javaClass<IllegalArgumentException>())]
     public fun testSingle() {
-        assertEquals("one", Observable.from("one")!!.toBlocking()!!.single { x -> x!!.length == 3 })
+        assertEquals("one", Observable.just("one")!!.toBlocking()!!.single { x -> x!!.length == 3 })
         Observable.from(listOf("one", "two"))!!.toBlocking()!!.single { x -> x!!.length == 3 }
         fail()
     }
