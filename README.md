@@ -1,6 +1,6 @@
 # Kotlin Adaptor for RxJava
 
-Kotlin has support for SAM (Single Abstract Method) Interfaces as Functions (i.e. Java 8 Lambdas). So you could use Kotlin in RxJava whitout this adaptor
+Kotlin has support for SAM (Single Abstract Method) Interfaces as Functions (i.e. Java 8 Lambdas). So you could use Kotlin in RxJava without this adaptor
 
 ```kotlin
 Observable.create(OnSubscribeFunc<String> { observer ->
