@@ -21,6 +21,7 @@ import org.junit.Before
 import rx.Observable
 import org.mockito.Mock
 
+[suppress("BASE_WITH_NULLABLE_UPPER_BOUND")]
 public abstract class KotlinTests {
     [Mock] var a: ScriptAssertion? = null
     [Mock] var w: Observable<Int>? = null

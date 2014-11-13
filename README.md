@@ -46,8 +46,8 @@ Example for Maven:
 
 ```xml
 <dependency>
-    <groupId>com.netflix.rxjava</groupId>
-    <artifactId>rxjava-kotlin</artifactId>
+    <groupId>io.reactivex</groupId>
+    <artifactId>rxkotlin</artifactId>
     <version>x.y.z</version>
 </dependency>
 ```
@@ -55,11 +55,11 @@ Example for Maven:
 and for Ivy:
 
 ```xml
-<dependency org="com.netflix.rxjava" name="rxjava-kotlin" rev="x.y.z" />
+<dependency org="io.reactivex" name="rxkotlin" rev="x.y.z" />
 ```
 
 and for Gradle:
 
 ```groovy
-compile 'com.netflix.rxjava:rxjava-kotlin:x.y.z'
+compile 'io.reactivex:rxkotlin:x.y.z'
 ```
