@@ -1,6 +1,6 @@
 buildscript {
   repositories { jcenter() }
-  dependencies { classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:1.12.+', 
+  dependencies { classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:2.+', 
                            'org.jetbrains.kotlin:kotlin-gradle-plugin:0.8.11' }
 }
 
