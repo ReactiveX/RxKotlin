@@ -16,58 +16,55 @@
 
 package rx.lang.kotlin
 
-import rx.Observer
 import rx.Observable
 import rx.Observable.OnSubscribe
-import rx.Subscription
 import rx.Subscriber
 
 
 public fun<T> Function1<Subscriber<in T>, Unit>.asObservable(): Observable<T> {
-    return Observable.create(object:OnSubscribe<T> {
-        override fun call(t1: Subscriber<in T>?) {
-            this@asObservable(t1!!)
-        }
-
-    })!!
+    return Observable.create(this)
 }
 
 public fun<T> Function0<Observable<T>>.defer(): Observable<T> {
-    return Observable.defer(this)!!
+    return Observable.defer(this)
+}
+
+fun IntRange.asObservable(): Observable<Int> {
+    return Observable.range(start, end)
 }
 
 public fun<T> Iterable<T>.asObservable(): Observable<T> {
-    return Observable.from(this)!!
+    return Observable.from(this)
 }
 
 public fun<T> T.asObservable(): Observable<T> {
-    return Observable.just(this)!!
+    return Observable.just(this)
 }
 
 public fun<T> Throwable.asObservable(): Observable<T> {
-    return Observable.error(this)!!
+    return Observable.error(this)
 }
 
 public fun<T> Pair<T, T>.asObservable(): Observable<T> {
-    return Observable.from(listOf(this.component1(), this.component2()))!!
+    return Observable.from(listOf(first, second))
 }
 
 public fun<T> Triple<T, T, T>.asObservable(): Observable<T> {
-    return Observable.from(listOf(this.component1(), this.component2(), this.component3()))!!
+    return Observable.from(listOf(first, second, third))
 }
 
 public fun<T> Pair<Observable<T>, Observable<T>>.merge(): Observable<T> {
-    return Observable.merge(this.component1(), this.component2())!!
+    return Observable.merge(first, second)
 }
 
 public fun<T> Triple<Observable<T>, Observable<T>, Observable<T>>.merge(): Observable<T> {
-    return Observable.merge(this.component1(), this.component2(), this.component3())!!
+    return Observable.merge(first, second, third)
 }
 
 public fun<T> Pair<Observable<T>, Observable<T>>.mergeDelayError(): Observable<T> {
-    return Observable.mergeDelayError(this.component1(), this.component2())!!
+    return Observable.mergeDelayError(first, second)
 }
 
 public fun<T> Triple<Observable<T>, Observable<T>, Observable<T>>.mergeDelayError(): Observable<T> {
-    return Observable.mergeDelayError(this.component1(), this.component2(), this.component3())!!
+    return Observable.mergeDelayError(first, second, third)
 }

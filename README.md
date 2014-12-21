@@ -3,25 +3,19 @@
 Kotlin has support for SAM (Single Abstract Method) Interfaces as Functions (i.e. Java 8 Lambdas). So you could use Kotlin in RxJava without this adaptor
 
 ```kotlin
-Observable.create(OnSubscribeFunc<String> { observer ->
-    observer!!.onNext("Hello")
-    observer.onCompleted()
-    Subscriptions.empty()
-})!!.subscribe { result ->
-    a!!.received(result)
-}
-```
+[Test]
+public fun testCreate() {
 
-In RxJava [0.17.0](https://github.com/Netflix/RxJava/releases/tag/0.17.0) version a new Subscriber type was included
-
-```kotlin
-Observable.create(object:OnSubscribe<String> {
-    override fun call(subscriber: Subscriber<in String>?) {
-        subscriber!!.onNext("Hello")
-        subscriber.onCompleted()
+  Observable.create(object:OnSubscribe<String> {
+    override fun call(subscriber: Subscriber<in String>) {
+      subscriber.onNext("Hello")
+      subscriber.onCompleted()
     }
-})!!.subscribe { result ->
-    a!!.received(result)
+    }).subscribe { result ->
+      a!!.received(result)
+    }
+
+    verify(a, times(1))!!.received("Hello")
 }
 ```
 
@@ -30,11 +24,17 @@ Observable.create(object:OnSubscribe<String> {
 This adaptor exposes a set of Extension functions that allow a more idiomatic Kotlin usage
 
 ```kotlin
-{(subscriber: Subscriber<in String>) ->
+[Test]
+public fun testCreate() {
+
+  {(subscriber: Subscriber<in String>) ->
     subscriber.onNext("Hello")
     subscriber.onCompleted()
-}.asObservable().subscribe { result ->
-    a!!.received(result)
+    }.asObservable().subscribe { result ->
+      a!!.received(result)
+    }
+
+    verify(a, times(1))!!.received("Hello")
 }
 ```
 
