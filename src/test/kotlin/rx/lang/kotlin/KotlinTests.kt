@@ -23,19 +23,21 @@ import org.mockito.Mock
 
 [suppress("BASE_WITH_NULLABLE_UPPER_BOUND")]
 public abstract class KotlinTests {
-    [Mock] var a: ScriptAssertion? = null
-    [Mock] var w: Observable<Int>? = null
+    [Mock] var a: ScriptAssertion = uninitialized()
+    [Mock] var w: Observable<Int> = uninitialized()
 
     [Before]
     public fun before() {
         MockitoAnnotations.initMocks(this)
     }
 
-    val <T> received = {(result: T?) -> a!!.received(result) }
+    val <T> received = {(result: T?) -> a.received(result) }
 
     public trait ScriptAssertion {
         fun error(e: Throwable?)
 
         fun received(e: Any?)
     }
+
+    private fun <T> uninitialized() = null as T
 }
