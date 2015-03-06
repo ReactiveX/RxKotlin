@@ -30,6 +30,23 @@ public class ObservablesTest {
         assertNotNull(o5)
     }
 
+    test fun testExampleFromReadme() {
+        val result = observable<String> { subscriber ->
+            subscriber.onNext("H")
+            subscriber.onNext("e")
+            subscriber.onNext("l")
+            subscriber.onNext("")
+            subscriber.onNext("l")
+            subscriber.onNext("o")
+            subscriber.onCompleted()
+        }.filter { it.isNotEmpty() }.
+        fold (StringBuilder()) { sb, e -> sb.append(e) }.
+        map { it.toString() }.
+        toBlocking().single()
+
+        assertEquals("Hello", result)
+    }
+
     test fun iteratorObservable() {
         assertEquals(listOf(1,2,3), listOf(1,2,3).iterator().toObservable().toList().toBlocking().single())
     }
