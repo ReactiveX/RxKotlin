@@ -35,200 +35,200 @@ public class ExtensionTests : KotlinTests() {
     [Test]
     public fun testCreate() {
 
-        {(subscriber: Subscriber<in String>) ->
+        observable<String> { subscriber ->
             subscriber.onNext("Hello")
             subscriber.onCompleted()
-        }.asObservable().subscribe { result ->
-            a!!.received(result)
+        }.subscribe { result ->
+            a.received(result)
         }
 
-        verify(a, times(1))!!.received("Hello")
+        verify(a, times(1)).received("Hello")
     }
 
     [Test]
     public fun testFilter() {
-        listOf(1, 2, 3).asObservable().filter { it >= 2 }.subscribe(received)
-        verify(a, times(0))!!.received(1);
-        verify(a, times(1))!!.received(2);
-        verify(a, times(1))!!.received(3);
+        listOf(1, 2, 3).toObservable().filter { it >= 2 }.subscribe(received)
+        verify(a, times(0)).received(1);
+        verify(a, times(1)).received(2);
+        verify(a, times(1)).received(3);
     }
 
 
     [Test]
     public fun testLast() {
-        assertEquals("three", listOf("one", "two", "three").asObservable().toBlocking().last())
+        assertEquals("three", listOf("one", "two", "three").toObservable().toBlocking().last())
     }
 
     [Test]
     public fun testLastWithPredicate() {
-        assertEquals("two", listOf("one", "two", "three").asObservable().toBlocking().last { x -> x.length() == 3 })
+        assertEquals("two", listOf("one", "two", "three").toObservable().toBlocking().last { x -> x.length() == 3 })
     }
 
     [Test]
     public fun testMap1() {
-        1.asObservable().map { v -> "hello_$v" }.subscribe((received))
-        verify(a, times(1))!!.received("hello_1")
+        1.toSingletonObservable().map { v -> "hello_$v" }.subscribe((received))
+        verify(a, times(1)).received("hello_1")
     }
 
     [Test]
     public fun testMap2() {
-        listOf(1, 2, 3).asObservable().map { v -> "hello_$v" }.subscribe((received))
-        verify(a, times(1))!!.received("hello_1")
-        verify(a, times(1))!!.received("hello_2")
-        verify(a, times(1))!!.received("hello_3")
+        listOf(1, 2, 3).toObservable().map { v -> "hello_$v" }.subscribe((received))
+        verify(a, times(1)).received("hello_1")
+        verify(a, times(1)).received("hello_2")
+        verify(a, times(1)).received("hello_3")
     }
 
     [Test]
     public fun testMaterialize() {
-        listOf(1, 2, 3).asObservable().materialize().subscribe((received))
-        verify(a, times(4))!!.received(any(javaClass<Notification<Int>>()))
-        verify(a, times(0))!!.error(any(javaClass<Exception>()))
+        listOf(1, 2, 3).toObservable().materialize().subscribe((received))
+        verify(a, times(4)).received(any(javaClass<Notification<Int>>()))
+        verify(a, times(0)).error(any(javaClass<Exception>()))
     }
 
 
     [Test]
     public fun testMerge() {
-        Triple(listOf(1, 2, 3).asObservable(),
-                Triple(6.asObservable(),
-                        NullPointerException().asObservable<Int>(),
-                        7.asObservable()
+        listOf(listOf(1, 2, 3).toObservable(),
+                listOf(6.toSingletonObservable(),
+                        NullPointerException().toObservable<Int>(),
+                        7.toSingletonObservable()
                 ).merge(),
-                listOf(4, 5).asObservable()
-        ).merge().subscribe(received, { e -> a!!.error(e) })
-        verify(a, times(1))!!.received(1)
-        verify(a, times(1))!!.received(2)
-        verify(a, times(1))!!.received(3)
-        verify(a, times(0))!!.received(4)
-        verify(a, times(0))!!.received(5)
-        verify(a, times(1))!!.received(6)
-        verify(a, times(0))!!.received(7)
-        verify(a, times(1))!!.error(any(javaClass<NullPointerException>()))
+                listOf(4, 5).toObservable()
+        ).merge().subscribe(received, { e -> a.error(e) })
+        verify(a, times(1)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(1)).received(3)
+        verify(a, times(0)).received(4)
+        verify(a, times(0)).received(5)
+        verify(a, times(1)).received(6)
+        verify(a, times(0)).received(7)
+        verify(a, times(1)).error(any(javaClass<NullPointerException>()))
     }
 
     [Test]
     public fun testScriptWithMaterialize() {
         TestFactory().observable.materialize().subscribe((received))
-        verify(a, times(2))!!.received(any(javaClass<Notification<Int>>()))
+        verify(a, times(2)).received(any(javaClass<Notification<Int>>()))
     }
 
     [Test]
     public fun testScriptWithMerge() {
         val factory = TestFactory()
-        (factory.observable to factory.observable).merge().subscribe((received))
-        verify(a, times(1))!!.received("hello_1")
-        verify(a, times(1))!!.received("hello_2")
+        (factory.observable mergeWith factory.observable).subscribe((received))
+        verify(a, times(1)).received("hello_1")
+        verify(a, times(1)).received("hello_2")
     }
 
 
     [Test]
     public fun testFromWithIterable() {
-        assertEquals(5, listOf(1, 2, 3, 4, 5).asObservable().count().toBlocking().single())
+        assertEquals(5, listOf(1, 2, 3, 4, 5).toObservable().count().toBlocking().single())
     }
 
     [Test]
     public fun testStartWith() {
         val list = listOf(10, 11, 12, 13, 14)
         val startList = listOf(1, 2, 3, 4, 5)
-        assertEquals(6, list.asObservable().startWith(0).count().toBlocking().single())
-        assertEquals(10, list.asObservable().startWith(startList).count().toBlocking().single())
+        assertEquals(6, list.toObservable().startWith(0).count().toBlocking().single())
+        assertEquals(10, list.toObservable().startWith(startList).count().toBlocking().single())
     }
 
     [Test]
     public fun testScriptWithOnNext() {
         TestFactory().observable.subscribe((received))
-        verify(a, times(1))!!.received("hello_1")
+        verify(a, times(1)).received("hello_1")
     }
 
     [Test]
     public fun testSkipTake() {
-        Triple(1, 2, 3).asObservable().skip(1).take(1).subscribe(received)
-        verify(a, times(0))!!.received(1)
-        verify(a, times(1))!!.received(2)
-        verify(a, times(0))!!.received(3)
+        listOf(1, 2, 3).toObservable().skip(1).take(1).subscribe(received)
+        verify(a, times(0)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(0)).received(3)
     }
 
     [Test]
     public fun testSkip() {
-        Triple(1, 2, 3).asObservable().skip(2).subscribe(received)
-        verify(a, times(0))!!.received(1)
-        verify(a, times(0))!!.received(2)
-        verify(a, times(1))!!.received(3)
+        listOf(1, 2, 3).toObservable().skip(2).subscribe(received)
+        verify(a, times(0)).received(1)
+        verify(a, times(0)).received(2)
+        verify(a, times(1)).received(3)
     }
 
     [Test]
     public fun testTake() {
-        Triple(1, 2, 3).asObservable().take(2).subscribe(received)
-        verify(a, times(1))!!.received(1)
-        verify(a, times(1))!!.received(2)
-        verify(a, times(0))!!.received(3)
+        listOf(1, 2, 3).toObservable().take(2).subscribe(received)
+        verify(a, times(1)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(0)).received(3)
     }
 
     [Test]
     public fun testTakeLast() {
         TestFactory().observable.takeLast(1).subscribe((received))
-        verify(a, times(1))!!.received("hello_1")
+        verify(a, times(1)).received("hello_1")
     }
 
     [Test]
     public fun testTakeWhile() {
-        Triple(1, 2, 3).asObservable().takeWhile { x -> x < 3 }.subscribe(received)
-        verify(a, times(1))!!.received(1)
-        verify(a, times(1))!!.received(2)
-        verify(a, times(0))!!.received(3)
+        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.subscribe(received)
+        verify(a, times(1)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(0)).received(3)
     }
 
     [Test]
     public fun testTakeWhileWithIndex() {
-        Triple(1, 2, 3).asObservable().takeWhile { x -> x < 3 }.zipWith((0..Integer.MAX_VALUE).asObservable()) { x, i -> x }.subscribe(received)
-        verify(a, times(1))!!.received(1)
-        verify(a, times(1))!!.received(2)
-        verify(a, times(0))!!.received(3)
+        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.zipWith((0..Integer.MAX_VALUE).toObservable()) { x, i -> x }.subscribe(received)
+        verify(a, times(1)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(0)).received(3)
     }
 
     [Test]
     public fun testToSortedList() {
         TestFactory().numbers.toSortedList().subscribe(received)
-        verify(a, times(1))!!.received(listOf(1, 2, 3, 4, 5))
+        verify(a, times(1)).received(listOf(1, 2, 3, 4, 5))
     }
 
     [Test]
     public fun testForEach() {
-        asyncObservable.asObservable().toBlocking().forEach(received)
-        verify(a, times(1))!!.received(1)
-        verify(a, times(1))!!.received(2)
-        verify(a, times(1))!!.received(3)
+        observable(asyncObservable).toBlocking().forEach(received)
+        verify(a, times(1)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(1)).received(3)
     }
 
     [Test(expected = javaClass<RuntimeException>())]
     public fun testForEachWithError() {
-        asyncObservable.asObservable().toBlocking().forEach { throw RuntimeException("err") }
+        observable(asyncObservable).toBlocking().forEach { throw RuntimeException("err") }
         fail("we expect an exception to be thrown")
     }
 
     [Test]
     public fun testLastOrDefault() {
-        assertEquals("two", ("one" to"two").asObservable().toBlocking().lastOrDefault("default") { x -> x.length() == 3 })
-        assertEquals("default", ("one" to"two").asObservable().toBlocking().lastOrDefault("default") { x -> x.length() > 3 })
+        assertEquals("two", listOf("one", "two").toObservable().toBlocking().lastOrDefault("default") { x -> x.length() == 3 })
+        assertEquals("default", listOf("one", "two").toObservable().toBlocking().lastOrDefault("default") { x -> x.length() > 3 })
     }
 
     [Test]
     public fun testDefer() {
-        { (1 to 2).asObservable() }.defer().subscribe(received)
-        verify(a, times(1))!!.received(1)
-        verify(a, times(1))!!.received(2)
+        deferredObservable { listOf(1, 2).toObservable() }.subscribe(received)
+        verify(a, times(1)).received(1)
+        verify(a, times(1)).received(2)
     }
 
     [Test]
     public fun testAll() {
-        Triple(1, 2, 3).asObservable().all { x -> x > 0 }.subscribe(received)
-        verify(a, times(1))!!.received(true)
+        listOf(1, 2, 3).toObservable().all { x -> x > 0 }.subscribe(received)
+        verify(a, times(1)).received(true)
     }
 
     [Test]
     public fun testZip() {
-        val o1 = Triple(1, 2, 3).asObservable()
-        val o2 = Triple(4, 5, 6).asObservable()
-        val o3 = Triple(7, 8, 9).asObservable()
+        val o1 = listOf(1, 2, 3).toObservable()
+        val o2 = listOf(4, 5, 6).toObservable()
+        val o3 = listOf(7, 8, 9).toObservable()
 
         val values = Observable.zip(o1, o2, o3) { a, b, c -> listOf(a, b, c) }.toList().toBlocking().single()
         assertEquals(listOf(1, 4, 7), values[0])
@@ -257,20 +257,13 @@ public class ExtensionTests : KotlinTests() {
         var counter = 1
 
         val numbers: Observable<Int>
-            get(){
-                return listOf(1, 3, 2, 5, 4).asObservable()
-            }
+            get() = listOf(1, 3, 2, 5, 4).toObservable()
 
         val onSubscribe: (Subscriber<in String>) -> Unit
-            get(){
-                // partial applied function
-                return funOnSubscribe(p1 = counter++)
-            }
+            get() = funOnSubscribe(p1 = counter++) // partial applied function
 
         val observable: Observable<String>
-            get(){
-                return onSubscribe.asObservable()
-            }
+            get() = observable(onSubscribe)
 
     }
 }

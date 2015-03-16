@@ -1,41 +1,24 @@
 # Kotlin Adaptor for RxJava
 
-Kotlin has support for SAM (Single Abstract Method) Interfaces as Functions (i.e. Java 8 Lambdas). So you could use Kotlin in RxJava without this adaptor
-
-```kotlin
-[Test]
-public fun testCreate() {
-
-  Observable.create(object:OnSubscribe<String> {
-    override fun call(subscriber: Subscriber<in String>) {
-      subscriber.onNext("Hello")
-      subscriber.onCompleted()
-    }
-    }).subscribe { result ->
-      a!!.received(result)
-    }
-
-    verify(a, times(1))!!.received("Hello")
-}
-```
-
-(Due to a [bug in Kotlin's compiler](http://youtrack.jetbrains.com/issue/KT-4753) you can't use SAM with OnSubscribe)
-
 This adaptor exposes a set of Extension functions that allow a more idiomatic Kotlin usage
 
 ```kotlin
-[Test]
-public fun testCreate() {
-
-  {(subscriber: Subscriber<in String>) ->
-    subscriber.onNext("Hello")
-    subscriber.onCompleted()
-    }.asObservable().subscribe { result ->
-      a!!.received(result)
+    observable<String> { subscriber ->
+        subscriber.onNext("H")
+        subscriber.onNext("e")
+        subscriber.onNext("l")
+        subscriber.onNext("")
+        subscriber.onNext("l")
+        subscriber.onNext("o")
+        subscriber.onCompleted()
+    }.filter { it.isNotEmpty() }.
+    fold (StringBuilder()) { sb, e -> sb.append(e) }.
+    map { it.toString() }.
+    subscribe { result ->
+      a.received(result)
     }
 
-    verify(a, times(1))!!.received("Hello")
-}
+    verify(a, times(1)).received("Hello")
 ```
 
 ## Binaries
