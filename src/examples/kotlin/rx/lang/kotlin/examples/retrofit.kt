@@ -11,7 +11,7 @@ data class SearchResults(val docs : List<SearchResultEntry>)
 data class MavenSearchResponse(val response : SearchResults)
 
 trait MavenSearchService {
-	GET("/solrsearch/select?wt=json")
+    GET("/solrsearch/select?wt=json")
     fun search(Query("q") s : String, Query("rows") rows : Int = 20) : Observable<MavenSearchResponse>
 }
 
