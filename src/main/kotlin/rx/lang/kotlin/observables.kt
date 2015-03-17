@@ -80,7 +80,7 @@ public fun <T : Any> Observable<T?>.filterNotNull() : Observable<T> = lift { s -
  */
 public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> = lift { s ->
     var index = 0
-    listOf(1).withIndex()
+
     subscriber<T>().
             onNext { v -> s.onNext(IndexedValue(index++, v)) }.
             onCompleted { s.onCompleted() }.
