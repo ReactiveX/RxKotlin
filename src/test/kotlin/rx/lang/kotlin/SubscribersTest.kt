@@ -8,20 +8,20 @@ import kotlin.test.assertEquals
 public class SubscribersTest {
     test fun testEmptySubscriber() {
         val s = subscriber<Int>()
-        callSubscriberMethods(s)
+        callSubscriberMethods(false, s)
     }
 
     test fun testSubscriberConstruction() {
         val events = ArrayList<String>()
 
-        callSubscriberMethods(subscriber<Int>().
+        callSubscriberMethods(false, subscriber<Int>().
                 onNext {events.add("onNext($it)")}
         )
 
         assertEquals(listOf("onNext(1)"), events)
         events.clear()
 
-        callSubscriberMethods(subscriber<Int>().
+        callSubscriberMethods(true, subscriber<Int>().
                 onNext {events.add("onNext($it)")}.
                 onError { events.add(it.javaClass.getSimpleName()) }
         )
@@ -29,7 +29,7 @@ public class SubscribersTest {
         assertEquals(listOf("onNext(1)", "RuntimeException"), events)
         events.clear()
 
-        callSubscriberMethods(subscriber<Int>().
+        callSubscriberMethods(true, subscriber<Int>().
                 onNext {events.add("onNext($it)")}.
                 onError { events.add(it.javaClass.getSimpleName()) }.
                 onCompleted { events.add("onCompleted") }
@@ -39,9 +39,15 @@ public class SubscribersTest {
         events.clear()
     }
 
-    private fun callSubscriberMethods(s: Subscriber<Int>) {
+    private fun callSubscriberMethods(hasOnError : Boolean, s: Subscriber<Int>) {
         s.onNext(1)
-        s.onError(RuntimeException())
+        try {
+            s.onError(RuntimeException())
+        } catch (t : Throwable) {
+            if (hasOnError) {
+                throw t
+            }
+        }
         s.onCompleted()
     }
 }
