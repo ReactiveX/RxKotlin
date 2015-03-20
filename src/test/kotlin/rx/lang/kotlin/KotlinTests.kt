@@ -31,7 +31,7 @@ public abstract class KotlinTests {
     }
 
     suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
-    val <T> received = {(result: T?) -> a.received(result) }
+    val <T> received = {result: T? -> a.received(result) }
 
     public trait ScriptAssertion {
         fun error(e: Throwable?)
