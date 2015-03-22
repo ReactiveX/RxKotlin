@@ -30,7 +30,7 @@ public fun Progression<Int>.toObservable() : Observable<Int> =
 
 public fun <T> Iterator<T>.toObservable() : Observable<T> = toIterable().toObservable()
 public fun <T> Iterable<T>.toObservable() : Observable<T> = Observable.from(this)
-public fun <T> Stream<T>.toObservable() : Observable<T> = Observable.from(object : Iterable<T> {
+public fun <T> Sequence<T>.toObservable() : Observable<T> = Observable.from(object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toObservable.iterator()
 }) : Observable<T>
 
@@ -88,11 +88,11 @@ public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> = lift { 
 }
 
 /**
- * Returns Observable that emits objects from kotlin [Stream] returned by function you provided by parameter [body] for
+ * Returns Observable that emits objects from kotlin [Sequence] returned by function you provided by parameter [body] for
  * each input object and merges all produced elements into one observable.
- * Works similar to [Observable.flatMap] and [Observable.flatMapIterable] but with [Stream]
+ * Works similar to [Observable.flatMap] and [Observable.flatMapIterable] but with [Sequence]
  *
- * @param body is a function that applied for each item emitted by source observable that returns [Stream]
- *  @returns Observable that merges all [Stream]s produced by [body] functions
+ * @param body is a function that applied for each item emitted by source observable that returns [Sequence]
+ *  @returns Observable that merges all [Sequence]s produced by [body] functions
  */
-public fun <T, R> Observable<T>.flatMapStream( body : (T) -> Stream<R> ) : Observable<R> = flatMap { body(it).toObservable() }
+public fun <T, R> Observable<T>.flatMapSequence( body : (T) -> Sequence<R> ) : Observable<R> = flatMap { body(it).toObservable() }

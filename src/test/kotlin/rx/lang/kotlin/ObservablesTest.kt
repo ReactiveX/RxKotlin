@@ -104,15 +104,15 @@ public class ObservablesTest {
         }
     }
 
-    test fun `kotlin stream should produce expected items and observable be able to handle em`() {
-        kotlin.stream(0) {it + 1}.toObservable().take(3).toList().forEach {
+    test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
+        kotlin.sequence(0) {it + 1}.toObservable().take(3).toList().forEach {
             assertEquals(listOf(0, 1, 2), it)
         }
     }
 
     test fun `infinite iterable should not hang or produce too many elements`() {
         val generated = AtomicInteger()
-        kotlin.stream { generated.incrementAndGet() }.toObservable().
+        kotlin.sequence { generated.incrementAndGet() }.toObservable().
                 take(100).
                 toList().
                 subscribe()
@@ -120,10 +120,10 @@ public class ObservablesTest {
         assertEquals(101, generated.get())
     }
 
-    test fun testFlatMapStream() {
+    test fun testFlatMapSequence() {
         assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
-            listOf(1,2,3).toObservable().flatMapStream { listOf(it, it + 1, it + 2).stream() }.toList().toBlocking().single()
+            listOf(1,2,3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).sequence() }.toList().toBlocking().single()
         )
     }
 }
