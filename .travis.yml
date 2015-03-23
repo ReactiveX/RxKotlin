@@ -18,7 +18,7 @@ cache:
 # secure environment variables for release to Bintray
 env:
   global:
-    secure: "MZHSWADYDupKbv8QTF1G93pgBEqNOnDcAguWhZwImXSMGk9YbfdL41riGvG7iapMsU1PfItoEbhOk+iquWasDDVLde+5ulZfYU1nxPODQYr8/e0Jwljv7voD+LeMaLlYD6UMr9q/DbiuSaWowLPbJ2R9CncO+KaHAASHLAQNuqs="
-    secure: "fya8ma3RQexNggnrEQymbIiyT3ELohTNNwOycpxKsWvuMu8c1AgYwUYtfa+OD4SMyBkgHR+ora20s1v8Kx/uaa1ZxyzVjZliq06OSUqvzM0STRHQn3UvXuNhf8bpcrXTyA7aMJ7WxvjRvWpBeJnUSb6ILDZaT/NY8sdEyQ0+IRk="
-    secure: "IGFb9GZLJ5Co9iEqiT/xkA8CuAIYDrggMTLNEgaGD+WwWv/fffK6/NXG0dKdqZTbW7FryclWolbJ7tQCbqKU+B/N+BgqG9zV49L2UdvYqhg7QT4aml/0HDaebzuDrlGUBCNb084yt50OOpf1kvi25LVKwwRgXbg3J0BvM7mgJtk="
-    secure: "LirFHG2+tqF+l3GrH/jdAxs09ByhZeT/CqxMmszrQNuS9Qbh9qeNP3ZkMdWrlsZt0gCVGJAD5LU42kvAVbyyxmIAVkldDleNxiMZcb86LHW/cL7DwYaK+E34J70HuhN17hwhCit+34BauStVagBSU71M+fm7lz4qCZQ8LznEzsk="
+  - secure: "MZHSWADYDupKbv8QTF1G93pgBEqNOnDcAguWhZwImXSMGk9YbfdL41riGvG7iapMsU1PfItoEbhOk+iquWasDDVLde+5ulZfYU1nxPODQYr8/e0Jwljv7voD+LeMaLlYD6UMr9q/DbiuSaWowLPbJ2R9CncO+KaHAASHLAQNuqs="
+  - secure: "fya8ma3RQexNggnrEQymbIiyT3ELohTNNwOycpxKsWvuMu8c1AgYwUYtfa+OD4SMyBkgHR+ora20s1v8Kx/uaa1ZxyzVjZliq06OSUqvzM0STRHQn3UvXuNhf8bpcrXTyA7aMJ7WxvjRvWpBeJnUSb6ILDZaT/NY8sdEyQ0+IRk="
+  - secure: "IGFb9GZLJ5Co9iEqiT/xkA8CuAIYDrggMTLNEgaGD+WwWv/fffK6/NXG0dKdqZTbW7FryclWolbJ7tQCbqKU+B/N+BgqG9zV49L2UdvYqhg7QT4aml/0HDaebzuDrlGUBCNb084yt50OOpf1kvi25LVKwwRgXbg3J0BvM7mgJtk="
+  - secure: "LirFHG2+tqF+l3GrH/jdAxs09ByhZeT/CqxMmszrQNuS9Qbh9qeNP3ZkMdWrlsZt0gCVGJAD5LU42kvAVbyyxmIAVkldDleNxiMZcb86LHW/cL7DwYaK+E34J70HuhN17hwhCit+34BauStVagBSU71M+fm7lz4qCZQ8LznEzsk="
