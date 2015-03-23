@@ -21,6 +21,10 @@ This adaptor exposes a set of Extension functions that allow a more idiomatic Ko
     verify(a, times(1)).received("Hello")
 ```
 
+## Build
+
+[![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=0.x)](https://travis-ci.org/ReactiveX/RxKotlin)
+
 ## Binaries
 
 Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
