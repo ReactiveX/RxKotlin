@@ -2,6 +2,7 @@ package rx.lang.kotlin
 
 import rx.Observable
 import rx.Subscriber
+import rx.Subscription
 import rx.observables.BlockingObservable
 
 public fun <T> emptyObservable() : Observable<T> = Observable.empty()
@@ -96,3 +97,12 @@ public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> = lift { 
  *  @returns Observable that merges all [Sequence]s produced by [body] functions
  */
 public fun <T, R> Observable<T>.flatMapSequence( body : (T) -> Sequence<R> ) : Observable<R> = flatMap { body(it).toObservable() }
+
+/**
+ * Subscribe with a subscriber that is configured inside body
+ */
+public inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModifier<T>.() -> Unit ) : Subscription {
+    val modifier = FunctionSubscriberModifier(subscriber<T>())
+    modifier.body()
+    return subscribe(modifier.subscriber)
+}

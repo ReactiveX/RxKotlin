@@ -24,5 +24,15 @@ public class FunctionSubscriber<T>(onCompletedFunction: () -> Unit, onErrorFunct
     fun onStart(onStartFunction : () -> Unit) : FunctionSubscriber<T> = FunctionSubscriber(this.onCompletedFunction, this.onErrorFunction, this.onNextFunction, onStartFunction)
 }
 
+public class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
+    private var instance: FunctionSubscriber<T> = init
+    public val subscriber: FunctionSubscriber<T> get() = instance
+
+    fun onCompleted(onCompletedFunction: () -> Unit) : Unit { instance = instance.onCompleted(onCompletedFunction) }
+    fun onError(onErrorFunction: (t : Throwable) -> Unit) : Unit { instance = instance.onError(onErrorFunction) }
+    fun onNext(onNextFunction: (t : T) -> Unit) : Unit { instance = instance.onNext(onNextFunction) }
+    fun onStart(onStartFunction : () -> Unit) : Unit { instance = instance.onStart(onStartFunction) }
+}
+
 public fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber({}, {throw OnErrorNotImplementedException(it)}, {}, {})
 public fun <T> Subscriber<T>.synchronized() : Subscriber<T>  = SerializedSubscriber(this)
