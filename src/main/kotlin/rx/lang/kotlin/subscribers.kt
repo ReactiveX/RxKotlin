@@ -1,27 +1,46 @@
 package rx.lang.kotlin
 
 import rx.Subscriber
-import rx.observers.SerializedSubscriber
 import rx.exceptions.OnErrorNotImplementedException
+import rx.observers.SerializedSubscriber
+import java.util.ArrayList
 
-public class FunctionSubscriber<T>(onCompletedFunction: () -> Unit, onErrorFunction: (e : Throwable) -> Unit, onNextFunction: (value : T) -> Unit, onStartFunction : () -> Unit) : Subscriber<T>() {
-    private val onCompletedFunction: () -> Unit = onCompletedFunction
-    private val onErrorFunction: (e : Throwable) -> Unit = onErrorFunction
-    private val onNextFunction: (value : T) -> Unit = onNextFunction
-    private val onStartFunction : () -> Unit = onStartFunction
+public class FunctionSubscriber<T>() : Subscriber<T>() {
+    private val onCompletedFunctions = ArrayList<() -> Unit>()
+    private val onErrorFunctions = ArrayList<(e: Throwable) -> Unit>()
+    private val onNextFunctions = ArrayList<(value: T) -> Unit>()
+    private val onStartFunctions = ArrayList<() -> Unit>()
 
-    override fun onCompleted() = onCompletedFunction()
+    override fun onCompleted() = onCompletedFunctions.forEach { it() }
 
-    override fun onError(e: Throwable?) = onErrorFunction(e ?: RuntimeException("exception is unknown"))
+    override fun onError(e: Throwable?) = (e ?: RuntimeException("exception is unknown")).let { ex ->
+        if (onErrorFunctions.isEmpty()) {
+            throw OnErrorNotImplementedException(ex)
+        } else {
+            onErrorFunctions.forEach { it(ex) }
+        }
+    }
 
-    override fun onNext(t: T) = onNextFunction(t)
+    override fun onNext(t: T) = onNextFunctions.forEach { it(t) }
 
-    override fun onStart() = onStartFunction()
+    override fun onStart() = onStartFunctions.forEach { it() }
 
-    fun onCompleted(onCompletedFunction: () -> Unit) : FunctionSubscriber<T> = FunctionSubscriber(onCompletedFunction, this.onErrorFunction, this.onNextFunction, this.onStartFunction)
-    fun onError(onErrorFunction: (t : Throwable) -> Unit) : FunctionSubscriber<T> = FunctionSubscriber(this.onCompletedFunction, onErrorFunction, this.onNextFunction, this.onStartFunction)
-    fun onNext(onNextFunction: (t : T) -> Unit) : FunctionSubscriber<T> = FunctionSubscriber(this.onCompletedFunction, this.onErrorFunction, onNextFunction, this.onStartFunction)
-    fun onStart(onStartFunction : () -> Unit) : FunctionSubscriber<T> = FunctionSubscriber(this.onCompletedFunction, this.onErrorFunction, this.onNextFunction, onStartFunction)
+    fun onCompleted(onCompletedFunction: () -> Unit): FunctionSubscriber<T> = copy { onCompletedFunctions.add(onCompletedFunction) }
+    fun onError(onErrorFunction: (t: Throwable) -> Unit): FunctionSubscriber<T> = copy { onErrorFunctions.add(onErrorFunction) }
+    fun onNext(onNextFunction: (t: T) -> Unit): FunctionSubscriber<T> = copy { onNextFunctions.add(onNextFunction) }
+    fun onStart(onStartFunction : () -> Unit) : FunctionSubscriber<T> = copy { onStartFunctions.add(onStartFunction) }
+
+    private fun copy(block: FunctionSubscriber<T>.() -> Unit): FunctionSubscriber<T> {
+        val newSubscriber = FunctionSubscriber<T>()
+        newSubscriber.onCompletedFunctions.addAll(onCompletedFunctions)
+        newSubscriber.onErrorFunctions.addAll(onErrorFunctions)
+        newSubscriber.onNextFunctions.addAll(onNextFunctions)
+        newSubscriber.onStartFunctions.addAll(onStartFunctions)
+
+        newSubscriber.block()
+
+        return newSubscriber
+    }
 }
 
 public class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
@@ -34,5 +53,5 @@ public class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscri
     fun onStart(onStartFunction : () -> Unit) : Unit { subscriber = subscriber.onStart(onStartFunction) }
 }
 
-public fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber({}, {throw OnErrorNotImplementedException(it)}, {}, {})
-public fun <T> Subscriber<T>.synchronized() : Subscriber<T>  = SerializedSubscriber(this)
+public fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
+public fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)

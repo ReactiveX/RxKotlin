@@ -1,10 +1,11 @@
 package rx.lang.kotlin
 
-import org.junit.Test as test
 import rx.Subscriber
 import rx.exceptions.OnErrorNotImplementedException
 import java.util.ArrayList
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+import org.junit.Test as test
 
 public class SubscribersTest {
     test fun testEmptySubscriber() {
@@ -40,7 +41,41 @@ public class SubscribersTest {
         events.clear()
     }
 
+    test(expected = javaClass<OnErrorNotImplementedException>())
+    fun testNoErrorHandlers() {
+        subscriber<Int>().onError(Exception("expected"))
+    }
+
+    test fun testErrorHandlers() {
+        var errorsCaught = 0
+
+        subscriber<Int>().
+                onError { errorsCaught++ }.
+                onError { errorsCaught++ }.
+                onError(Exception("expected"))
+
+        assertEquals(2, errorsCaught)
+    }
+
+    test fun testMultipleOnNextHandlers() {
+        var nextCaught = 0
+
+        subscriber<Int>().
+                onNext { nextCaught ++ }.
+                onNext { nextCaught ++ }.
+                onNext(1)
+
+        assertEquals(2, nextCaught)
+    }
+
+    test fun testOnStart() {
+        var started = false
+        subscriber<Int>().onStart { started = true }.onStart()
+        assertTrue(started)
+    }
+
     private fun callSubscriberMethods(hasOnError : Boolean, s: Subscriber<Int>) {
+        s.onStart()
         s.onNext(1)
         try {
             s.onError(RuntimeException())
