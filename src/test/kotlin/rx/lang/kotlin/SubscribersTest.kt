@@ -86,4 +86,52 @@ public class SubscribersTest {
         }
         s.onCompleted()
     }
+
+    test fun testSubscribeWith() {
+        val completeObservable = observable<Int> {
+            it.onNext(1)
+            it.onCompleted()
+        }
+
+        val events = ArrayList<String>()
+
+        completeObservable.subscribeWith {
+            onNext { events.add("onNext($it)") }
+        }
+
+        assertEquals(listOf("onNext(1)"), events)
+        events.clear()
+
+        completeObservable.subscribeWith {
+            onNext { events.add("onNext($it)") }
+            onCompleted { events.add("onCompleted") }
+        }
+
+        assertEquals(listOf("onNext(1)", "onCompleted"), events)
+        events.clear()
+
+        val errorObservable = observable<Int> {
+            it.onNext(1)
+            it.onError(RuntimeException())
+        }
+
+        errorObservable.subscribeWith {
+            onNext { events.add("onNext($it)") }
+            onError { events.add("onError(${it.javaClass.getSimpleName()})") }
+        }
+
+        assertEquals(listOf("onNext(1)", "onError(RuntimeException)"), events)
+        events.clear()
+
+        try {
+            errorObservable.subscribeWith {
+                onNext { events.add("onNext($it)") }
+            }
+        } catch (t: Throwable) {
+            events.add("catch(${t.javaClass.getSimpleName()})")
+        }
+
+        assertEquals(listOf("onNext(1)", "catch(OnErrorNotImplementedException)"), events)
+        events.clear()
+    }
 }

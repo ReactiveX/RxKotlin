@@ -43,5 +43,15 @@ public class FunctionSubscriber<T>() : Subscriber<T>() {
     }
 }
 
+public class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
+    public var subscriber: FunctionSubscriber<T> = init
+        private set
+
+    fun onCompleted(onCompletedFunction: () -> Unit) : Unit { subscriber = subscriber.onCompleted(onCompletedFunction) }
+    fun onError(onErrorFunction: (t : Throwable) -> Unit) : Unit { subscriber = subscriber.onError(onErrorFunction) }
+    fun onNext(onNextFunction: (t : T) -> Unit) : Unit { subscriber = subscriber.onNext(onNextFunction) }
+    fun onStart(onStartFunction : () -> Unit) : Unit { subscriber = subscriber.onStart(onStartFunction) }
+}
+
 public fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
 public fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)
