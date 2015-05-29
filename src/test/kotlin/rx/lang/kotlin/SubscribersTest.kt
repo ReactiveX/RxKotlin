@@ -41,7 +41,7 @@ public class SubscribersTest {
         events.clear()
     }
 
-    test(expected = javaClass<OnErrorNotImplementedException>())
+    test(expected = OnErrorNotImplementedException::class)
     fun testNoErrorHandlers() {
         subscriber<Int>().onError(Exception("expected"))
     }
