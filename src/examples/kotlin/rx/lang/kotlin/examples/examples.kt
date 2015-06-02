@@ -10,11 +10,11 @@ import rx.lang.kotlin.onError
 
 fun main(args: Array<String>) {
 
-    val printArticle = {(art: String) ->
+    val printArticle = { art: String ->
         println("--- Article ---\n${art.substring(0, 125)}")
     }
 
-    val printIt = {(it: String) -> println(it) }
+    val printIt = { it: String -> println(it) }
 
     asyncObservable().subscribe(printIt)
 

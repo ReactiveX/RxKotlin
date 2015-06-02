@@ -76,7 +76,7 @@ public class ObservablesTest {
     }
 
     test fun requireNoNullsWithoutNulls() {
-        (listOf(1,2) : List<Int?>).toObservable().requireNoNulls().subscribe()
+        (listOf(1,2) as List<Int?>).toObservable().requireNoNulls().subscribe()
     }
 
     test fun requireNoNulls() {
@@ -123,7 +123,7 @@ public class ObservablesTest {
     test fun testFlatMapSequence() {
         assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
-            listOf(1,2,3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).sequence() }.toList().toBlocking().single()
+            listOf(1,2,3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().toBlocking().single()
         )
     }
 }
