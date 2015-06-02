@@ -10,7 +10,7 @@ data class SearchResultEntry(val id : String, val latestVersion : String)
 data class SearchResults(val docs : List<SearchResultEntry>)
 data class MavenSearchResponse(val response : SearchResults)
 
-trait MavenSearchService {
+interface MavenSearchService {
     GET("/solrsearch/select?wt=json")
     fun search(Query("q") s : String, Query("rows") rows : Int = 20) : Observable<MavenSearchResponse>
 }
