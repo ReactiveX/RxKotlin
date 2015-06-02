@@ -33,7 +33,7 @@ import rx.Subscriber
 public class BasicKotlinTests : KotlinTests() {
 
 
-    [Test]
+    @Test
     public fun testCreate() {
 
         Observable.create(object:OnSubscribe<String> {
@@ -48,7 +48,7 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).received("Hello")
     }
 
-    [Test]
+    @Test
     public fun testFilter() {
         Observable.from(listOf(1, 2, 3)).filter { it >= 2 }.subscribe(received)
         verify(a, times(0)).received(1);
@@ -56,23 +56,23 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).received(3);
     }
 
-    [Test]
+    @Test
     public fun testLast() {
         assertEquals("three", Observable.from(listOf("one", "two", "three")).toBlocking().last())
     }
 
-    [Test]
+    @Test
     public fun testLastWithPredicate() {
         assertEquals("two", Observable.from(listOf("one", "two", "three")).toBlocking().last { x -> x.length() == 3 })
     }
 
-    [Test]
+    @Test
     public fun testMap1() {
         Observable.just(1).map { v -> "hello_$v" }.subscribe(received)
         verify(a, times(1)).received("hello_1")
     }
 
-    [Test]
+    @Test
     public fun testMap2() {
         Observable.from(listOf(1, 2, 3)).map { v -> "hello_$v" }.subscribe(received)
         verify(a, times(1)).received("hello_1")
@@ -80,14 +80,14 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).received("hello_3")
     }
 
-    [Test]
+    @Test
     public fun testMaterialize() {
         Observable.from(listOf(1, 2, 3)).materialize().subscribe(received)
         verify(a, times(4)).received(any(javaClass<Notification<Int>>()))
         verify(a, times(0)).error(any(javaClass<Exception>()))
     }
 
-    [Test]
+    @Test
     public fun testMerge() {
         Observable.merge(
                 Observable.from(listOf(1, 2, 3)),
@@ -108,13 +108,13 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).error(any(javaClass<NullPointerException>()))
     }
 
-    [Test]
+    @Test
     public fun testScriptWithMaterialize() {
         TestFactory().observable.materialize().subscribe(received)
         verify(a, times(2)).received(any(javaClass<Notification<Int>>()))
     }
 
-    [Test]
+    @Test
     public fun testScriptWithMerge() {
         val factory = TestFactory()
         Observable.merge(factory.observable, factory.observable).subscribe(received)
@@ -122,19 +122,19 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).received("hello_2")
     }
 
-    [Test]
+    @Test
     public fun testFromWithIterable() {
         val list = listOf(1, 2, 3, 4, 5)
         assertEquals(5, Observable.from(list).count().toBlocking().single())
     }
 
-    [Test]
+    @Test
     public fun testFromWithObjects() {
         val list = listOf(1, 2, 3, 4, 5)
         assertEquals(2, Observable.from(listOf(list, 6)).count().toBlocking().single())
     }
 
-    [Test]
+    @Test
     public fun testStartWith() {
         val list = listOf(10, 11, 12, 13, 14)
         val startList = listOf(1, 2, 3, 4, 5)
@@ -142,13 +142,13 @@ public class BasicKotlinTests : KotlinTests() {
         assertEquals(10, Observable.from(list).startWith(startList).count().toBlocking().single())
     }
 
-    [Test]
+    @Test
     public fun testScriptWithOnNext() {
         TestFactory().observable.subscribe(received)
         verify(a, times(1)).received("hello_1")
     }
 
-    [Test]
+    @Test
     public fun testSkipTake() {
         Observable.from(listOf(1, 2, 3)).skip(1).take(1).subscribe(received)
         verify(a, times(0)).received(1)
@@ -156,7 +156,7 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(0)).received(3)
     }
 
-    [Test]
+    @Test
     public fun testSkip() {
         Observable.from(listOf(1, 2, 3)).skip(2).subscribe(received)
         verify(a, times(0)).received(1)
@@ -164,7 +164,7 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).received(3)
     }
 
-    [Test]
+    @Test
     public fun testTake() {
         Observable.from(listOf(1, 2, 3)).take(2).subscribe(received)
         verify(a, times(1)).received(1)
@@ -172,13 +172,13 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(0)).received(3)
     }
 
-    [Test]
+    @Test
     public fun testTakeLast() {
         TestFactory().observable.takeLast(1).subscribe(received)
         verify(a, times(1)).received("hello_1")
     }
 
-    [Test]
+    @Test
     public fun testTakeWhile() {
         Observable.from(listOf(1, 2, 3)).takeWhile { x -> x < 3 }.subscribe(received)
         verify(a, times(1)).received(1)
@@ -186,7 +186,7 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(0)).received(3)
     }
 
-    [Test]
+    @Test
     public fun testTakeWhileWithIndex() {
         Observable.from(listOf(1, 2, 3)).takeWhile { x -> x < 3 }.zipWith(Observable.range(0,Integer.MAX_VALUE)){ x, i -> x }.subscribe(received)
         verify(a, times(1)).received(1)
@@ -194,13 +194,13 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(0)).received(3)
     }
 
-    [Test]
+    @Test
     public fun testToSortedList() {
         TestFactory().numbers.toSortedList().subscribe(received)
         verify(a, times(1)).received(listOf(1, 2, 3, 4, 5))
     }
 
-    [Test]
+    @Test
     public fun testForEach() {
         Observable.create(AsyncObservable()).toBlocking().forEach(received)
         verify(a, times(1)).received(1)
@@ -208,39 +208,39 @@ public class BasicKotlinTests : KotlinTests() {
         verify(a, times(1)).received(3)
     }
 
-    [Test(expected = javaClass<RuntimeException>())]
+    @Test(expected = RuntimeException::class)
     public fun testForEachWithError() {
         Observable.create(AsyncObservable()).toBlocking().forEach { throw RuntimeException("err") }
         fail("we expect an exception to be thrown")
     }
 
-    [Test]
+    @Test
     public fun testLastOrDefault() {
         assertEquals("two", Observable.from(listOf("one", "two")).toBlocking().lastOrDefault("default") { x -> x.length() == 3 })
         assertEquals("default", Observable.from(listOf("one", "two")).toBlocking().lastOrDefault("default") { x -> x.length() > 3 })
     }
 
-    [Test(expected = javaClass<IllegalArgumentException>())]
+    @Test(expected = IllegalArgumentException::class)
     public fun testSingle() {
         assertEquals("one", Observable.just("one").toBlocking().single { x -> x.length() == 3 })
         Observable.from(listOf("one", "two")).toBlocking().single { x -> x.length() == 3 }
         fail()
     }
 
-    [Test]
+    @Test
     public fun testDefer() {
         Observable.defer { Observable.from(listOf(1, 2)) }.subscribe(received)
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
     }
 
-    [Test]
+    @Test
     public fun testAll() {
         Observable.from(listOf(1, 2, 3)).all { x -> x > 0 }.subscribe(received)
         verify(a, times(1)).received(true)
     }
 
-    [Test]
+    @Test
     public fun testZip() {
         val o1 = Observable.from(listOf(1, 2, 3))
         val o2 = Observable.from(listOf(4, 5, 6))
@@ -252,7 +252,7 @@ public class BasicKotlinTests : KotlinTests() {
         assertEquals(listOf(3, 6, 9), values[2])
     }
 
-    [Test]
+    @Test
     public fun testZipWithIterable() {
         val o1 = Observable.from(listOf(1, 2, 3))
         val o2 = Observable.from(listOf(4, 5, 6))
@@ -264,7 +264,7 @@ public class BasicKotlinTests : KotlinTests() {
         assertEquals(listOf(3, 6, 9), values[2])
     }
 
-    [Test]
+    @Test
     public fun testGroupBy() {
         var count = 0
 

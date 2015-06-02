@@ -27,13 +27,13 @@ public fun <T> Array<out T>.toObservable() : Observable<T> = Observable.from(thi
 
 public fun Progression<Int>.toObservable() : Observable<Int> =
         if (increment == 1 && end.toLong() - start < Integer.MAX_VALUE) Observable.range(start, Math.max(0, end - start + 1))
-        else (this : Iterable<Int>).toObservable()
+        else (this as Iterable<Int>).toObservable()
 
 public fun <T> Iterator<T>.toObservable() : Observable<T> = toIterable().toObservable()
 public fun <T> Iterable<T>.toObservable() : Observable<T> = Observable.from(this)
 public fun <T> Sequence<T>.toObservable() : Observable<T> = Observable.from(object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toObservable.iterator()
-}) : Observable<T>
+})
 
 public fun <T> T.toSingletonObservable() : Observable<T> = Observable.just(this)
 public fun <T> Throwable.toObservable() : Observable<T> = Observable.error(this)
@@ -44,11 +44,11 @@ public fun <T> Iterable<Observable<out T>>.mergeDelayError() : Observable<T> = O
 
 public fun <T, R> Observable<T>.fold(initial : R, body : (R, T) -> R) : Observable<R> = reduce(initial, {a, e -> body(a, e)})
 public fun <T> Observable<T>.onError(block : (Throwable) -> Unit) : Observable<T> = doOnError(block)
-[suppress("BASE_WITH_NULLABLE_UPPER_BOUND")]
+@suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
 public fun <T> Observable<T>.firstOrNull() : Observable<T?> = firstOrDefault(null)
 public fun <T> BlockingObservable<T>.firstOrNull() : T = firstOrDefault(null)
 
-[suppress("BASE_WITH_NULLABLE_UPPER_BOUND")]
+@suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
 public fun <T> Observable<T>.onErrorReturnNull() : Observable<T?> = onErrorReturn {null}
 
 public fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber<T>) : Observable<R> = lift(object : Observable.Operator<R, T> {
