@@ -272,7 +272,7 @@ public class BasicKotlinTests : KotlinTests() {
                 .groupBy { s -> s.length() }
                 .flatMap { groupObervable ->
                     groupObervable.map { s ->
-                        "Value: $s Group ${groupObervable.getKey()}"
+                        "Value: $s Group ${groupObervable.key}"
                     }
                 }.toBlocking().forEach { s ->
             println(s)

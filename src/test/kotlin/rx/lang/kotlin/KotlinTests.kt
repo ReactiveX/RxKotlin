@@ -30,7 +30,7 @@ public abstract class KotlinTests {
         MockitoAnnotations.initMocks(this)
     }
 
-    suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
+    @Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
     val <T> received = {result: T? -> a.received(result) }
 
     public interface ScriptAssertion {

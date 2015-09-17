@@ -10,7 +10,7 @@ import org.junit.Ignore
 
 
 public class ObservablesTest {
-    test fun testCreation() {
+    @test fun testCreation() {
         val o0 : Observable<Int> = emptyObservable()
         observable<Int> { s -> s.onNext(1); s.onNext(777); s.onCompleted() }.toList().forEach {
             assertEquals(listOf(1, 777), it)
@@ -30,7 +30,7 @@ public class ObservablesTest {
         assertNotNull(o5)
     }
 
-    test fun testExampleFromReadme() {
+    @test fun testExampleFromReadme() {
         val result = observable<String> { subscriber ->
             subscriber.onNext("H")
             subscriber.onNext("e")
@@ -47,39 +47,39 @@ public class ObservablesTest {
         assertEquals("Hello", result)
     }
 
-    test fun iteratorObservable() {
+    @test fun iteratorObservable() {
         assertEquals(listOf(1,2,3), listOf(1,2,3).iterator().toObservable().toList().toBlocking().single())
     }
 
-    test fun intProgressionStep1Empty() {
+    @test fun intProgressionStep1Empty() {
         assertEquals(listOf(1), (1..1).toObservable().toList().toBlocking().first())
     }
-    test fun intProgressionStep1() {
+    @test fun intProgressionStep1() {
         assertEquals((1..10).toList(), (1..10).toObservable().toList().toBlocking().first())
     }
 
-    test fun intProgressionDownto() {
+    @test fun intProgressionDownto() {
         assertEquals((1 downTo 10).toList(), (1 downTo 10).toObservable().toList().toBlocking().first())
     }
 
-    Ignore
-    test fun intProgressionOverflow() {
+    @Ignore
+    @test fun intProgressionOverflow() {
         // too slow
-        assertEquals((0..10).toList().reverse(), (-10 .. Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE).map{Integer.MAX_VALUE - it}.toList().toBlocking().first())
+        assertEquals((0..10).toList().reversed(), (-10 .. Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE).map{Integer.MAX_VALUE - it}.toList().toBlocking().first())
     }
 
-    test fun filterNotNull() {
+    @test fun filterNotNull() {
         val o : Observable<Int> = listOf(1, null).toObservable().filterNotNull()
         o.toList().forEach {
             assertEquals(listOf(1), it)
         }
     }
 
-    test fun requireNoNullsWithoutNulls() {
+    @test fun requireNoNullsWithoutNulls() {
         (listOf(1,2) as List<Int?>).toObservable().requireNoNulls().subscribe()
     }
 
-    test fun requireNoNulls() {
+    @test fun requireNoNulls() {
         try {
             val o : Observable<Int> = listOf(1, null).toObservable().requireNoNulls()
 
@@ -89,7 +89,7 @@ public class ObservablesTest {
         }
     }
 
-    test fun testWithIndex() {
+    @test fun testWithIndex() {
         listOf("a", "b", "c").toObservable().
                 withIndex().
                 toList().
@@ -98,19 +98,19 @@ public class ObservablesTest {
                 }
     }
 
-    test fun testFold() {
+    @test fun testFold() {
         listOf(1, 2, 3).toObservable().fold(0) {acc, e -> acc + e}.single().forEach {
             assertEquals(6, it)
         }
     }
 
-    test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
+    @test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
         kotlin.sequence(0) {it + 1}.toObservable().take(3).toList().forEach {
             assertEquals(listOf(0, 1, 2), it)
         }
     }
 
-    test fun `infinite iterable should not hang or produce too many elements`() {
+    @test fun `infinite iterable should not hang or produce too many elements`() {
         val generated = AtomicInteger()
         kotlin.sequence { generated.incrementAndGet() }.toObservable().
                 take(100).
@@ -120,7 +120,7 @@ public class ObservablesTest {
         assertEquals(101, generated.get())
     }
 
-    test fun testFlatMapSequence() {
+    @test fun testFlatMapSequence() {
         assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
             listOf(1,2,3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().toBlocking().single()
