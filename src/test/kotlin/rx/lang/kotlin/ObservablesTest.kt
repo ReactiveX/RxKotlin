@@ -117,7 +117,7 @@ public class ObservablesTest {
                 toList().
                 subscribe()
 
-        assertEquals(101, generated.get())
+        assertEquals(100, generated.get())
     }
 
     @test fun testFlatMapSequence() {
