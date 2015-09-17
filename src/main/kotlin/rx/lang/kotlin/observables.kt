@@ -44,12 +44,12 @@ public fun <T> Iterable<Observable<out T>>.mergeDelayError() : Observable<T> = O
 
 public fun <T, R> Observable<T>.fold(initial : R, body : (R, T) -> R) : Observable<R> = reduce(initial, {a, e -> body(a, e)})
 public fun <T> Observable<T>.onError(block : (Throwable) -> Unit) : Observable<T> = doOnError(block)
-@suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
+@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
 public fun <T> Observable<T>.firstOrNull() : Observable<T?> = firstOrDefault(null)
 public fun <T> BlockingObservable<T>.firstOrNull() : T = firstOrDefault(null)
 
-@suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
-public fun <T> Observable<T>.onErrorReturnNull() : Observable<T?> = onErrorReturn {null}
+@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
+public fun <T> Observable<T>.onErrorReturnNull() : Observable<T?> = onErrorReturn<T> {null}
 
 public fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber<T>) : Observable<R> = lift(object : Observable.Operator<R, T> {
     override fun call(t1: Subscriber<in R>?): Subscriber<in T> = operator(t1!!)

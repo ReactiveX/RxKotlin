@@ -11,15 +11,15 @@ data class SearchResults(val docs : List<SearchResultEntry>)
 data class MavenSearchResponse(val response : SearchResults)
 
 interface MavenSearchService {
-    GET("/solrsearch/select?wt=json")
-    fun search(Query("q") s : String, Query("rows") rows : Int = 20) : Observable<MavenSearchResponse>
+    @GET("/solrsearch/select?wt=json")
+    fun search(@Query("q") s : String, @Query("rows") rows : Int = 20) : Observable<MavenSearchResponse>
 }
 
 fun main(args: Array<String>) {
     val service = RestAdapter.Builder().
             setEndpoint("http://search.maven.org").
             build().
-            create(javaClass<MavenSearchService>())
+            create(MavenSearchService::class.java)
 
     service.search("rxkotlin").
             flatMapIterable { it.response.docs }.

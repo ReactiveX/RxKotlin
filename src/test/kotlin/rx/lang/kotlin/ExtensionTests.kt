@@ -81,8 +81,8 @@ public class ExtensionTests : KotlinTests() {
     @Test
     public fun testMaterialize() {
         listOf(1, 2, 3).toObservable().materialize().subscribe((received))
-        verify(a, times(4)).received(any(javaClass<Notification<Int>>()))
-        verify(a, times(0)).error(any(javaClass<Exception>()))
+        verify(a, times(4)).received(any(Notification::class.java))
+        verify(a, times(0)).error(any(Exception::class.java))
     }
 
 
@@ -102,13 +102,13 @@ public class ExtensionTests : KotlinTests() {
         verify(a, times(0)).received(5)
         verify(a, times(1)).received(6)
         verify(a, times(0)).received(7)
-        verify(a, times(1)).error(any(javaClass<NullPointerException>()))
+        verify(a, times(1)).error(any(NullPointerException::class.java))
     }
 
     @Test
     public fun testScriptWithMaterialize() {
         TestFactory().observable.materialize().subscribe((received))
-        verify(a, times(2)).received(any(javaClass<Notification<Int>>()))
+        verify(a, times(2)).received(any(Notification::class.java))
     }
 
     @Test
