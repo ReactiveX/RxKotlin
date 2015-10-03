@@ -1,5 +1,5 @@
 buildscript {
-  ext.kotlin_version = '0.13.1513'
+  ext.kotlin_version = '0.14.449'
   repositories { jcenter() }
   dependencies { classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:2.+',
                            "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
@@ -11,7 +11,7 @@ apply plugin: 'kotlin'
 dependencies {
     compile 'io.reactivex:rxjava:1.0.+'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile 'org.funktionale:funktionale:0.6_M13'
+    testCompile 'org.funktionale:funktionale:0.6_M14'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.8.5'
     examplesCompile 'com.squareup.retrofit:retrofit:1.9.+'
