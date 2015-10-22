@@ -106,3 +106,5 @@ public inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModi
     modifier.body()
     return subscribe(modifier.subscriber)
 }
+
+public fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
