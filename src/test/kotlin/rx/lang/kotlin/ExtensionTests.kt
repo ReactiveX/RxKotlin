@@ -24,6 +24,8 @@ import org.mockito.Mockito.*
 import rx.Notification
 import rx.Observable
 import rx.Subscriber
+import rx.schedulers.TestScheduler
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 /**
@@ -234,6 +236,41 @@ public class ExtensionTests : KotlinTests() {
         assertEquals(listOf(1, 4, 7), values[0])
         assertEquals(listOf(2, 5, 8), values[1])
         assertEquals(listOf(3, 6, 9), values[2])
+    }
+
+    @Test
+    public fun testSwitchOnNext() {
+        val testScheduler = TestScheduler()
+        val worker = testScheduler.createWorker()
+
+        val observable = observable<Observable<Long>> { s ->
+            fun at(delay: Long, func : () -> Unit){
+                worker.schedule({
+                    func()
+                }, delay, TimeUnit.MILLISECONDS)
+            }
+
+            val first = Observable.interval(5, TimeUnit.MILLISECONDS, testScheduler).take(3)
+            at(0, { s.onNext(first) })
+
+            val second = Observable.interval(5, TimeUnit.MILLISECONDS, testScheduler).take(3)
+            at(11, { s.onNext(second) })
+
+            at(40, { s.onCompleted() })
+        }
+
+        observable.switchOnNext().subscribe(received())
+
+        val inOrder = inOrder(a)
+        testScheduler.advanceTimeTo(10, TimeUnit.MILLISECONDS)
+        inOrder.verify(a, times(1)).received(0L)
+        inOrder.verify(a, times(1)).received(1L)
+
+        testScheduler.advanceTimeTo(40, TimeUnit.MILLISECONDS)
+        inOrder.verify(a, times(1)).received(0L)
+        inOrder.verify(a, times(1)).received(1L)
+        inOrder.verify(a, times(1)).received(2L)
+        inOrder.verifyNoMoreInteractions()
     }
 
     val funOnSubscribe: (Int, Subscriber<in String>) -> Unit = { counter, subscriber ->
