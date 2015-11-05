@@ -1,12 +1,12 @@
 package rx.lang.kotlin.examples
 
 import rx.Observable
-import kotlin.concurrent.thread
-import java.util.Scanner
-import java.net.URL
 import rx.lang.kotlin.observable
-import rx.lang.kotlin.toObservable
 import rx.lang.kotlin.onError
+import rx.lang.kotlin.toObservable
+import java.net.URL
+import java.util.*
+import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
 
@@ -25,7 +25,7 @@ fun main(args: Array<String>) {
     asyncWiki("Tiger", "Elephant").subscribe(printArticle)
 
     asyncWikiWithErrorHandling("Tiger", "Elephant").subscribe(printArticle) { e ->
-        println("--- Error ---\n${e.getMessage()}")
+        println("--- Error ---\n${e.message}")
     }
 
 }
