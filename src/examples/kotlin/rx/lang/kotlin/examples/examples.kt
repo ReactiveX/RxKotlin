@@ -4,6 +4,8 @@ import rx.Observable
 import rx.lang.kotlin.observable
 import rx.lang.kotlin.onError
 import rx.lang.kotlin.toObservable
+import rx.lang.kotlin.zip
+import rx.lang.kotlin.combineLatest
 import java.net.URL
 import java.util.*
 import kotlin.concurrent.thread
@@ -28,6 +30,9 @@ fun main(args: Array<String>) {
         println("--- Error ---\n${e.message}")
     }
 
+    combineLatest(listOfObservables())
+
+    zip(listOfObservables())
 }
 
 private fun URL.toScannerObservable() = observable<String> { s ->
@@ -76,4 +81,14 @@ public fun simpleComposition() {
     asyncObservable().skip(10).take(5)
             .map { s -> "${s}_xform" }
             .subscribe { s -> println("onNext => $s") }
+}
+
+public fun listOfObservables(): List<Observable<String>> = listOf(syncObservable(), syncObservable())
+
+public fun combineLatest(observables: List<Observable<String>>) {
+    observables.combineLatest { it.reduce { one, two -> one + two } }.subscribe { println(it) }
+}
+
+public fun zip(observables: List<Observable<String>>) {
+    observables.zip { it.reduce { one, two -> one + two } }.subscribe { println(it) }
 }
