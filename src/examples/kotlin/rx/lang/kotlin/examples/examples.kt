@@ -3,12 +3,16 @@ package rx.lang.kotlin.examples
 import rx.Observable
 import rx.lang.kotlin.observable
 import rx.lang.kotlin.onError
+import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.toObservable
+import rx.subscriptions.CompositeSubscription
 import java.net.URL
 import java.util.*
 import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
+
+    val subscrition = CompositeSubscription()
 
     val printArticle = { art: String ->
         println("--- Article ---\n${art.substring(0, 125)}")
@@ -16,9 +20,11 @@ fun main(args: Array<String>) {
 
     val printIt = { it: String -> println(it) }
 
-    asyncObservable().subscribe(printIt)
+    subscrition += asyncObservable().subscribe(printIt)
 
-    syncObservable().subscribe(printIt)
+    subscrition += syncObservable().subscribe(printIt)
+
+    subscrition.clear()
 
     simpleComposition()
 
