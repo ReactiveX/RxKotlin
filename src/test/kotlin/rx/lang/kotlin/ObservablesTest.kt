@@ -58,7 +58,7 @@ public class ObservablesTest {
         assertEquals((1..10).toList(), (1..10).toObservable().toList().toBlocking().first())
     }
 
-    @test fun intProgressionDownto() {
+    @test fun intProgressionDownTo() {
         assertEquals((1 downTo 10).toList(), (1 downTo 10).toObservable().toList().toBlocking().first())
     }
 

@@ -34,12 +34,9 @@ public class BasicKotlinTests : KotlinTests() {
 
     @Test
     public fun testCreate() {
-
-        Observable.create(object:OnSubscribe<String> {
-            override fun call(subscriber: Subscriber<in String>) {
-                subscriber.onNext("Hello")
-                subscriber.onCompleted()
-            }
+        Observable.create(OnSubscribe<kotlin.String> { subscriber ->
+            subscriber.onNext("Hello")
+            subscriber.onCompleted()
         }).subscribe { result ->
             a.received(result)
         }
