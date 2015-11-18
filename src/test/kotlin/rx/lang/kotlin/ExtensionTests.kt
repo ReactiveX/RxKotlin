@@ -116,7 +116,7 @@ public class ExtensionTests : KotlinTests() {
     @Test
     public fun testScriptWithMerge() {
         val factory = TestFactory()
-        (factory.observable mergeWith factory.observable).subscribe((received()))
+        (factory.observable.mergeWith(factory.observable)).subscribe((received()))
         verify(a, times(1)).received("hello_1")
         verify(a, times(1)).received("hello_2")
     }
