@@ -108,3 +108,17 @@ public inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModi
 }
 
 public fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
+
+/**
+ * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T, R> List<Observable<T>>.combineLatest(combineFunction: (args: List<T>) -> R): Observable<R> =
+        Observable.combineLatest(this, { combineFunction(it.asList() as List<T>) })
+
+/**
+ * Observable.zip(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
+ */
+@Suppress("UNCHECKED_CAST")
+fun <T, R> List<Observable<T>>.zip(zipFunction: (args: List<T>) -> R): Observable<R> =
+        Observable.zip(this, { zipFunction(it.asList() as List<T>) })

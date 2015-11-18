@@ -126,4 +126,14 @@ public class ObservablesTest {
             listOf(1,2,3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().toBlocking().single()
         )
     }
+
+    @test fun testCombineLatest() {
+        val list = listOf(1,2,3,2,3,4,3,4,5)
+        assertEquals(list, list.map { it.toSingletonObservable() }.combineLatest { it }.toBlocking().first())
+    }
+
+    @test fun testZip() {
+        val list = listOf(1,2,3,2,3,4,3,4,5)
+        assertEquals(list, list.map { it.toSingletonObservable() }.zip { it }.toBlocking().first())
+    }
 }
