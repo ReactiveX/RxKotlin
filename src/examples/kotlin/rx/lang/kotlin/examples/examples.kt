@@ -14,7 +14,7 @@ import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
 
-    val subscrition = CompositeSubscription()
+    val subscription = CompositeSubscription()
 
     val printArticle = { art: String ->
         println("--- Article ---\n${art.substring(0, 125)}")
@@ -22,11 +22,11 @@ fun main(args: Array<String>) {
 
     val printIt = { it: String -> println(it) }
 
-    subscrition += asyncObservable().subscribe(printIt)
+    subscription += asyncObservable().subscribe(printIt)
 
-    subscrition += syncObservable().subscribe(printIt)
+    subscription += syncObservable().subscribe(printIt)
 
-    subscrition.clear()
+    subscription.clear()
 
     simpleComposition()
 
