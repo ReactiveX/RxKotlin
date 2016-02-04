@@ -7,6 +7,7 @@ import kotlin.test.fail
 import kotlin.test.assertNotNull
 import java.util.concurrent.atomic.AtomicInteger
 import org.junit.Ignore
+import rx.observers.TestSubscriber
 
 
 public class ObservablesTest {
@@ -96,6 +97,22 @@ public class ObservablesTest {
                 forEach {
                     assertEquals(listOf(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c")), it)
                 }
+    }
+
+    @test fun `withIndex() shouldn't share index between multiple subscribers`() {
+        val o = listOf("a", "b", "c").toObservable().withIndex()
+
+        val subscriber1 = TestSubscriber<IndexedValue<String>>()
+        val subscriber2 = TestSubscriber<IndexedValue<String>>()
+
+        o.subscribe(subscriber1)
+        o.subscribe(subscriber2)
+
+        subscriber1.awaitTerminalEvent()
+        subscriber1.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
+
+        subscriber2.awaitTerminalEvent()
+        subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
     }
 
     @test fun testFold() {

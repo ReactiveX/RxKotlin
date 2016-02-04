@@ -58,35 +58,20 @@ public fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber
 /**
  * Returns [Observable] that requires all objects to be non null. Raising [NullPointerException] in case of null object
  */
-public fun <T : Any> Observable<T?>.requireNoNulls() : Observable<T> = lift { s ->
-    subscriber<T?>().
-            onCompleted { s.onCompleted() }.
-            onError { t -> s.onError(t) }.
-            onNext { v -> if (v == null) throw NullPointerException("null element found in rx observable") else s.onNext(v) }
-}
+public fun <T : Any> Observable<T?>.requireNoNulls() : Observable<T> = map { it ?: throw NullPointerException("null element found in rx observable") }
 
 /**
  * Returns [Observable] with non-null generic type T. Returned observable filter out null values
  */
-public fun <T : Any> Observable<T?>.filterNotNull() : Observable<T> = lift { s ->
-    subscriber<T?>().
-            onCompleted { s.onCompleted() }.
-            onError { t -> s.onError(t) }.
-            onNext { v -> if (v != null) s.onNext(v) }
-}
+@Suppress("CAST_NEVER_SUCCEEDS")
+public fun <T : Any> Observable<T?>.filterNotNull(): Observable<T> = filter { it != null } as Observable<T>
 
 /**
  * Returns Observable that wrap all values into [IndexedValue] and populates corresponding index value.
  * Works similar to [kotlin.withIndex]
  */
-public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> = lift { s ->
-    var index = 0
-
-    subscriber<T>().
-            onNext { v -> s.onNext(IndexedValue(index++, v)) }.
-            onCompleted { s.onCompleted() }.
-            onError { t -> s.onError(t) }
-}
+public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> =
+        zipWith(Observable.range(0, Int.MAX_VALUE)) { value, index -> IndexedValue(index,value) }
 
 /**
  * Returns Observable that emits objects from kotlin [Sequence] returned by function you provided by parameter [body] for
