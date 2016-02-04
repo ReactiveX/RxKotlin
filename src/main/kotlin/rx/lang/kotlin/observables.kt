@@ -25,8 +25,8 @@ public fun FloatArray.toObservable() : Observable<Float> = this.toList().toObser
 public fun DoubleArray.toObservable() : Observable<Double> = this.toList().toObservable()
 public fun <T> Array<out T>.toObservable() : Observable<T> = Observable.from(this)
 
-public fun Progression<Int>.toObservable() : Observable<Int> =
-        if (increment == 1 && end.toLong() - start < Integer.MAX_VALUE) Observable.range(start, Math.max(0, end - start + 1))
+public fun IntProgression.toObservable() : Observable<Int> =
+        if (increment == 1 && last.toLong() - first < Integer.MAX_VALUE) Observable.range(first, Math.max(0, last - first + 1))
         else Observable.from(this)
 
 public fun <T> Iterator<T>.toObservable() : Observable<T> = toIterable().toObservable()
@@ -51,9 +51,7 @@ public fun <T> BlockingObservable<T>.firstOrNull() : T = firstOrDefault(null)
 @Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
 public fun <T> Observable<T>.onErrorReturnNull() : Observable<T?> = onErrorReturn<T> {null}
 
-public fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber<T>) : Observable<R> = lift(object : Observable.Operator<R, T> {
-    override fun call(t1: Subscriber<in R>?): Subscriber<in T> = operator(t1!!)
-})
+public fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber<T>) : Observable<R> = lift(Observable.Operator<R, T> { t1 -> operator(t1!!) })
 
 /**
  * Returns [Observable] that requires all objects to be non null. Raising [NullPointerException] in case of null object
