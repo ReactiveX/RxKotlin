@@ -1,13 +1,13 @@
 package rx.lang.kotlin
 
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import rx.Subscriber
 import rx.exceptions.OnErrorNotImplementedException
-import java.util.ArrayList
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
+import java.util.*
 import org.junit.Test as test
 
-public class SubscribersTest {
+class SubscribersTest {
     @test fun testEmptySubscriber() {
         val s = subscriber<Int>()
         callSubscriberMethods(false, s)

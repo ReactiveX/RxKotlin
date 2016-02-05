@@ -5,70 +5,67 @@ import rx.Subscriber
 import rx.Subscription
 import rx.observables.BlockingObservable
 
-public fun <T> emptyObservable() : Observable<T> = Observable.empty()
-public fun <T> observable(body : (s : Subscriber<in T>) -> Unit) : Observable<T> = Observable.create(body)
+fun <T> emptyObservable() : Observable<T> = Observable.empty()
+fun <T> observable(body : (s : Subscriber<in T>) -> Unit) : Observable<T> = Observable.create(body)
 /**
  * Create deferred observable
  * @see [rx.Observable.defer] and [http://reactivex.io/documentation/operators/defer.html]
  */
-public fun <T> deferredObservable(body : () -> Observable<T>) : Observable<T> = Observable.defer(body)
+fun <T> deferredObservable(body : () -> Observable<T>) : Observable<T> = Observable.defer(body)
 private fun <T> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
 
-public fun BooleanArray.toObservable() : Observable<Boolean> = this.toList().toObservable()
-public fun ByteArray.toObservable() : Observable<Byte> = this.toList().toObservable()
-public fun ShortArray.toObservable() : Observable<Short> = this.toList().toObservable()
-public fun IntArray.toObservable() : Observable<Int> = this.toList().toObservable()
-public fun LongArray.toObservable() : Observable<Long> = this.toList().toObservable()
-public fun FloatArray.toObservable() : Observable<Float> = this.toList().toObservable()
-public fun DoubleArray.toObservable() : Observable<Double> = this.toList().toObservable()
-public fun <T> Array<out T>.toObservable() : Observable<T> = Observable.from(this)
+fun BooleanArray.toObservable() : Observable<Boolean> = this.toList().toObservable()
+fun ByteArray.toObservable() : Observable<Byte> = this.toList().toObservable()
+fun ShortArray.toObservable() : Observable<Short> = this.toList().toObservable()
+fun IntArray.toObservable() : Observable<Int> = this.toList().toObservable()
+fun LongArray.toObservable() : Observable<Long> = this.toList().toObservable()
+fun FloatArray.toObservable() : Observable<Float> = this.toList().toObservable()
+fun DoubleArray.toObservable() : Observable<Double> = this.toList().toObservable()
+fun <T> Array<out T>.toObservable() : Observable<T> = Observable.from(this)
 
-public fun IntProgression.toObservable() : Observable<Int> =
-        if (increment == 1 && last.toLong() - first < Integer.MAX_VALUE) Observable.range(first, Math.max(0, last - first + 1))
+fun IntProgression.toObservable() : Observable<Int> =
+        if (step == 1 && last.toLong() - first < Integer.MAX_VALUE) Observable.range(first, Math.max(0, last - first + 1))
         else Observable.from(this)
 
-public fun <T> Iterator<T>.toObservable() : Observable<T> = toIterable().toObservable()
-public fun <T> Iterable<T>.toObservable() : Observable<T> = Observable.from(this)
-public fun <T> Sequence<T>.toObservable() : Observable<T> = Observable.from(object : Iterable<T> {
+fun <T> Iterator<T>.toObservable() : Observable<T> = toIterable().toObservable()
+fun <T> Iterable<T>.toObservable() : Observable<T> = Observable.from(this)
+fun <T> Sequence<T>.toObservable() : Observable<T> = Observable.from(object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toObservable.iterator()
 })
 
-public fun <T> T.toSingletonObservable() : Observable<T> = Observable.just(this)
-public fun <T> Throwable.toObservable() : Observable<T> = Observable.error(this)
+fun <T> T.toSingletonObservable() : Observable<T> = Observable.just(this)
+fun <T> Throwable.toObservable() : Observable<T> = Observable.error(this)
 
-public fun <T> Iterable<Observable<out T>>.merge() : Observable<T> = Observable.merge(this.toObservable())
-public fun <T> Iterable<Observable<out T>>.mergeDelayError() : Observable<T> = Observable.mergeDelayError(this.toObservable())
+fun <T> Iterable<Observable<out T>>.merge() : Observable<T> = Observable.merge(this.toObservable())
+fun <T> Iterable<Observable<out T>>.mergeDelayError() : Observable<T> = Observable.mergeDelayError(this.toObservable())
 
 
-public fun <T, R> Observable<T>.fold(initial : R, body : (R, T) -> R) : Observable<R> = reduce(initial, {a, e -> body(a, e)})
-public fun <T> Observable<T>.onError(block : (Throwable) -> Unit) : Observable<T> = doOnError(block)
-@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
-public fun <T> Observable<T>.firstOrNull() : Observable<T?> = firstOrDefault(null)
-public fun <T> BlockingObservable<T>.firstOrNull() : T = firstOrDefault(null)
+fun <T, R> Observable<T>.fold(initial : R, body : (R, T) -> R) : Observable<R> = reduce(initial, {a, e -> body(a, e)})
+fun <T> Observable<T>.onError(block : (Throwable) -> Unit) : Observable<T> = doOnError(block)
+@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND") fun <T> Observable<T>.firstOrNull() : Observable<T?> = firstOrDefault(null)
+fun <T> BlockingObservable<T>.firstOrNull() : T = firstOrDefault(null)
 
-@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
-public fun <T> Observable<T>.onErrorReturnNull() : Observable<T?> = onErrorReturn<T> {null}
+@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND") fun <T> Observable<T>.onErrorReturnNull() : Observable<T?> = onErrorReturn<T> {null}
 
-public fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber<T>) : Observable<R> = lift(Observable.Operator<R, T> { t1 -> operator(t1!!) })
+fun <T, R> Observable<T>.lift(operator : (Subscriber<in R>) -> Subscriber<T>) : Observable<R> = lift { t1 -> operator(t1!!) }
 
 /**
  * Returns [Observable] that requires all objects to be non null. Raising [NullPointerException] in case of null object
  */
-public fun <T : Any> Observable<T?>.requireNoNulls() : Observable<T> = map { it ?: throw NullPointerException("null element found in rx observable") }
+fun <T : Any> Observable<T?>.requireNoNulls() : Observable<T> = map { it ?: throw NullPointerException("null element found in rx observable") }
 
 /**
  * Returns [Observable] with non-null generic type T. Returned observable filter out null values
  */
-@Suppress("CAST_NEVER_SUCCEEDS")
-public fun <T : Any> Observable<T?>.filterNotNull(): Observable<T> = filter { it != null } as Observable<T>
+@Suppress("CAST_NEVER_SUCCEEDS") fun <T : Any> Observable<T?>.filterNotNull(): Observable<T> = filter { it != null } as Observable<T>
 
 /**
  * Returns Observable that wrap all values into [IndexedValue] and populates corresponding index value.
  * Works similar to [kotlin.withIndex]
  */
-public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> =
+fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> =
         zipWith(Observable.range(0, Int.MAX_VALUE)) { value, index -> IndexedValue(index,value) }
 
 /**
@@ -79,18 +76,18 @@ public fun <T> Observable<T>.withIndex() : Observable<IndexedValue<T>> =
  * @param body is a function that applied for each item emitted by source observable that returns [Sequence]
  *  @returns Observable that merges all [Sequence]s produced by [body] functions
  */
-public fun <T, R> Observable<T>.flatMapSequence( body : (T) -> Sequence<R> ) : Observable<R> = flatMap { body(it).toObservable() }
+fun <T, R> Observable<T>.flatMapSequence( body : (T) -> Sequence<R> ) : Observable<R> = flatMap { body(it).toObservable() }
 
 /**
  * Subscribe with a subscriber that is configured inside body
  */
-public inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModifier<T>.() -> Unit ) : Subscription {
+inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModifier<T>.() -> Unit ) : Subscription {
     val modifier = FunctionSubscriberModifier(subscriber<T>())
     modifier.body()
     return subscribe(modifier.subscriber)
 }
 
-public fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
+fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
 
 /**
  * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
