@@ -3,9 +3,9 @@ package rx.lang.kotlin
 import rx.Subscriber
 import rx.exceptions.OnErrorNotImplementedException
 import rx.observers.SerializedSubscriber
-import java.util.ArrayList
+import java.util.*
 
-public class FunctionSubscriber<T>() : Subscriber<T>() {
+class FunctionSubscriber<T>() : Subscriber<T>() {
     private val onCompletedFunctions = ArrayList<() -> Unit>()
     private val onErrorFunctions = ArrayList<(e: Throwable) -> Unit>()
     private val onNextFunctions = ArrayList<(value: T) -> Unit>()
@@ -43,8 +43,8 @@ public class FunctionSubscriber<T>() : Subscriber<T>() {
     }
 }
 
-public class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
-    public var subscriber: FunctionSubscriber<T> = init
+class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
+    var subscriber: FunctionSubscriber<T> = init
         private set
 
     fun onCompleted(onCompletedFunction: () -> Unit) : Unit { subscriber = subscriber.onCompleted(onCompletedFunction) }
@@ -53,5 +53,5 @@ public class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscri
     fun onStart(onStartFunction : () -> Unit) : Unit { subscriber = subscriber.onStart(onStartFunction) }
 }
 
-public fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
-public fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)
+fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
+fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)

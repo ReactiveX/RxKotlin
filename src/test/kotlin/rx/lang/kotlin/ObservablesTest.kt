@@ -1,16 +1,14 @@
 package rx.lang.kotlin
 
-import kotlin.test.assertEquals
-import org.junit.Test as test
-import rx.Observable
-import kotlin.test.fail
-import kotlin.test.assertNotNull
-import java.util.concurrent.atomic.AtomicInteger
+import org.junit.Assert.*
 import org.junit.Ignore
+import rx.Observable
 import rx.observers.TestSubscriber
+import java.util.concurrent.atomic.AtomicInteger
+import org.junit.Test as test
 
 
-public class ObservablesTest {
+class ObservablesTest {
     @test fun testCreation() {
         val o0 : Observable<Int> = emptyObservable()
         observable<Int> { s -> s.onNext(1); s.onNext(777); s.onCompleted() }.toList().forEach {
@@ -122,14 +120,14 @@ public class ObservablesTest {
     }
 
     @test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
-        kotlin.sequence(0) {it + 1}.toObservable().take(3).toList().forEach {
+        kotlin.sequences.generateSequence(0) {it + 1}.toObservable().take(3).toList().forEach {
             assertEquals(listOf(0, 1, 2), it)
         }
     }
 
     @test fun `infinite iterable should not hang or produce too many elements`() {
         val generated = AtomicInteger()
-        kotlin.sequence { generated.incrementAndGet() }.toObservable().
+        kotlin.sequences.generateSequence { generated.incrementAndGet() }.toObservable().
                 take(100).
                 toList().
                 subscribe()
