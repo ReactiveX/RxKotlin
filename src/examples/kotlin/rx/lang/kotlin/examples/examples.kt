@@ -1,12 +1,7 @@
 package rx.lang.kotlin.examples
 
 import rx.Observable
-import rx.lang.kotlin.observable
-import rx.lang.kotlin.onError
-import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.toObservable
-import rx.lang.kotlin.zip
-import rx.lang.kotlin.combineLatest
+import rx.lang.kotlin.*
 import rx.subscriptions.CompositeSubscription
 import java.net.URL
 import java.util.*
@@ -47,14 +42,14 @@ private fun URL.toScannerObservable() = observable<String> { s ->
     }
 }
 
-public fun syncObservable(): Observable<String> =
+fun syncObservable(): Observable<String> =
     observable { subscriber ->
         (0..75).toObservable()
                 .map { "Sync value_$it" }
                 .subscribe(subscriber)
     }
 
-public fun asyncObservable(): Observable<String> =
+fun asyncObservable(): Observable<String> =
     observable { subscriber ->
         thread {
             (0..75).toObservable()
@@ -63,7 +58,7 @@ public fun asyncObservable(): Observable<String> =
         }
     }
 
-public fun asyncWiki(vararg articleNames: String): Observable<String> =
+fun asyncWiki(vararg articleNames: String): Observable<String> =
     observable { subscriber ->
         thread {
             articleNames.toObservable()
@@ -72,7 +67,7 @@ public fun asyncWiki(vararg articleNames: String): Observable<String> =
         }
     }
 
-public fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> =
+fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> =
     observable { subscriber ->
         thread {
             articleNames.toObservable()
@@ -83,18 +78,18 @@ public fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<S
         }
     }
 
-public fun simpleComposition() {
+fun simpleComposition() {
     asyncObservable().skip(10).take(5)
             .map { s -> "${s}_xform" }
             .subscribe { s -> println("onNext => $s") }
 }
 
-public fun listOfObservables(): List<Observable<String>> = listOf(syncObservable(), syncObservable())
+fun listOfObservables(): List<Observable<String>> = listOf(syncObservable(), syncObservable())
 
-public fun combineLatest(observables: List<Observable<String>>) {
+fun combineLatest(observables: List<Observable<String>>) {
     observables.combineLatest { it.reduce { one, two -> one + two } }.subscribe { println(it) }
 }
 
-public fun zip(observables: List<Observable<String>>) {
+fun zip(observables: List<Observable<String>>) {
     observables.zip { it.reduce { one, two -> one + two } }.subscribe { println(it) }
 }
