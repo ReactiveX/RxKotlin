@@ -102,3 +102,8 @@ fun <T, R> List<Observable<T>>.combineLatest(combineFunction: (args: List<T>) ->
 @Suppress("UNCHECKED_CAST")
 fun <T, R> List<Observable<T>>.zip(zipFunction: (args: List<T>) -> R): Observable<R> =
         Observable.zip(this, { zipFunction(it.asList() as List<T>) })
+
+/**
+ * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
+ */
+inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class.java)
