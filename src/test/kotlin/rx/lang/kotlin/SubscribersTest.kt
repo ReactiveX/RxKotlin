@@ -134,4 +134,14 @@ class SubscribersTest {
         assertEquals(listOf("onNext(1)", "catch(OnErrorNotImplementedException)"), events)
         events.clear()
     }
+
+    @test fun testIdiomaticAdd() {
+        var subscriptionCalled = false
+        val s = subscriber<Int>()
+
+        s.add { subscriptionCalled = true }
+        s.unsubscribe()
+
+        assertTrue(subscriptionCalled)
+    }
 }

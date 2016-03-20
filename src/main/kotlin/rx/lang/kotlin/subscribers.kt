@@ -3,6 +3,7 @@ package rx.lang.kotlin
 import rx.Subscriber
 import rx.exceptions.OnErrorNotImplementedException
 import rx.observers.SerializedSubscriber
+import rx.subscriptions.Subscriptions
 import java.util.*
 
 class FunctionSubscriber<T>() : Subscriber<T>() {
@@ -55,3 +56,4 @@ class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) 
 
 fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
 fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)
+fun Subscriber<*>.add(action: () -> Unit) = add(Subscriptions.create(action))
