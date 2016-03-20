@@ -151,4 +151,24 @@ class ObservablesTest {
         val list = listOf(1,2,3,2,3,4,3,4,5)
         assertEquals(list, list.map { it.toSingletonObservable() }.zip { it }.toBlocking().first())
     }
+
+    @test fun testCast() {
+        val source = Observable.just<Any>(1, 2)
+        val observable = source.cast<Int>()
+        val subscriber = TestSubscriber<Int>()
+        observable.subscribe(subscriber)
+        subscriber.apply {
+            assertValues(1, 2)
+            assertNoErrors()
+            assertCompleted()
+        }
+    }
+
+    @test fun testCastWithWrongType() {
+        val source = Observable.just<Any>(1, 2)
+        val observable = source.cast<String>()
+        val subscriber = TestSubscriber<Any>()
+        observable.subscribe(subscriber)
+        subscriber.assertError(ClassCastException::class.java)
+    }
 }
