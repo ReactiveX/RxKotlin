@@ -69,3 +69,7 @@ bin/
 # Scala build
 *.cache
 /.nb-gradle/private/
+
+# Kobalt
+kobaltBuild
+.kobalt/
