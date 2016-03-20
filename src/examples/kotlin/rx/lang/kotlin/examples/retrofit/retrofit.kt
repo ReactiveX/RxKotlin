@@ -22,7 +22,7 @@ fun main(args: Array<String>) {
 
     service.search("rxkotlin").
             flatMapIterable { it.response.docs }.
-            finallyDo { System.exit(0) }.   // we need this otherwise Rx's executor service will shutdown a minute after request completion
+            doAfterTerminate { System.exit(0) }.   // we need this otherwise Rx's executor service will shutdown a minute after request completion
             subscribe { artifact ->
                 println("${artifact.id} (${artifact.latestVersion})")
             }
