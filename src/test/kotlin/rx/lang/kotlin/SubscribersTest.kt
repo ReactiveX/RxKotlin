@@ -135,6 +135,39 @@ class SubscribersTest {
         events.clear()
     }
 
+    @test fun testSingleSubscribeWith() {
+        val events = ArrayList<String>()
+        val successSingle = singleOf(1)
+
+        successSingle.subscribeWith {
+            onSuccess { events.add("onSuccess($it)") }
+        }
+
+        assertEquals(listOf("onSuccess(1)"), events)
+        events.clear()
+
+        val errorSingle = RuntimeException().toSingle<Int>()
+
+        errorSingle.subscribeWith {
+            onSuccess { events.add("onSuccess($it)") }
+            onError { events.add("onError(${it.javaClass.simpleName})") }
+        }
+
+        assertEquals(listOf("onError(RuntimeException)"), events)
+        events.clear()
+
+        try {
+            errorSingle.subscribeWith {
+                onSuccess { events.add("onSuccess($it)") }
+            }
+        } catch (e: Throwable) {
+            events.add("catch(${e.javaClass.simpleName})")
+        }
+
+        assertEquals(listOf("catch(OnErrorNotImplementedException)"), events)
+        events.clear()
+    }
+
     @test fun testIdiomaticAdd() {
         var subscriptionCalled = false
         val s = subscriber<Int>()
