@@ -34,6 +34,10 @@ fun main(args: Array<String>) {
     combineLatest(listOfObservables())
 
     zip(listOfObservables())
+
+    simpleObservable().subscribe(FunctionSubscriber<String>()
+            .onNext { s -> println("1st onNext => $s") }
+            .onNext { s -> println("2nd onNext => $s") })
 }
 
 private fun URL.toScannerObservable() = observable<String> { s ->
@@ -93,3 +97,5 @@ fun combineLatest(observables: List<Observable<String>>) {
 fun zip(observables: List<Observable<String>>) {
     observables.zip { it.reduce { one, two -> one + two } }.subscribe { println(it) }
 }
+
+fun simpleObservable(): Observable<String> = (0..17).toObservable().map { "Simple $it" }
