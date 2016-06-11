@@ -9,7 +9,7 @@ apply plugin: 'rxjava-project'
 apply plugin: 'kotlin'
 
 dependencies {
-    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxjava:1.1.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'org.funktionale:funktionale:0.8'
     testCompile 'junit:junit:4.12'
