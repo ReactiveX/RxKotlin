@@ -1,5 +1,6 @@
 package rx.lang.kotlin
 
+import rx.SingleSubscriber
 import rx.Subscriber
 import rx.exceptions.OnErrorNotImplementedException
 import rx.observers.SerializedSubscriber
@@ -44,6 +45,34 @@ class FunctionSubscriber<T>() : Subscriber<T>() {
     }
 }
 
+class FunctionSingleSubscriber<T>() : SingleSubscriber<T>() {
+    private val onSuccessFunctions = ArrayList<(value: T) -> Unit>()
+    private val onErrorFunctions = ArrayList<(e: Throwable) -> Unit>()
+
+    override fun onSuccess(t: T) = onSuccessFunctions.forEach { it(t) }
+
+    override fun onError(e: Throwable?) = (e ?: RuntimeException("exception is unknown")).let { ex ->
+        if (onErrorFunctions.isEmpty()) {
+            throw OnErrorNotImplementedException(ex)
+        } else {
+            onErrorFunctions.forEach { it(ex) }
+        }
+    }
+
+    fun onSuccess(onSuccessFunction: (t: T) -> Unit): FunctionSingleSubscriber<T> = copy { onSuccessFunctions.add(onSuccessFunction) }
+    fun onError(onErrorFunction: (e: Throwable) -> Unit): FunctionSingleSubscriber<T> = copy { onErrorFunctions.add(onErrorFunction) }
+
+    private fun copy(block: FunctionSingleSubscriber<T>.() -> Unit): FunctionSingleSubscriber<T> {
+        val newSubscriber = FunctionSingleSubscriber<T>()
+        newSubscriber.onSuccessFunctions.addAll(onSuccessFunctions)
+        newSubscriber.onErrorFunctions.addAll(onErrorFunctions)
+
+        newSubscriber.block()
+
+        return newSubscriber
+    }
+}
+
 class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
     var subscriber: FunctionSubscriber<T> = init
         private set
@@ -54,6 +83,15 @@ class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) 
     fun onStart(onStartFunction : () -> Unit) : Unit { subscriber = subscriber.onStart(onStartFunction) }
 }
 
+class FunctionSingleSubscriberModifier<T>(init: FunctionSingleSubscriber<T> = singleSubscriber()) {
+    var subscriber: FunctionSingleSubscriber<T> = init
+        private set
+
+    fun onSuccess(onSuccessFunction: (t: T) -> Unit): Unit { subscriber = subscriber.onSuccess(onSuccessFunction) }
+    fun onError(onErrorFunction: (r: Throwable) -> Unit): Unit {subscriber = subscriber.onError(onErrorFunction) }
+}
+
 fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
+fun <T> singleSubscriber(): FunctionSingleSubscriber<T> = FunctionSingleSubscriber()
 fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)
 fun Subscriber<*>.add(action: () -> Unit) = add(Subscriptions.create(action))
