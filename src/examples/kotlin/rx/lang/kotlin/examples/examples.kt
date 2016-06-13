@@ -5,6 +5,7 @@ import rx.lang.kotlin.*
 import rx.subscriptions.CompositeSubscription
 import java.net.URL
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
@@ -38,6 +39,8 @@ fun main(args: Array<String>) {
     simpleObservable().subscribe(FunctionSubscriber<String>()
             .onNext { s -> println("1st onNext => $s") }
             .onNext { s -> println("2nd onNext => $s") })
+
+    addToCompositeSubscription()
 }
 
 private fun URL.toScannerObservable() = observable<String> { s ->
@@ -99,3 +102,14 @@ fun zip(observables: List<Observable<String>>) {
 }
 
 fun simpleObservable(): Observable<String> = (0..17).toObservable().map { "Simple $it" }
+
+fun addToCompositeSubscription() {
+    val compositeSubscription = CompositeSubscription()
+
+    Observable.just("test")
+            .delay(100, TimeUnit.MILLISECONDS)
+            .subscribe()
+            .addTo(compositeSubscription)
+
+    compositeSubscription.unsubscribe()
+}
