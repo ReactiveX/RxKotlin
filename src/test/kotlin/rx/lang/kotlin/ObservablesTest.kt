@@ -171,4 +171,8 @@ class ObservablesTest {
         observable.subscribe(subscriber)
         subscriber.assertError(ClassCastException::class.java)
     }
+
+    @test fun testObservableDefer() {
+        assertEquals(1, observableDefer(1).toBlocking().first())
+    }
 }
