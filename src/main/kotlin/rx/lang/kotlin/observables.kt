@@ -107,3 +107,5 @@ fun <T, R> List<Observable<T>>.zip(zipFunction: (args: List<T>) -> R): Observabl
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
  */
 inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class.java)
+
+fun<T> fromCallable(body: () -> T ): Observable<T> = Observable.fromCallable { body.invoke() }
