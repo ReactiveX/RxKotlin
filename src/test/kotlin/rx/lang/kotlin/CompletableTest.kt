@@ -10,6 +10,14 @@ import org.junit.Test as test
 
 class CompletableTest {
 
+    @test fun testCompletable() {
+        var count = 0
+        val c1 = completable { count++ }
+        assertNotNull(c1)
+        c1.subscribe()
+        assertEquals(1, count)
+    }
+
     @test fun testCreateFromAction() {
         var count = 0
         val c1 = Action0 { count++ }.toCompletable()
