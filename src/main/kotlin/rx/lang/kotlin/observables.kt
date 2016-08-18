@@ -1,5 +1,6 @@
 package rx.lang.kotlin
 
+import rx.AsyncEmitter
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -7,6 +8,7 @@ import rx.observables.BlockingObservable
 
 fun <T> emptyObservable() : Observable<T> = Observable.empty()
 fun <T> observable(body : (s : Subscriber<in T>) -> Unit) : Observable<T> = Observable.create(body)
+fun <T> fromAsync(body: (s: AsyncEmitter<in T>) -> Unit, mode: AsyncEmitter.BackpressureMode): Observable<T> = Observable.fromAsync<T>(body, mode)
 /**
  * Create deferred observable
  * @see [rx.Observable.defer] and [http://reactivex.io/documentation/operators/defer.html]

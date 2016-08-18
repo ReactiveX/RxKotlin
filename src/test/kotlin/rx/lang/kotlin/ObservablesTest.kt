@@ -2,6 +2,7 @@ package rx.lang.kotlin
 
 import org.junit.Assert.*
 import org.junit.Ignore
+import rx.AsyncEmitter
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.util.concurrent.atomic.AtomicInteger
@@ -12,6 +13,9 @@ class ObservablesTest {
     @test fun testCreation() {
         val o0 : Observable<Int> = emptyObservable()
         observable<Int> { s -> s.onNext(1); s.onNext(777); s.onCompleted() }.toList().forEach {
+            assertEquals(listOf(1, 777), it)
+        }
+        fromAsync<Int>({ s -> s.onNext(1); s.onNext(777); s.onCompleted() }, AsyncEmitter.BackpressureMode.NONE).toList().forEach {
             assertEquals(listOf(1, 777), it)
         }
         val o1 : Observable<Int> = listOf(1, 2, 3).toObservable()
