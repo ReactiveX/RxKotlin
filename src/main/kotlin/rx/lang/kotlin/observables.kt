@@ -101,7 +101,34 @@ fun <T, R> List<Observable<T>>.combineLatest(combineFunction: (args: List<T>) ->
  */
 @Suppress("UNCHECKED_CAST")
 fun <T, R> List<Observable<T>>.zip(zipFunction: (args: List<T>) -> R): Observable<R> =
-        Observable.zip(this, { zipFunction(it.asList() as List<T>) })
+        Observable.zip(this, { zipFunction(it.asList() as List<T>) })@Suppress("UNCHECKED_CAST")
+
+fun <T, R> List<Observable<T>>.flatZip(zipFunction: (args: List<T>) -> Observable<R>): Observable<R> =
+        Observable.zip(this, { zipFunction(it.asList() as List<T>) }).flatMap { it }
+
+fun <T, T1, R> Observable<T>.flatZipWith(o1: Observable<out T1>, zipFunction: (t: T, o1: T1) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, zipFunction).flatMap { it }
+
+fun <T, T1, T2, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, zipFunction: (t: T, o1: T1, o2: T2) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, zipFunction).flatMap { it }
+
+fun <T, T1, T2, T3, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, o3: Observable<out T3>, zipFunction: (t: T, o1: T1, o2: T2, o3: T3) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, o3, zipFunction).flatMap { it }
+
+fun <T, T1, T2, T3, T4, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, o3: Observable<out T3>, o4: Observable<out T4>, zipFunction: (t: T, o1: T1, o2: T2, o3: T3, o4: T4) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, o3, o4, zipFunction).flatMap { it }
+
+fun <T, T1, T2, T3, T4, T5, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, o3: Observable<out T3>, o4: Observable<out T4>, o5: Observable<out T5>, zipFunction: (t: T, o1: T1, o2: T2, o3: T3, o4: T4, o5: T5) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, o3, o4, o5, zipFunction).flatMap { it }
+
+fun <T, T1, T2, T3, T4, T5, T6, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, o3: Observable<out T3>, o4: Observable<out T4>, o5: Observable<out T5>, o6: Observable<out T6>, zipFunction: (t: T, o1: T1, o2: T2, o3: T3, o4: T4, o5: T5, o6: T6) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, o3, o4, o5, o6, zipFunction).flatMap { it }
+
+fun <T, T1, T2, T3, T4, T5, T6, T7, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, o3: Observable<out T3>, o4: Observable<out T4>, o5: Observable<out T5>, o6: Observable<out T6>, o7: Observable<T7>, zipFunction: (t: T, o1: T1, o2: T2, o3: T3, o4: T4, o5: T5, o6: T6, o7: T7) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, o3, o4, o5, o6, o7, zipFunction).flatMap { it }
+
+fun <T, T1, T2, T3, T4, T5, T6, T7, T8, R> Observable<T>.flatZipWith(o1: Observable<out T1>, o2: Observable<out T2>, o3: Observable<out T3>, o4: Observable<out T4>, o5: Observable<out T5>, o6: Observable<out T6>, o7: Observable<T7>, o8: Observable<T8>, zipFunction: (t: T, o1: T1, o2: T2, o3: T3, o4: T4, o5: T5, o6: T6, o7: T7, o8: T8) -> Observable<R>): Observable<R> =
+        Observable.zip(this, o1, o2, o3, o4, o5, o6, o7, o8, zipFunction).flatMap { it }
 
 /**
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
