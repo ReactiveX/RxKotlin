@@ -171,4 +171,19 @@ class ObservablesTest {
         observable.subscribe(subscriber)
         subscriber.assertError(ClassCastException::class.java)
     }
+
+    @test fun testFromCallableWork() {
+        assertEquals(1, fromCallable { 1 }.toBlocking().first())
+    }
+
+    @test fun testFromCallableIsDeferred() {
+        var result = 0
+        val observable = fromCallable {
+            result = 1 + 1
+            result
+        }
+        assertEquals(0, result)
+        observable.toBlocking().first()
+        assertEquals(2, result)
+    }
 }
