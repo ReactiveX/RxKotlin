@@ -4,6 +4,7 @@ import org.junit.Assert.*
 import org.junit.Ignore
 import rx.Observable
 import rx.observers.TestSubscriber
+import java.math.BigDecimal
 import java.util.concurrent.atomic.AtomicInteger
 import org.junit.Test as test
 
@@ -170,5 +171,43 @@ class ObservablesTest {
         val subscriber = TestSubscriber<Any>()
         observable.subscribe(subscriber)
         subscriber.assertError(ClassCastException::class.java)
+    }
+
+    @test fun testOfType() {
+        val source = Observable.just<Number>(BigDecimal.valueOf(15, 1), 2, BigDecimal.valueOf(42), 15)
+
+        val intSubscriber = TestSubscriber<Int>()
+        val bigDecimalSubscriber = TestSubscriber<BigDecimal>()
+        val doubleSubscriber = TestSubscriber<Double>()
+        val comparableSubscriber = TestSubscriber<Comparable<*>>()
+
+        source.ofType<Int>().subscribe(intSubscriber)
+        source.ofType<BigDecimal>().subscribe(bigDecimalSubscriber)
+        source.ofType<Double>().subscribe(doubleSubscriber)
+        source.ofType<Comparable<*>>().subscribe(comparableSubscriber)
+
+        intSubscriber.apply {
+            assertValues(2, 15)
+            assertNoErrors()
+            assertCompleted()
+        }
+
+        bigDecimalSubscriber.apply {
+            assertValues(BigDecimal.valueOf(15, 1), BigDecimal.valueOf(42))
+            assertNoErrors()
+            assertCompleted()
+        }
+
+        doubleSubscriber.apply {
+            assertNoValues()
+            assertNoErrors()
+            assertCompleted()
+        }
+
+        comparableSubscriber.apply {
+            assertValues(BigDecimal.valueOf(15, 1), 2, BigDecimal.valueOf(42), 15)
+            assertNoErrors()
+            assertCompleted()
+        }
     }
 }
