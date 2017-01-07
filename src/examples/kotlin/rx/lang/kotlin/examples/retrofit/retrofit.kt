@@ -1,9 +1,9 @@
 package rx.lang.kotlin.examples.retrofit
 
+import io.reactivex.Observable
 import retrofit.RestAdapter
 import retrofit.http.GET
 import retrofit.http.Query
-import rx.Observable
 
 data class SearchResultEntry(val id : String, val latestVersion : String)
 data class SearchResults(val docs : List<SearchResultEntry>)

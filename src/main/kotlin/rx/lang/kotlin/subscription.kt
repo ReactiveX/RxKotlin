@@ -1,19 +1,19 @@
 package rx.lang.kotlin
 
-import rx.Subscription
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 /**
  * subscription += observable.subscribe{}
  */
-operator fun CompositeSubscription.plusAssign(subscription: Subscription) = add(subscription)
+operator fun CompositeDisposable.plusAssign(subscription: Disposable) {
+    add(subscription)
+}
 
 /**
  * Add the subscription to a CompositeSubscription.
  * @param compositeSubscription CompositeSubscription to add this subscription to
  * @return this instance
  */
-fun Subscription.addTo(compositeSubscription: CompositeSubscription) : Subscription {
-    compositeSubscription.add(this)
-    return this
-}
+fun Disposable.addTo(compositeSubscription: CompositeDisposable): Disposable
+        = apply { compositeSubscription.add(this) }

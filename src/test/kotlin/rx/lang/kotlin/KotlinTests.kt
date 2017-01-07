@@ -16,10 +16,10 @@
 
 package rx.lang.kotlin
 
+import io.reactivex.Observable
 import org.junit.Before
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import rx.Observable
 
 abstract class KotlinTests {
     @Mock var a: ScriptAssertion = uninitialized()
@@ -30,7 +30,7 @@ abstract class KotlinTests {
     }
 
     @Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
-    fun <T> received() = {result: T? -> a.received(result) }
+    fun <T> received() = { result: T? -> a.received(result) }
 
     interface ScriptAssertion {
         fun error(e: Throwable?)
