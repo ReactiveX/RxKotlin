@@ -2,6 +2,7 @@ package rx.lang.kotlin
 
 import org.junit.Assert.*
 import org.junit.Ignore
+import rx.AsyncEmitter
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
@@ -14,6 +15,9 @@ class ObservablesTest {
         val o0 : Observable<Int> = emptyObservable()
         observable<Int> { s -> s.onNext(1); s.onNext(777); s.onCompleted() }.toList().forEach {
             assertEquals(listOf(1, 777), it)
+        }
+        emitterObservable<Int>(AsyncEmitter.BackpressureMode.NONE) { e -> e.onNext(1); e.onNext(2); e.onCompleted() }.toList().forEach {
+            assertEquals(listOf(1, 2), it)
         }
         val o1 : Observable<Int> = listOf(1, 2, 3).toObservable()
         val o2 : Observable<List<Int>> = listOf(1, 2, 3).toSingletonObservable()

@@ -1,5 +1,6 @@
 package rx.lang.kotlin
 
+import rx.AsyncEmitter
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -15,6 +16,15 @@ fun <T> deferredObservable(body : () -> Observable<T>) : Observable<T> = Observa
 private fun <T> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
+
+/**
+ * An alias to [Observable.fromEmitter] but with reversed parameters, allowing for more idiomatic usage in Kotlin.
+ * ```
+ * val myObservable = emitterObservable(BackpressureMode.NONE) { emitter -> }
+ * ```
+ */
+fun <T> emitterObservable(backpressure: AsyncEmitter.BackpressureMode, body: (emitter: AsyncEmitter<in T>) -> Unit): Observable<T> =
+        Observable.fromEmitter<T>(body, backpressure)
 
 fun BooleanArray.toObservable() : Observable<Boolean> = this.toList().toObservable()
 fun ByteArray.toObservable() : Observable<Byte> = this.toList().toObservable()
