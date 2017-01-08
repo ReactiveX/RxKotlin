@@ -1,13 +1,14 @@
 package rx.lang.kotlin
 
+import io.reactivex.Observable
+import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import java.util.concurrent.Callable
-import org.junit.Test as test
 
 class SingleTest : KotlinTests() {
-    @test fun testCreate() {
+    @Test fun testCreate() {
         single<String> { s ->
             s.onSuccess("Hello World!");
         }.subscribe { result ->
@@ -16,8 +17,8 @@ class SingleTest : KotlinTests() {
         verify(a, Mockito.times(1)).received("Hello World!")
     }
 
-    @test fun testCreateFromFuture() {
-        val future = "Hello World!".toSingletonObservable().toFuture()
+    @Test fun testCreateFromFuture() {
+        val future = Observable.just("Hello World!").toFuture()
         val single = future.toSingle()
         single.subscribe { result ->
             a.received(result)
@@ -25,7 +26,7 @@ class SingleTest : KotlinTests() {
         verify(a, Mockito.times(1)).received("Hello World!")
     }
 
-    @test fun testCreateFromCallable() {
+    @Test fun testCreateFromCallable() {
         val callable = mock(Callable::class.java)
 
         Mockito.`when`(callable.call()).thenReturn("value")
@@ -37,7 +38,7 @@ class SingleTest : KotlinTests() {
         verify(a, Mockito.times(1)).received("value")
     }
 
-    @test fun testCreateFromJust() {
+    @Test fun testCreateFromJust() {
         singleOf("Hello World!").subscribe { result ->
             a.received(result)
         }

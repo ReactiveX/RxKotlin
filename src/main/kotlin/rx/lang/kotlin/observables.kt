@@ -11,11 +11,6 @@ import io.reactivex.functions.BiFunction
  */
 fun <T : Any> emptyObservable(): Observable<T> = Observable.empty()
 
-/**
- * [Observable.defer] alias
- */
-fun <T : Any> Observable<T>.defer() = Observable.defer { this }
-
 fun <T : Any> observable(body: (ObservableEmitter<in T>) -> Unit): Observable<T> = Observable.create(body)
 
 private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
@@ -38,9 +33,6 @@ fun IntProgression.toObservable(): Observable<Int> =
 fun <T : Any> Iterator<T>.toObservable(): Observable<T> = toIterable().toObservable()
 fun <T : Any> Iterable<T>.toObservable(): Observable<T> = Observable.fromIterable(this)
 fun <T : Any> Sequence<T>.toObservable(): Observable<T> = Observable.fromIterable(iterator().toIterable())
-
-fun <T : Any> T.toSingletonObservable(): Observable<T> = Observable.just(this)
-fun <T : Any> Throwable.toObservable(): Observable<T> = Observable.error(this)
 
 fun <T : Any> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.merge(this.toObservable())
 fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
@@ -91,8 +83,8 @@ inline fun <T, R> List<Observable<T>>.combineLatest(crossinline combineFunction:
  * Observable.zip(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> List<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R> =
-        Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
+inline fun <T, R> List<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
+        = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.

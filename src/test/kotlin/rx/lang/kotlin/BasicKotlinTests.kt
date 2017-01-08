@@ -35,9 +35,8 @@ import kotlin.concurrent.thread
  */
 class BasicKotlinTests : KotlinTests() {
 
-
     @Test fun testCreate() {
-        Observable.create<kotlin.String> { onSubscribe ->
+        Observable.create<String> { onSubscribe ->
             onSubscribe.onNext("Hello")
             onSubscribe.onComplete()
         }.subscribe { result ->

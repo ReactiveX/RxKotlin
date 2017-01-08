@@ -74,7 +74,7 @@ fun asyncObservable(): Observable<String> = observable { subscriber ->
 fun asyncWiki(vararg articleNames: String): Observable<String> = observable { subscriber ->
     thread {
         articleNames.toObservable()
-                .flatMapMaybe { name: String -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().firstElement() }
+                .flatMapMaybe { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().firstElement() }
                 .subscribe { subscriber.onNext(it) }
     }
 }

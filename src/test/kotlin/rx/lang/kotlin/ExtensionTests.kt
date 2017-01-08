@@ -66,11 +66,6 @@ class ExtensionTests : KotlinTests() {
         assertEquals("two", listOf("one", "two", "three").toObservable().filter { it.length == 3 }.blockingLast())
     }
 
-    @Test fun testMap1() {
-        1.toSingletonObservable().map { v -> "hello_$v" }.subscribe(received())
-        verify(a, times(1)).received("hello_1")
-    }
-
     @Test fun testMap2() {
         listOf(1, 2, 3).toObservable().map { v -> "hello_$v" }.subscribe(received())
         verify(a, times(1)).received("hello_1")
@@ -87,9 +82,9 @@ class ExtensionTests : KotlinTests() {
 
     @Test fun testMerge() {
         listOf(listOf(1, 2, 3).toObservable(),
-                listOf(6.toSingletonObservable(),
-                        NullPointerException().toObservable<Int>(),
-                        7.toSingletonObservable()
+                listOf(Observable.just(6),
+                        Observable.error(NullPointerException()),
+                        Observable.just(7)
                 ).merge(),
                 listOf(4, 5).toObservable()
         ).merge().subscribe(received(), { e -> a.error(e) })
@@ -195,7 +190,7 @@ class ExtensionTests : KotlinTests() {
     }
 
     @Test fun testDefer() {
-        listOf(1, 2).toObservable().defer().subscribe(received())
+        Observable.defer { listOf(1, 2).toObservable() }.subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
     }

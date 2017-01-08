@@ -32,12 +32,6 @@ class CompletableTest {
         assertEquals(1, count)
     }
 
-    @Test(expected = NoSuchElementException::class) fun testCreateFromFuture() {
-        val c1 = 1.toSingletonObservable().single(0).toCompletable()
-        assertNotNull(c1)
-        c1.toObservable<Int>().blockingFirst()
-    }
-
     @Test(expected = NoSuchElementException::class) fun testCreateFromSingle() {
         val c1 = Single.just("Hello World!").toCompletable()
         assertNotNull(c1)
