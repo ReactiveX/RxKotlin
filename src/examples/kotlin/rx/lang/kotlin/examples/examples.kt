@@ -16,37 +16,37 @@ import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 fun main(args: Array<String>) {
-    
+
     val subscription = CompositeDisposable()
-    
+
     val printArticle = { art: String ->
         println("--- Article ---\n${art.substring(0, 125)}")
     }
-    
+
     val printIt = { it: String -> println(it) }
-    
+
     subscription += asyncObservable().subscribe(printIt)
-    
+
     subscription += syncObservable().subscribe(printIt)
-    
+
     subscription.clear()
-    
+
     simpleComposition()
-    
+
     asyncWiki("Tiger", "Elephant").subscribe(printArticle)
-    
+
     asyncWikiWithErrorHandling("Tiger", "Elephant").subscribe(printArticle) { e ->
         println("--- Error ---\n${e.message}")
     }
-    
+
     combineLatest(listOfObservables())
-    
+
     zip(listOfObservables())
-    
+
     simpleObservable().subscribe(FunctionSubscriber<String>()
             .onNext { s -> println("1st onNext => $s") }
             .onNext { s -> println("2nd onNext => $s") })
-    
+
     addToCompositeSubscription()
 }
 
@@ -109,11 +109,11 @@ fun simpleObservable(): Observable<String> = (0..17).toObservable().map { "Simpl
 
 fun addToCompositeSubscription() {
     val compositeSubscription = CompositeDisposable()
-    
+
     Observable.just("test")
             .delay(100, TimeUnit.MILLISECONDS)
             .subscribe()
             .addTo(compositeSubscription)
-    
+
     compositeSubscription.dispose()
 }
