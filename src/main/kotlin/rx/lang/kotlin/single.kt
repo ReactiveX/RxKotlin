@@ -8,6 +8,7 @@ import java.util.concurrent.Future
 
 fun <T> single(body: (s: SingleSubscriber<in T>) -> Unit): Single<T> = Single.create(body)
 fun <T> singleOf(value: T): Single<T> = Single.just(value)
+fun <T> T.toSingle(): Single<T> = singleOf(this)
 fun <T> Future<T>.toSingle(): Single<T> = Single.from(this)
 fun <T> Callable<T>.toSingle(): Single<T> = Single.fromCallable { this.call() }
 fun <T> Throwable.toSingle(): Single<T> = Single.error(this)

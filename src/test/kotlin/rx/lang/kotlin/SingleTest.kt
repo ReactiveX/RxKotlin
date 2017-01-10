@@ -43,4 +43,16 @@ class SingleTest : KotlinTests() {
         }
         Mockito.verify(a, Mockito.times(1)).received("Hello World!")
     }
+
+    @test fun testCreateFromGeneric() {
+        "Hello World!".toSingle().subscribe { result ->
+            a.received(result)
+        }
+        Mockito.verify(a, Mockito.times(1)).received("Hello World!")
+
+        1337.toSingle().subscribe { result ->
+            a.received(result)
+        }
+        Mockito.verify(a, Mockito.times(1)).received(1337)
+    }
 }
