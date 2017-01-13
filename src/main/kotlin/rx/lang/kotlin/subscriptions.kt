@@ -22,36 +22,40 @@ operator fun CompositeDisposable.plusAssign(subscription: Disposable) {
 fun Disposable.addTo(compositeSubscription: CompositeDisposable): Disposable
         = apply { compositeSubscription.add(this) }
 
+private val onNextStub: (Any) -> Unit = {}
+private val onErrorStub: (Throwable) -> Unit = {}
+private val onCompleteStub: () -> Unit = {}
+
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun <T : Any> Observable<T>.subscribeBy(
-        onNext: ((T) -> Unit)? = null,
-        onError: ((Throwable) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
 ): Disposable = subscribe(onNext, onError, onComplete)
 
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun <T : Any> Single<T>.subscribeBy(
-        onSuccess: ((T) -> Unit)? = null,
-        onError: ((Throwable) -> Unit)? = null
+        onSuccess: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub
 ): Disposable = subscribe(onSuccess, onError)
 
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun <T : Any> Maybe<T>.subscribeBy(
-        onSuccess: ((T) -> Unit)? = null,
-        onError: ((Throwable) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null
+        onSuccess: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
 ): Disposable = subscribe(onSuccess, onError, onComplete)
 
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun Completable.subscribeBy(
-        onError: ((Throwable) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
 ): Disposable = subscribe(onComplete, onError)
