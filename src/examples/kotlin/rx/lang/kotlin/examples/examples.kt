@@ -2,7 +2,6 @@ package rx.lang.kotlin.examples
 
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import rx.lang.kotlin.FunctionSubscriber
 import rx.lang.kotlin.addTo
 import rx.lang.kotlin.combineLatest
 import rx.lang.kotlin.observable
@@ -23,6 +22,7 @@ fun main(args: Array<String>) {
         println("--- Article ---\n${art.substring(0, 125)}")
     }
 
+    @Suppress("ConvertLambdaToReference")
     val printIt = { it: String -> println(it) }
 
     subscription += asyncObservable().subscribe(printIt)
@@ -43,25 +43,26 @@ fun main(args: Array<String>) {
 
     zip(listOfObservables())
 
-    simpleObservable().subscribe(FunctionSubscriber<String>()
-            .onNext { s -> println("1st onNext => $s") }
-            .onNext { s -> println("2nd onNext => $s") })
+    simpleObservable().subscribeBy(
+            onNext = { s: String -> println("1st onNext => $s") } andThen { println("2nd onNext => $it") }
+    )
 
     addToCompositeSubscription()
 }
 
-private fun URL.toScannerObservable() = observable<String>({ s ->
+private fun URL.toScannerObservable() = observable<String> { s ->
     this.openStream().use { stream ->
-        Scanner(stream).useDelimiter("\\A").toObservable().subscribeBy { s }
+        Scanner(stream).useDelimiter("\\A")
+                .toObservable()
+                .subscribe { s.onNext(it) }
     }
-})
+}
 
-fun syncObservable(): Observable<String> =
-        observable { subscriber ->
-            (0..75).toObservable()
-                    .map { "Sync value_$it" }
-                    .subscribe { subscriber.onNext(it) }
-        }
+fun syncObservable(): Observable<String> = observable { subscriber ->
+    (0..75).toObservable()
+            .map { "Sync value_$it" }
+            .subscribe { subscriber.onNext(it) }
+}
 
 fun asyncObservable(): Observable<String> = observable { subscriber ->
     thread {
@@ -117,3 +118,5 @@ fun addToCompositeSubscription() {
 
     compositeSubscription.dispose()
 }
+
+infix inline fun <T : Any> ((T) -> Unit).andThen(crossinline block: (T) -> Unit): (T) -> Unit = { this(it); block(it) }
