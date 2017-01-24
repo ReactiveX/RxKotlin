@@ -10,7 +10,7 @@ import java.util.concurrent.Callable
 class SingleTest : KotlinTests() {
     @Test fun testCreate() {
         single<String> { s ->
-            s.onSuccess("Hello World!");
+            s.onSuccess("Hello World!")
         }.subscribe { result ->
             a.received(result)
         }
@@ -39,9 +39,11 @@ class SingleTest : KotlinTests() {
     }
 
     @Test fun testCreateFromJust() {
-        singleOf("Hello World!").subscribe { result ->
-            a.received(result)
-        }
-        Mockito.verify(a, Mockito.times(1)).received("Hello World!")
+        "Hello World!".toSingle()
+                .subscribe { result ->
+                    a.received(result)
+                }
+        Mockito.verify(a, Mockito.times(1))
+                .received("Hello World!")
     }
 }

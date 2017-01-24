@@ -16,12 +16,6 @@ class CompletableTest {
         assertNotNull(c1)
         c1.subscribe()
         assertEquals(1, count)
-
-        count = 0
-        val c2 = completableOf { count++ }
-        assertNotNull(c2)
-        c2.subscribe()
-        assertEquals(1, count)
     }
 
     @Test fun testCreateFromCallable() {
@@ -29,6 +23,12 @@ class CompletableTest {
         val c1 = Callable { count++ }.toCompletable()
         assertNotNull(c1)
         c1.subscribe()
+        assertEquals(1, count)
+
+        count = 0
+        val c2 = { count++ }.toCompletable()
+        assertNotNull(c2)
+        c2.subscribe()
         assertEquals(1, count)
     }
 

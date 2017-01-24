@@ -5,13 +5,13 @@ import io.reactivex.observers.TestObserver
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Ignore
+import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
-import org.junit.Test as test
 
+class ObservableTest {
 
-class ObservablesTest {
-    @test fun testCreation() {
-        val o0: Observable<Int> = emptyObservable()
+    @Test fun testCreation() {
+        val o0: Observable<Int> = Observable.empty()
         val list = observable<Int> { s ->
             s.onNext(1)
             s.onNext(777)
@@ -33,7 +33,7 @@ class ObservablesTest {
         assertNotNull(o5)
     }
 
-    @test fun testExampleFromReadme() {
+    @Test fun testExampleFromReadme() {
         val result = observable<String> { subscriber ->
             subscriber.onNext("H")
             subscriber.onNext("e")
@@ -50,28 +50,28 @@ class ObservablesTest {
         assertEquals("Hello", result)
     }
 
-    @test fun iteratorObservable() {
+    @Test fun iteratorObservable() {
         assertEquals(listOf(1, 2, 3), listOf(1, 2, 3).iterator().toObservable().toList().blockingGet())
     }
 
-    @test fun intProgressionStep1Empty() {
+    @Test fun intProgressionStep1Empty() {
         assertEquals(listOf(1), (1..1).toObservable().toList().blockingGet())
     }
 
-    @test fun intProgressionStep1() {
+    @Test fun intProgressionStep1() {
         assertEquals((1..10).toList(), (1..10).toObservable().toList().blockingGet())
     }
 
-    @test fun intProgressionDownTo() {
+    @Test fun intProgressionDownTo() {
         assertEquals((1 downTo 10).toList(), (1 downTo 10).toObservable().toList().blockingGet())
     }
 
     @Ignore("Too slow")
-    @test fun intProgressionOverflow() {
+    @Test fun intProgressionOverflow() {
         assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE.toLong()).map { Integer.MAX_VALUE - it }.toList().blockingGet())
     }
 
-    @test fun testWithIndex() {
+    @Test fun testWithIndex() {
         listOf("a", "b", "c").toObservable()
                 .withIndex()
                 .toList()
@@ -79,7 +79,7 @@ class ObservablesTest {
                 .assertValues(listOf(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c")))
     }
 
-    @test fun `withIndex() shouldn't share index between multiple subscribers`() {
+    @Test fun `withIndex() shouldn't share index between multiple subscribers`() {
         val o = listOf("a", "b", "c").toObservable().withIndex()
 
         val subscriber1 = TestObserver.create<IndexedValue<String>>()
@@ -95,12 +95,12 @@ class ObservablesTest {
         subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
     }
 
-    @test fun testFold() {
+    @Test fun testFold() {
         val result = listOf(1, 2, 3).toObservable().fold(0) { acc, e -> acc + e }.blockingGet()
         assertEquals(6, result)
     }
 
-    @test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
+    @Test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
         generateSequence(0) { it + 1 }.toObservable()
                 .take(3)
                 .toList()
@@ -108,7 +108,7 @@ class ObservablesTest {
                 .assertValues(listOf(0, 1, 2))
     }
 
-    @test fun `infinite iterable should not hang or produce too many elements`() {
+    @Test fun `infinite iterable should not hang or produce too many elements`() {
         val generated = AtomicInteger()
         generateSequence { generated.incrementAndGet() }.toObservable().
                 take(100).
@@ -118,24 +118,24 @@ class ObservablesTest {
         assertEquals(100, generated.get())
     }
 
-    @test fun testFlatMapSequence() {
+    @Test fun testFlatMapSequence() {
         assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
                 listOf(1, 2, 3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().blockingGet()
         )
     }
 
-    @test fun testCombineLatest() {
+    @Test fun testCombineLatest() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
         assertEquals(list, list.map { Observable.just(it) }.combineLatest { it }.blockingFirst())
     }
 
-    @test fun testZip() {
+    @Test fun testZip() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
         assertEquals(list, list.map { Observable.just(it) }.zip { it }.blockingFirst())
     }
 
-    @test fun testCast() {
+    @Test fun testCast() {
         val source = Observable.just<Any>(1, 2)
         val observable = source.cast<Int>()
         observable.test()
@@ -145,7 +145,7 @@ class ObservablesTest {
                 .assertComplete()
     }
 
-    @test fun testCastWithWrongType() {
+    @Test fun testCastWithWrongType() {
         val source = Observable.just<Any>(1, 2)
         val observable = source.cast<String>()
         observable.test()

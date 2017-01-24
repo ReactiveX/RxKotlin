@@ -5,11 +5,6 @@ import io.reactivex.ObservableEmitter
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
-/**
- * [Observable.empty] alias
- */
-fun <T : Any> emptyObservable(): Observable<T> = Observable.empty()
-
 fun <T : Any> observable(body: (ObservableEmitter<in T>) -> Unit): Observable<T> = Observable.create(body)
 
 private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
@@ -77,3 +72,8 @@ inline fun <T, R> List<Observable<T>>.zip(crossinline zipFunction: (args: List<T
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
  */
 inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class.java)
+
+/**
+ * Filters the items emitted by an Observable, only emitting those of the specified type.
+ */
+inline fun <reified R : Any> Observable<*>.ofType(): Observable<R> = ofType(R::class.java)
