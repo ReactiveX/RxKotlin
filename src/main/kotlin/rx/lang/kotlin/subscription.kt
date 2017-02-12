@@ -1,6 +1,7 @@
 package rx.lang.kotlin
 
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -14,6 +15,15 @@ private val onCompleteStub: () -> Unit = {}
  * Overloaded subscribe function that allow passing named parameters
  */
 fun <T : Any> Observable<T>.subscribeBy(
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onNext, onError, onComplete)
+
+/**
+ * Overloaded subscribe function that allow passing named parameters
+ */
+fun <T : Any> Flowable<T>.subscribeBy(
         onNext: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
