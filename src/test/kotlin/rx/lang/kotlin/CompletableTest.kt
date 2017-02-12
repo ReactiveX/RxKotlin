@@ -24,8 +24,10 @@ class CompletableTest {
         assertNotNull(c1)
         c1.subscribe()
         assertEquals(1, count)
+    }
 
-        count = 0
+    @Test fun createFromLambda() {
+        var count = 0
         val c2 = { count++ }.toCompletable()
         assertNotNull(c2)
         c2.subscribe()

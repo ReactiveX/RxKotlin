@@ -20,6 +20,7 @@ import io.reactivex.Notification
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import org.junit.Assert.assertEquals
@@ -39,15 +40,17 @@ class BasicKotlinTests : KotlinTests() {
         Observable.create<String> { onSubscribe ->
             onSubscribe.onNext("Hello")
             onSubscribe.onComplete()
-        }.subscribe { result ->
-            a.received(result)
-        }
+        }.subscribeBy(
+                onNext = { a.received(it) }
+        )
 
         verify(a, times(1)).received("Hello")
     }
 
     @Test fun testFilter() {
-        Observable.fromIterable(listOf(1, 2, 3)).filter { it >= 2 }.subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3))
+                .filter { it >= 2 }
+                .subscribeBy(onNext = received())
         verify(a, times(0)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(1)).received(3)
@@ -58,7 +61,9 @@ class BasicKotlinTests : KotlinTests() {
     }
 
     @Test fun testMap1() {
-        Observable.just(1).map { v -> "hello_$v" }.subscribe(received())
+        Single.just(1)
+                .map { v -> "hello_$v" }
+                .subscribeBy(onSuccess = received())
         verify(a, times(1)).received("hello_1")
     }
 
@@ -84,7 +89,10 @@ class BasicKotlinTests : KotlinTests() {
                         Observable.just(7)
                 ),
                 Observable.fromIterable(listOf(4, 5))
-        ).subscribe(received()) { e -> a.error(e) }
+        ).subscribeBy(
+                onNext = received(),
+                onError = { a.error(it) }
+        )
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(1)).received(3)
@@ -96,13 +104,17 @@ class BasicKotlinTests : KotlinTests() {
     }
 
     @Test fun testScriptWithMaterialize() {
-        TestFactory().observable.materialize().subscribe(received())
+        TestFactory()
+                .observable
+                .materialize()
+                .subscribeBy(onNext = received())
         verify(a, times(2)).received(any(Notification::class.java))
     }
 
     @Test fun testScriptWithMerge() {
         val factory = TestFactory()
-        Observable.merge(factory.observable, factory.observable).subscribe(received())
+        Observable.merge(factory.observable, factory.observable)
+                .subscribeBy(onNext = received())
         verify(a, times(1)).received("hello_1")
         verify(a, times(1)).received("hello_2")
     }
