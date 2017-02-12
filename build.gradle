@@ -2,7 +2,7 @@ buildscript {
     ext.kotlin_version = '1.0.6'
     repositories { jcenter() }
     dependencies {
-        classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:3.+',
+        classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:4.+',
                 "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -11,7 +11,7 @@ apply plugin: 'nebula.rxjava-project'
 apply plugin: 'kotlin'
 
 dependencies {
-    compile 'io.reactivex.rxjava2:rxjava:2.0.4'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'org.funktionale:funktionale:0.9'
     testCompile 'junit:junit:4.12'
@@ -20,7 +20,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.10'
+    gradleVersion = '2.14'
 }
 
 // support for snapshot/final releases with the various branches RxJava uses
