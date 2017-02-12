@@ -6,18 +6,23 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Ignore
 import org.junit.Test
+import java.math.BigDecimal
 import java.util.concurrent.atomic.AtomicInteger
 
 class ObservableTest {
 
     @Test fun testCreation() {
+        val observable = observable<Int> { s ->
+            s.apply {
+                onNext(1)
+                onNext(777)
+                onComplete()
+            }
+        }
+
+        assertEquals(listOf(1, 777), observable.toList().blockingGet())
+
         val o0: Observable<Int> = Observable.empty()
-        val list = observable<Int> { s ->
-            s.onNext(1)
-            s.onNext(777)
-            s.onComplete()
-        }.toList().blockingGet()
-        assertEquals(listOf(1, 777), list)
         val o1: Observable<Int> = listOf(1, 2, 3).toObservable()
         val o2: Observable<List<Int>> = Observable.just(listOf(1, 2, 3))
 
@@ -34,18 +39,22 @@ class ObservableTest {
     }
 
     @Test fun testExampleFromReadme() {
-        val result = observable<String> { subscriber ->
-            subscriber.onNext("H")
-            subscriber.onNext("e")
-            subscriber.onNext("l")
-            subscriber.onNext("")
-            subscriber.onNext("l")
-            subscriber.onNext("o")
-            subscriber.onComplete()
-        }.filter(String::isNotEmpty).
-                fold(StringBuilder(), StringBuilder::append).
-                map { it.toString() }.
-                blockingGet()
+        val observable = observable<String> { s ->
+            s.apply {
+                onNext("H")
+                onNext("e")
+                onNext("l")
+                onNext("")
+                onNext("l")
+                onNext("o")
+                onComplete()
+            }
+        }
+        val result = observable
+                .filter(String::isNotEmpty)
+                .fold(StringBuilder(), StringBuilder::append)
+                .map { it.toString() }
+                .blockingGet()
 
         assertEquals("Hello", result)
     }
@@ -68,7 +77,12 @@ class ObservableTest {
 
     @Ignore("Too slow")
     @Test fun intProgressionOverflow() {
-        assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE.toLong()).map { Integer.MAX_VALUE - it }.toList().blockingGet())
+        val result = (-10..Integer.MAX_VALUE).toObservable()
+                .skip(Integer.MAX_VALUE.toLong())
+                .map { Integer.MAX_VALUE - it }
+                .toList()
+                .blockingGet()
+        assertEquals((0..10).toList().reversed(), result)
     }
 
     @Test fun testWithIndex() {
@@ -151,4 +165,38 @@ class ObservableTest {
         observable.test()
                 .assertError(ClassCastException::class.java)
     }
+
+    @Test fun testOfType() {
+        val source = Observable.just<Number>(BigDecimal.valueOf(15, 1), 2, BigDecimal.valueOf(42), 15)
+
+        source.ofType<Int>()
+                .test()
+                .await()
+                .assertValues(2, 15)
+                .assertNoErrors()
+                .assertComplete()
+
+        source.ofType<BigDecimal>()
+                .test()
+                .await()
+                .assertValues(BigDecimal.valueOf(15, 1), BigDecimal.valueOf(42))
+                .assertNoErrors()
+                .assertComplete()
+
+        source.ofType<Double>()
+                .test()
+                .await()
+                .assertNoValues()
+                .assertNoErrors()
+                .assertComplete()
+
+        source.ofType<Comparable<*>>()
+                .test()
+                .await()
+                .assertValues(BigDecimal.valueOf(15, 1), 2, BigDecimal.valueOf(42), 15)
+                .assertNoErrors()
+                .assertComplete()
+
+    }
+
 }
