@@ -9,7 +9,7 @@ import java.util.concurrent.Callable
 import org.junit.Test as test
 
 class CompletableTest {
-
+/*
     @test fun testCreateFromAction() {
         var count = 0
         val c1 = Action0 { count++ }.toCompletable()
@@ -23,7 +23,7 @@ class CompletableTest {
         c2.subscribe()
         assertEquals(1, count)
     }
-
+*/
     @test fun testCreateFromCallable() {
         var count = 0
         val c1 = Callable { count++ }.toCompletable()

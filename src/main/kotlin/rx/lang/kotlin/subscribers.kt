@@ -73,7 +73,7 @@ class FunctionSingleSubscriber<T>() : SingleSubscriber<T>() {
     }
 }
 
-class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) {
+class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = FunctionSubscriber()) {
     var subscriber: FunctionSubscriber<T> = init
         private set
 
@@ -83,7 +83,7 @@ class FunctionSubscriberModifier<T>(init: FunctionSubscriber<T> = subscriber()) 
     fun onStart(onStartFunction : () -> Unit) : Unit { subscriber = subscriber.onStart(onStartFunction) }
 }
 
-class FunctionSingleSubscriberModifier<T>(init: FunctionSingleSubscriber<T> = singleSubscriber()) {
+class FunctionSingleSubscriberModifier<T>(init: FunctionSingleSubscriber<T> = FunctionSingleSubscriber()) {
     var subscriber: FunctionSingleSubscriber<T> = init
         private set
 
@@ -91,7 +91,5 @@ class FunctionSingleSubscriberModifier<T>(init: FunctionSingleSubscriber<T> = si
     fun onError(onErrorFunction: (r: Throwable) -> Unit): Unit {subscriber = subscriber.onError(onErrorFunction) }
 }
 
-fun <T> subscriber(): FunctionSubscriber<T> = FunctionSubscriber()
-fun <T> singleSubscriber(): FunctionSingleSubscriber<T> = FunctionSingleSubscriber()
 fun <T> Subscriber<T>.synchronized(): Subscriber<T> = SerializedSubscriber(this)
 fun Subscriber<*>.add(action: () -> Unit) = add(Subscriptions.create(action))

@@ -7,7 +7,7 @@ import java.util.concurrent.Callable
 import java.util.concurrent.Future
 
 fun Action0.toCompletable(): Completable = Completable.fromAction(this)
-fun <T> completableOf(f: Function0<T>): Completable = Completable.fromAction { f.invoke() }
+fun <T> Function0<T>.toCompletable(): Completable = Completable.fromAction { invoke() }
 fun <T> Callable<T>.toCompletable(): Completable = Completable.fromCallable { this.call() }
 fun <T> Future<T>.toCompletable(): Completable = Completable.fromFuture(this)
 fun <T> Single<T>.toCompletable(): Completable = Completable.fromSingle(this)

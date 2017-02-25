@@ -5,13 +5,6 @@ import rx.Subscriber
 import rx.Subscription
 import rx.observables.BlockingObservable
 
-fun <T> emptyObservable() : Observable<T> = Observable.empty()
-fun <T> observable(body : (s : Subscriber<in T>) -> Unit) : Observable<T> = Observable.create(body)
-/**
- * Create deferred observable
- * @see [rx.Observable.defer] and [http://reactivex.io/documentation/operators/defer.html]
- */
-fun <T> deferredObservable(body : () -> Observable<T>) : Observable<T> = Observable.defer(body)
 private fun <T> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
@@ -81,11 +74,11 @@ fun <T, R> Observable<T>.flatMapSequence( body : (T) -> Sequence<R> ) : Observab
 /**
  * Subscribe with a subscriber that is configured inside body
  */
-inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModifier<T>.() -> Unit ) : Subscription {
+/*inline fun <T> Observable<T>.subscribeWith( body : FunctionSubscriberModifier<T>.() -> Unit ) : Subscription {
     val modifier = FunctionSubscriberModifier(subscriber<T>())
     modifier.body()
     return subscribe(modifier.subscriber)
-}
+}*/
 
 fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
 
