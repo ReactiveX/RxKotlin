@@ -7,7 +7,7 @@ import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
-
+/*
 fun main(args: Array<String>) {
 
     val subscription = CompositeSubscription()
@@ -41,9 +41,9 @@ fun main(args: Array<String>) {
             .onNext { s -> println("2nd onNext => $s") })
 
     addToCompositeSubscription()
-}
+}*/
 
-private fun URL.toScannerObservable() = observable<String> { s ->
+/*private fun URL.toScannerObservable() = observable<String> { s ->
     this.openStream().use { stream ->
         Scanner(stream).useDelimiter("\\A").toObservable().subscribe(s)
     }
@@ -83,7 +83,8 @@ fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> 
                         subscriber.onError(e) }
                     .subscribe(subscriber)
         }
-    }
+    }*/
+/*
 
 fun simpleComposition() {
     asyncObservable().skip(10).take(5)
@@ -92,6 +93,7 @@ fun simpleComposition() {
 }
 
 fun listOfObservables(): List<Observable<String>> = listOf(syncObservable(), syncObservable())
+*/
 
 fun combineLatest(observables: List<Observable<String>>) {
     observables.combineLatest { it.reduce { one, two -> one + two } }.subscribe { println(it) }

@@ -32,7 +32,7 @@ import kotlin.concurrent.thread
  * This class contains tests using the extension functions provided by the language adaptor.
  */
 class ExtensionTests : KotlinTests() {
-
+ /*
 
     @Test fun testCreate() {
 
@@ -276,4 +276,5 @@ class ExtensionTests : KotlinTests() {
             get() = observable(onSubscribe)
 
     }
+    */
 }
