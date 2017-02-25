@@ -16,14 +16,19 @@
 
 package rx.lang.kotlin
 
+import io.reactivex.Notification
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-import org.mockito.Mockito.*
-import rx.Notification
-import rx.Observable
-import rx.Observable.OnSubscribe
-import rx.Subscriber
+import org.mockito.Mockito.any
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import kotlin.concurrent.thread
 
 /**
@@ -31,61 +36,63 @@ import kotlin.concurrent.thread
  */
 class BasicKotlinTests : KotlinTests() {
 
-
     @Test fun testCreate() {
-        Observable.create(OnSubscribe<kotlin.String> { subscriber ->
-            subscriber.onNext("Hello")
-            subscriber.onCompleted()
-        }).subscribe { result ->
-            a.received(result)
-        }
+        Observable.create<String> { onSubscribe ->
+            onSubscribe.onNext("Hello")
+            onSubscribe.onComplete()
+        }.subscribeBy(
+                onNext = { a.received(it) }
+        )
 
         verify(a, times(1)).received("Hello")
     }
 
     @Test fun testFilter() {
-        Observable.from(listOf(1, 2, 3)).filter { it >= 2 }.subscribe(received())
-        verify(a, times(0)).received(1);
-        verify(a, times(1)).received(2);
-        verify(a, times(1)).received(3);
+        Observable.fromIterable(listOf(1, 2, 3))
+                .filter { it >= 2 }
+                .subscribeBy(onNext = received())
+        verify(a, times(0)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(1)).received(3)
     }
 
     @Test fun testLast() {
-        assertEquals("three", Observable.from(listOf("one", "two", "three")).toBlocking().last())
-    }
-
-    @Test fun testLastWithPredicate() {
-        assertEquals("two", Observable.from(listOf("one", "two", "three")).toBlocking().last { x -> x.length == 3 })
+        assertEquals("three", Observable.fromIterable(listOf("one", "two", "three")).blockingLast())
     }
 
     @Test fun testMap1() {
-        Observable.just(1).map { v -> "hello_$v" }.subscribe(received())
+        Single.just(1)
+                .map { v -> "hello_$v" }
+                .subscribeBy(onSuccess = received())
         verify(a, times(1)).received("hello_1")
     }
 
     @Test fun testMap2() {
-        Observable.from(listOf(1, 2, 3)).map { v -> "hello_$v" }.subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).map { v -> "hello_$v" }.subscribe(received())
         verify(a, times(1)).received("hello_1")
         verify(a, times(1)).received("hello_2")
         verify(a, times(1)).received("hello_3")
     }
 
     @Test fun testMaterialize() {
-        Observable.from(listOf(1, 2, 3)).materialize().subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).materialize().subscribe(received())
         verify(a, times(4)).received(any(Notification::class.java))
         verify(a, times(0)).error(any(Exception::class.java))
     }
 
     @Test fun testMerge() {
         Observable.merge(
-                Observable.from(listOf(1, 2, 3)),
+                Observable.fromIterable(listOf(1, 2, 3)),
                 Observable.merge(
                         Observable.just(6),
                         Observable.error(NullPointerException()),
                         Observable.just(7)
                 ),
-                Observable.from(listOf(4, 5))
-        ).subscribe(received()) { e -> a.error(e) }
+                Observable.fromIterable(listOf(4, 5))
+        ).subscribeBy(
+                onNext = received(),
+                onError = { a.error(it) }
+        )
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(1)).received(3)
@@ -97,32 +104,36 @@ class BasicKotlinTests : KotlinTests() {
     }
 
     @Test fun testScriptWithMaterialize() {
-        TestFactory().observable.materialize().subscribe(received())
+        TestFactory()
+                .observable
+                .materialize()
+                .subscribeBy(onNext = received())
         verify(a, times(2)).received(any(Notification::class.java))
     }
 
     @Test fun testScriptWithMerge() {
         val factory = TestFactory()
-        Observable.merge(factory.observable, factory.observable).subscribe(received())
+        Observable.merge(factory.observable, factory.observable)
+                .subscribeBy(onNext = received())
         verify(a, times(1)).received("hello_1")
         verify(a, times(1)).received("hello_2")
     }
 
     @Test fun testFromWithIterable() {
         val list = listOf(1, 2, 3, 4, 5)
-        assertEquals(5, Observable.from(list).count().toBlocking().single())
+        assertEquals(5, Observable.fromIterable(list).count().blockingGet())
     }
 
     @Test fun testFromWithObjects() {
         val list = listOf(1, 2, 3, 4, 5)
-        assertEquals(2, Observable.from(listOf(list, 6)).count().toBlocking().single())
+        assertEquals(2, Observable.fromIterable(listOf(list, 6)).count().blockingGet())
     }
 
     @Test fun testStartWith() {
         val list = listOf(10, 11, 12, 13, 14)
         val startList = listOf(1, 2, 3, 4, 5)
-        assertEquals(6, Observable.from(list).startWith(0).count().toBlocking().single())
-        assertEquals(10, Observable.from(list).startWith(startList).count().toBlocking().single())
+        assertEquals(6, Observable.fromIterable(list).startWith(0).count().blockingGet())
+        assertEquals(10, Observable.fromIterable(list).startWith(startList).count().blockingGet())
     }
 
     @Test fun testScriptWithOnNext() {
@@ -131,21 +142,21 @@ class BasicKotlinTests : KotlinTests() {
     }
 
     @Test fun testSkipTake() {
-        Observable.from(listOf(1, 2, 3)).skip(1).take(1).subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).skip(1).take(1).subscribe(received())
         verify(a, times(0)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
     }
 
     @Test fun testSkip() {
-        Observable.from(listOf(1, 2, 3)).skip(2).subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).skip(2).subscribe(received())
         verify(a, times(0)).received(1)
         verify(a, times(0)).received(2)
         verify(a, times(1)).received(3)
     }
 
     @Test fun testTake() {
-        Observable.from(listOf(1, 2, 3)).take(2).subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).take(2).subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
@@ -157,14 +168,17 @@ class BasicKotlinTests : KotlinTests() {
     }
 
     @Test fun testTakeWhile() {
-        Observable.from(listOf(1, 2, 3)).takeWhile { x -> x < 3 }.subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).takeWhile { x -> x < 3 }.subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
     }
 
     @Test fun testTakeWhileWithIndex() {
-        Observable.from(listOf(1, 2, 3)).takeWhile { x -> x < 3 }.zipWith(Observable.range(0,Integer.MAX_VALUE)){ x, i -> x }.subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3))
+                .takeWhile { x -> x < 3 }
+                .zipWith(Observable.range(0, Integer.MAX_VALUE), BiFunction<Int, Int, Int> { x, i -> x })
+                .subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
@@ -176,56 +190,56 @@ class BasicKotlinTests : KotlinTests() {
     }
 
     @Test fun testForEach() {
-        Observable.create(AsyncObservable()).toBlocking().forEach(received())
+        Observable.create(AsyncObservable()).blockingForEach(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(1)).received(3)
     }
 
     @Test(expected = RuntimeException::class) fun testForEachWithError() {
-        Observable.create(AsyncObservable()).toBlocking().forEach { throw RuntimeException("err") }
+        Observable.create(AsyncObservable()).blockingForEach { throw RuntimeException("err") }
         fail("we expect an exception to be thrown")
     }
 
     @Test fun testLastOrDefault() {
-        assertEquals("two", Observable.from(listOf("one", "two")).toBlocking().lastOrDefault("default") { x -> x.length == 3 })
-        assertEquals("default", Observable.from(listOf("one", "two")).toBlocking().lastOrDefault("default") { x -> x.length > 3 })
+        assertEquals("two", Observable.fromIterable(listOf("one", "two")).blockingLast("default"))
+        assertEquals("default", Observable.fromIterable(listOf("one", "two")).filter { it.length > 3 }.blockingLast("default"))
     }
 
     @Test(expected = IllegalArgumentException::class) fun testSingle() {
-        assertEquals("one", Observable.just("one").toBlocking().single { x -> x.length == 3 })
-        Observable.from(listOf("one", "two")).toBlocking().single { x -> x.length == 3 }
+        assertEquals("one", Observable.just("one").blockingSingle())
+        Observable.fromIterable(listOf("one", "two")).blockingSingle()
         fail()
     }
 
     @Test fun testDefer() {
-        Observable.defer { Observable.from(listOf(1, 2)) }.subscribe(received())
+        Observable.defer { Observable.fromIterable(listOf(1, 2)) }.subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
     }
 
     @Test fun testAll() {
-        Observable.from(listOf(1, 2, 3)).all { x -> x > 0 }.subscribe(received())
+        Observable.fromIterable(listOf(1, 2, 3)).all { x -> x > 0 }.subscribe(received())
         verify(a, times(1)).received(true)
     }
 
     @Test fun testZip() {
-        val o1 = Observable.from(listOf(1, 2, 3))
-        val o2 = Observable.from(listOf(4, 5, 6))
-        val o3 = Observable.from(listOf(7, 8, 9))
+        val o1 = Observable.fromIterable(listOf(1, 2, 3))
+        val o2 = Observable.fromIterable(listOf(4, 5, 6))
+        val o3 = Observable.fromIterable(listOf(7, 8, 9))
 
-        val values = Observable.zip(o1, o2, o3) { a, b, c -> listOf(a, b, c) }.toList().toBlocking().single()
+        val values = Observable.zip(o1, o2, o3, Function3<Int, Int, Int, List<Int>> { a, b, c -> listOf(a, b, c) }).toList().blockingGet()
         assertEquals(listOf(1, 4, 7), values[0])
         assertEquals(listOf(2, 5, 8), values[1])
         assertEquals(listOf(3, 6, 9), values[2])
     }
 
     @Test fun testZipWithIterable() {
-        val o1 = Observable.from(listOf(1, 2, 3))
-        val o2 = Observable.from(listOf(4, 5, 6))
-        val o3 = Observable.from(listOf(7, 8, 9))
+        val o1 = Observable.fromIterable(listOf(1, 2, 3))
+        val o2 = Observable.fromIterable(listOf(4, 5, 6))
+        val o3 = Observable.fromIterable(listOf(7, 8, 9))
 
-        val values = Observable.zip(listOf(o1, o2, o3)) { args -> listOf(*args) }.toList().toBlocking().single()
+        val values = Observable.zip(listOf(o1, o2, o3), { args -> listOf(*args) }).toList().blockingGet()
         assertEquals(listOf(1, 4, 7), values[0])
         assertEquals(listOf(2, 5, 8), values[1])
         assertEquals(listOf(3, 6, 9), values[2])
@@ -234,13 +248,13 @@ class BasicKotlinTests : KotlinTests() {
     @Test fun testGroupBy() {
         var count = 0
 
-        Observable.from(listOf("one", "two", "three", "four", "five", "six"))
-                .groupBy { s -> s.length }
-                .flatMap { groupObervable ->
-                    groupObervable.map { s ->
-                        "Value: $s Group ${groupObervable.key}"
+        Observable.fromIterable(listOf("one", "two", "three", "four", "five", "six"))
+                .groupBy(String::length)
+                .flatMap { groupObservable ->
+                    groupObservable.map { s ->
+                        "Value: $s Group ${groupObservable.key}"
                     }
-                }.toBlocking().forEach { s ->
+                }.blockingForEach { s ->
             println(s)
             count++
         }
@@ -249,45 +263,42 @@ class BasicKotlinTests : KotlinTests() {
     }
 
 
-
     class TestFactory() {
         var counter = 1
 
         val numbers: Observable<Int>
-            get(){
-                return Observable.from(listOf(1, 3, 2, 5, 4))
+            get() {
+                return Observable.fromIterable(listOf(1, 3, 2, 5, 4))
             }
 
         val onSubscribe: TestOnSubscribe
-            get(){
+            get() {
                 return TestOnSubscribe(counter++)
             }
 
         val observable: Observable<String>
-            get(){
+            get() {
                 return Observable.create(onSubscribe)
             }
 
     }
 
-    class AsyncObservable : OnSubscribe<Int> {
-        override fun call(op: Subscriber<in Int>) {
+    class AsyncObservable : ObservableOnSubscribe<Int> {
+        override fun subscribe(op: ObservableEmitter<Int>) {
             thread {
                 Thread.sleep(50)
                 op.onNext(1)
                 op.onNext(2)
                 op.onNext(3)
-                op.onCompleted()
+                op.onComplete()
             }
-
         }
     }
 
-    class TestOnSubscribe(val count: Int) : OnSubscribe<String> {
-        override fun call(op: Subscriber<in String>) {
+    class TestOnSubscribe(val count: Int) : ObservableOnSubscribe<String> {
+        override fun subscribe(op: ObservableEmitter<String>) {
             op.onNext("hello_$count")
-            op.onCompleted()
+            op.onComplete()
         }
-
     }
 }

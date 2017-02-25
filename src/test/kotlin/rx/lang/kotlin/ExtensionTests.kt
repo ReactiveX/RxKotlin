@@ -16,15 +16,20 @@
 
 package rx.lang.kotlin
 
+import io.reactivex.Notification
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
+import io.reactivex.schedulers.TestScheduler
 import org.funktionale.partials.invoke
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-import org.mockito.Mockito.*
-import rx.Notification
-import rx.Observable
-import rx.Subscriber
-import rx.schedulers.TestScheduler
+import org.mockito.Mockito.any
+import org.mockito.Mockito.inOrder
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -35,10 +40,9 @@ class ExtensionTests : KotlinTests() {
 
 
     @Test fun testCreate() {
-
         observable<String> { subscriber ->
             subscriber.onNext("Hello")
-            subscriber.onCompleted()
+            subscriber.onComplete()
         }.subscribe { result ->
             a.received(result)
         }
@@ -55,16 +59,11 @@ class ExtensionTests : KotlinTests() {
 
 
     @Test fun testLast() {
-        assertEquals("three", listOf("one", "two", "three").toObservable().toBlocking().last())
+        assertEquals("three", listOf("one", "two", "three").toObservable().blockingLast())
     }
 
     @Test fun testLastWithPredicate() {
-        assertEquals("two", listOf("one", "two", "three").toObservable().toBlocking().last { x -> x.length == 3 })
-    }
-
-    @Test fun testMap1() {
-        1.toSingletonObservable().map { v -> "hello_$v" }.subscribe(received())
-        verify(a, times(1)).received("hello_1")
+        assertEquals("two", listOf("one", "two", "three").toObservable().filter { it.length == 3 }.blockingLast())
     }
 
     @Test fun testMap2() {
@@ -83,9 +82,9 @@ class ExtensionTests : KotlinTests() {
 
     @Test fun testMerge() {
         listOf(listOf(1, 2, 3).toObservable(),
-                listOf(6.toSingletonObservable(),
-                        NullPointerException().toObservable<Int>(),
-                        7.toSingletonObservable()
+                listOf(Observable.just(6),
+                        Observable.error(NullPointerException()),
+                        Observable.just(7)
                 ).merge(),
                 listOf(4, 5).toObservable()
         ).merge().subscribe(received(), { e -> a.error(e) })
@@ -113,14 +112,14 @@ class ExtensionTests : KotlinTests() {
 
 
     @Test fun testFromWithIterable() {
-        assertEquals(5, listOf(1, 2, 3, 4, 5).toObservable().count().toBlocking().single())
+        assertEquals(5, listOf(1, 2, 3, 4, 5).toObservable().count().blockingGet())
     }
 
     @Test fun testStartWith() {
         val list = listOf(10, 11, 12, 13, 14)
         val startList = listOf(1, 2, 3, 4, 5)
-        assertEquals(6, list.toObservable().startWith(0).count().toBlocking().single())
-        assertEquals(10, list.toObservable().startWith(startList).count().toBlocking().single())
+        assertEquals(6, list.toObservable().startWith(0).count().blockingGet())
+        assertEquals(10, list.toObservable().startWith(startList).count().blockingGet())
     }
 
     @Test fun testScriptWithOnNext() {
@@ -162,7 +161,7 @@ class ExtensionTests : KotlinTests() {
     }
 
     @Test fun testTakeWhileWithIndex() {
-        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.zipWith((0..Integer.MAX_VALUE).toObservable()) { x, i -> x }.subscribe(received())
+        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.zipWith((0..Integer.MAX_VALUE).toObservable(), BiFunction<Int, Int, Int> { x, i -> x }).subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
@@ -174,24 +173,24 @@ class ExtensionTests : KotlinTests() {
     }
 
     @Test fun testForEach() {
-        observable(asyncObservable).toBlocking().forEach(received())
+        observable(asyncObservable).blockingForEach(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(1)).received(3)
     }
 
     @Test(expected = RuntimeException::class) fun testForEachWithError() {
-        observable(asyncObservable).toBlocking().forEach { throw RuntimeException("err") }
+        observable(asyncObservable).blockingForEach { throw RuntimeException("err") }
         fail("we expect an exception to be thrown")
     }
 
     @Test fun testLastOrDefault() {
-        assertEquals("two", listOf("one", "two").toObservable().toBlocking().lastOrDefault("default") { x -> x.length == 3 })
-        assertEquals("default", listOf("one", "two").toObservable().toBlocking().lastOrDefault("default") { x -> x.length > 3 })
+        assertEquals("two", listOf("one", "two").toObservable().blockingLast("default"))
+        assertEquals("default", listOf("one", "two").toObservable().filter { it.length > 3 }.blockingLast("default"))
     }
 
     @Test fun testDefer() {
-        deferredObservable { listOf(1, 2).toObservable() }.subscribe(received())
+        Observable.defer { listOf(1, 2).toObservable() }.subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
     }
@@ -206,7 +205,7 @@ class ExtensionTests : KotlinTests() {
         val o2 = listOf(4, 5, 6).toObservable()
         val o3 = listOf(7, 8, 9).toObservable()
 
-        val values = Observable.zip(o1, o2, o3) { a, b, c -> listOf(a, b, c) }.toList().toBlocking().single()
+        val values = Observable.zip(o1, o2, o3, Function3 <Int, Int, Int, List<Int>> { a, b, c -> listOf(a, b, c) }).toList().blockingGet()
         assertEquals(listOf(1, 4, 7), values[0])
         assertEquals(listOf(2, 5, 8), values[1])
         assertEquals(listOf(3, 6, 9), values[2])
@@ -217,7 +216,7 @@ class ExtensionTests : KotlinTests() {
         val worker = testScheduler.createWorker()
 
         val observable = observable<Observable<Long>> { s ->
-            fun at(delay: Long, func : () -> Unit){
+            fun at(delay: Long, func: () -> Unit) {
                 worker.schedule({
                     func()
                 }, delay, TimeUnit.MILLISECONDS)
@@ -229,7 +228,7 @@ class ExtensionTests : KotlinTests() {
             val second = Observable.interval(5, TimeUnit.MILLISECONDS, testScheduler).take(3)
             at(11, { s.onNext(second) })
 
-            at(40, { s.onCompleted() })
+            at(40, { s.onComplete() })
         }
 
         observable.switchOnNext().subscribe(received())
@@ -246,30 +245,29 @@ class ExtensionTests : KotlinTests() {
         inOrder.verifyNoMoreInteractions()
     }
 
-    val funOnSubscribe: (Int, Subscriber<in String>) -> Unit = { counter, subscriber ->
+    val funOnSubscribe: (Int, ObservableEmitter<in String>) -> Unit = { counter, subscriber ->
         subscriber.onNext("hello_$counter")
-        subscriber.onCompleted()
+        subscriber.onComplete()
     }
 
-    val asyncObservable: (Subscriber<in Int>) -> Unit = { subscriber ->
+    val asyncObservable: (ObservableEmitter<in Int>) -> Unit = { subscriber ->
         thread {
             Thread.sleep(50)
             subscriber.onNext(1)
             subscriber.onNext(2)
             subscriber.onNext(3)
-            subscriber.onCompleted()
+            subscriber.onComplete()
         }
     }
 
 
-
-    inner class TestFactory() {
+    inner class TestFactory {
         var counter = 1
 
         val numbers: Observable<Int>
             get() = listOf(1, 3, 2, 5, 4).toObservable()
 
-        val onSubscribe: (Subscriber<in String>) -> Unit
+        val onSubscribe: (ObservableEmitter<in String>) -> Unit
             get() = funOnSubscribe(p1 = counter++) // partial applied function
 
         val observable: Observable<String>

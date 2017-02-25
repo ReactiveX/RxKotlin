@@ -1,19 +1,55 @@
 package rx.lang.kotlin
 
-import rx.Subscription
-import rx.subscriptions.CompositeSubscription
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.disposables.Disposable
+
+private val onNextStub: (Any) -> Unit = {}
+private val onErrorStub: (Throwable) -> Unit = {}
+private val onCompleteStub: () -> Unit = {}
 
 /**
- * subscription += observable.subscribe{}
+ * Overloaded subscribe function that allow passing named parameters
  */
-operator fun CompositeSubscription.plusAssign(subscription: Subscription) = add(subscription)
+fun <T : Any> Observable<T>.subscribeBy(
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onNext, onError, onComplete)
 
 /**
- * Add the subscription to a CompositeSubscription.
- * @param compositeSubscription CompositeSubscription to add this subscription to
- * @return this instance
+ * Overloaded subscribe function that allow passing named parameters
  */
-fun Subscription.addTo(compositeSubscription: CompositeSubscription) : Subscription {
-    compositeSubscription.add(this)
-    return this
-}
+fun <T : Any> Flowable<T>.subscribeBy(
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onNext, onError, onComplete)
+
+/**
+ * Overloaded subscribe function that allow passing named parameters
+ */
+fun <T : Any> Single<T>.subscribeBy(
+        onSuccess: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub
+): Disposable = subscribe(onSuccess, onError)
+
+/**
+ * Overloaded subscribe function that allow passing named parameters
+ */
+fun <T : Any> Maybe<T>.subscribeBy(
+        onSuccess: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onSuccess, onError, onComplete)
+
+/**
+ * Overloaded subscribe function that allow passing named parameters
+ */
+fun Completable.subscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onComplete, onError)
