@@ -4,15 +4,15 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.fail
 import org.junit.Ignore
+import org.junit.Test
 import rx.Observable
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.concurrent.atomic.AtomicInteger
-import org.junit.Test as test
-
 
 class ObservablesTest {
-    @test fun testCreation() {
+
+    @Test fun testCreation() {
         val o0: Observable<Int> = Observable.empty()
         Observable.create<Int> { s ->
             s.onNext(1)
@@ -36,7 +36,7 @@ class ObservablesTest {
         assertNotNull(o5)
     }
 
-    @test fun testExampleFromReadme() {
+    @Test fun testExampleFromReadme() {
         val observable = Observable.create<String> { subscriber ->
             subscriber.apply {
                 onNext("H")
@@ -57,40 +57,40 @@ class ObservablesTest {
         assertEquals("Hello", result)
     }
 
-    @test fun iteratorObservable() {
+    @Test fun iteratorObservable() {
         assertEquals(listOf(1, 2, 3), listOf(1, 2, 3).iterator().toObservable().toList().toBlocking().single())
     }
 
-    @test fun intProgressionStep1Empty() {
+    @Test fun intProgressionStep1Empty() {
         assertEquals(listOf(1), (1..1).toObservable().toList().toBlocking().first())
     }
 
-    @test fun intProgressionStep1() {
+    @Test fun intProgressionStep1() {
         assertEquals((1..10).toList(), (1..10).toObservable().toList().toBlocking().first())
     }
 
-    @test fun intProgressionDownTo() {
+    @Test fun intProgressionDownTo() {
         assertEquals((1 downTo 10).toList(), (1 downTo 10).toObservable().toList().toBlocking().first())
     }
 
     @Ignore
-    @test fun intProgressionOverflow() {
+    @Test fun intProgressionOverflow() {
         // too slow
         assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE).map { Integer.MAX_VALUE - it }.toList().toBlocking().first())
     }
 
-    @test fun filterNotNull() {
+    @Test fun filterNotNull() {
         val o: Observable<Int> = listOf(1, null).toObservable().filterNotNull()
         o.toList().forEach {
             assertEquals(listOf(1), it)
         }
     }
 
-    @test fun requireNoNullsWithoutNulls() {
+    @Test fun requireNoNullsWithoutNulls() {
         (listOf(1, 2) as List<Int?>).toObservable().requireNoNulls().subscribe()
     }
 
-    @test fun requireNoNulls() {
+    @Test fun requireNoNulls() {
         try {
             val o: Observable<Int> = listOf(1, null).toObservable().requireNoNulls()
 
@@ -100,7 +100,7 @@ class ObservablesTest {
         }
     }
 
-    @test fun testWithIndex() {
+    @Test fun testWithIndex() {
         listOf("a", "b", "c").toObservable().
                 withIndex().
                 toList().
@@ -109,7 +109,7 @@ class ObservablesTest {
                 }
     }
 
-    @test fun `withIndex() shouldn't share index between multiple subscribers`() {
+    @Test fun `withIndex() shouldn't share index between multiple subscribers`() {
         val o = listOf("a", "b", "c").toObservable().withIndex()
 
         val subscriber1 = TestSubscriber<IndexedValue<String>>()
@@ -125,19 +125,19 @@ class ObservablesTest {
         subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
     }
 
-    @test fun testFold() {
+    @Test fun testFold() {
         listOf(1, 2, 3).toObservable().fold(0) { acc, e -> acc + e }.single().forEach {
             assertEquals(6, it)
         }
     }
 
-    @test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
+    @Test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
         kotlin.sequences.generateSequence(0) { it + 1 }.toObservable().take(3).toList().forEach {
             assertEquals(listOf(0, 1, 2), it)
         }
     }
 
-    @test fun `infinite iterable should not hang or produce too many elements`() {
+    @Test fun `infinite iterable should not hang or produce too many elements`() {
         val generated = AtomicInteger()
         kotlin.sequences.generateSequence { generated.incrementAndGet() }.toObservable().
                 take(100).
@@ -147,24 +147,24 @@ class ObservablesTest {
         assertEquals(100, generated.get())
     }
 
-    @test fun testFlatMapSequence() {
+    @Test fun testFlatMapSequence() {
         assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
                 listOf(1, 2, 3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().toBlocking().single()
         )
     }
 
-    @test fun testCombineLatest() {
+    @Test fun testCombineLatest() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
         assertEquals(list, list.map { Observable.just(it) }.combineLatest { it }.toBlocking().first())
     }
 
-    @test fun testZip() {
+    @Test fun testZip() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
         assertEquals(list, list.map { Observable.just(it) }.zip { it }.toBlocking().first())
     }
 
-    @test fun testCast() {
+    @Test fun testCast() {
         val source = Observable.just<Any>(1, 2)
         val observable = source.cast<Int>()
         val subscriber = TestSubscriber<Int>()
@@ -176,7 +176,7 @@ class ObservablesTest {
         }
     }
 
-    @test fun testCastWithWrongType() {
+    @Test fun testCastWithWrongType() {
         val source = Observable.just<Any>(1, 2)
         val observable = source.cast<String>()
         val subscriber = TestSubscriber<Any>()
@@ -184,7 +184,7 @@ class ObservablesTest {
         subscriber.assertError(ClassCastException::class.java)
     }
 
-    @test fun testOfType() {
+    @Test fun testOfType() {
         val source = Observable.just<Number>(BigDecimal.valueOf(15, 1), 2, BigDecimal.valueOf(42), 15)
 
         val intSubscriber = TestSubscriber<Int>()
@@ -220,5 +220,13 @@ class ObservablesTest {
             assertNoErrors()
             assertCompleted()
         }
+    }
+
+    @Test fun onErrorReturnNull() {
+        val testSubscriber = TestSubscriber<String>()
+        Observable.error<String>(RuntimeException())
+                .onErrorReturnNull()
+                .subscribe(testSubscriber)
+        testSubscriber.assertValue(null)
     }
 }

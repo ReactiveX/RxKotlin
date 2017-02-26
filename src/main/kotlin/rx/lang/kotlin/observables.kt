@@ -2,6 +2,7 @@ package rx.lang.kotlin
 
 import rx.Observable
 import rx.Subscriber
+import rx.functions.Func1
 import rx.observables.BlockingObservable
 
 fun BooleanArray.toObservable(): Observable<Boolean> = this.toList().toObservable()
@@ -28,13 +29,15 @@ fun <T> Throwable.toObservable(): Observable<T> = Observable.error(this)
 fun <T> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.merge(this.toObservable())
 fun <T> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
 
-
 fun <T, R> Observable<T>.fold(initial: R, body: (R, T) -> R): Observable<R> = reduce(initial, { a, e -> body(a, e) })
 fun <T> Observable<T>.onError(block: (Throwable) -> Unit): Observable<T> = doOnError(block)
-@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND") fun <T> Observable<T>.firstOrNull(): Observable<T?> = firstOrDefault(null)
+@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
+fun <T> Observable<T>.firstOrNull(): Observable<T?> = firstOrDefault(null)
+
 fun <T> BlockingObservable<T>.firstOrNull(): T = firstOrDefault(null)
 
-@Suppress("BASE_WITH_NULLABLE_UPPER_BOUND") fun <T> Observable<T>.onErrorReturnNull(): Observable<T?> = onErrorReturn { null }
+@Suppress("RedundantSamConstructor")
+fun <T> Observable<T>.onErrorReturnNull(): Observable<T?> = onErrorReturn(Func1<Throwable, T?> { t -> null })
 
 fun <T, R> Observable<T>.lift(operator: (Subscriber<in R>) -> Subscriber<T>): Observable<R> = lift { t1 -> operator(t1!!) }
 
