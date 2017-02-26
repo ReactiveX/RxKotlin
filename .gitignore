@@ -69,3 +69,4 @@ bin/
 # Scala build
 *.cache
 /.nb-gradle/private/
+local.properties

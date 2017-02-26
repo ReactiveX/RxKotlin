@@ -1,6 +1,8 @@
 package rx.lang.kotlin
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.fail
 import org.junit.Ignore
 import rx.Observable
 import rx.observers.TestSubscriber
@@ -11,16 +13,20 @@ import org.junit.Test as test
 
 class ObservablesTest {
     @test fun testCreation() {
-        val o0 : Observable<Int> = emptyObservable()
-        observable<Int> { s -> s.onNext(1); s.onNext(777); s.onCompleted() }.toList().forEach {
+        val o0: Observable<Int> = Observable.empty()
+        Observable.create<Int> { s ->
+            s.onNext(1)
+            s.onNext(777)
+            s.onCompleted()
+        }.toList().forEach {
             assertEquals(listOf(1, 777), it)
         }
-        val o1 : Observable<Int> = listOf(1, 2, 3).toObservable()
-        val o2 : Observable<List<Int>> = listOf(1, 2, 3).toSingletonObservable()
+        val o1: Observable<Int> = listOf(1, 2, 3).toObservable()
+        val o2: Observable<List<Int>> = listOf(1, 2, 3).toSingle().toObservable()
 
-        val o3 : Observable<Int> = deferredObservable { observable<Int> { s -> s.onNext(1) } }
-        val o4 : Observable<Int> = Array(3) {0}.toObservable()
-        val o5 : Observable<Int> = IntArray(3).toObservable()
+        val o3: Observable<Int> = Observable.defer { Observable.create<Int> { s -> s.onNext(1) } }
+        val o4: Observable<Int> = Array(3) { 0 }.toObservable()
+        val o5: Observable<Int> = IntArray(3).toObservable()
 
         assertNotNull(o0)
         assertNotNull(o1)
@@ -31,29 +37,34 @@ class ObservablesTest {
     }
 
     @test fun testExampleFromReadme() {
-        val result = observable<String> { subscriber ->
-            subscriber.onNext("H")
-            subscriber.onNext("e")
-            subscriber.onNext("l")
-            subscriber.onNext("")
-            subscriber.onNext("l")
-            subscriber.onNext("o")
-            subscriber.onCompleted()
-        }.filter { it.isNotEmpty() }.
-        fold (StringBuilder()) { sb, e -> sb.append(e) }.
-        map { it.toString() }.
-        toBlocking().single()
+        val observable = Observable.create<String> { subscriber ->
+            subscriber.apply {
+                onNext("H")
+                onNext("e")
+                onNext("l")
+                onNext("")
+                onNext("l")
+                onNext("o")
+                onCompleted()
+            }
+        }
+        val result = observable.filter(String::isNotEmpty)
+                .fold(StringBuilder(), StringBuilder::append)
+                .map { it.toString() }
+                .toBlocking()
+                .single()
 
         assertEquals("Hello", result)
     }
 
     @test fun iteratorObservable() {
-        assertEquals(listOf(1,2,3), listOf(1,2,3).iterator().toObservable().toList().toBlocking().single())
+        assertEquals(listOf(1, 2, 3), listOf(1, 2, 3).iterator().toObservable().toList().toBlocking().single())
     }
 
     @test fun intProgressionStep1Empty() {
         assertEquals(listOf(1), (1..1).toObservable().toList().toBlocking().first())
     }
+
     @test fun intProgressionStep1() {
         assertEquals((1..10).toList(), (1..10).toObservable().toList().toBlocking().first())
     }
@@ -65,27 +76,27 @@ class ObservablesTest {
     @Ignore
     @test fun intProgressionOverflow() {
         // too slow
-        assertEquals((0..10).toList().reversed(), (-10 .. Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE).map{Integer.MAX_VALUE - it}.toList().toBlocking().first())
+        assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toObservable().skip(Integer.MAX_VALUE).map { Integer.MAX_VALUE - it }.toList().toBlocking().first())
     }
 
     @test fun filterNotNull() {
-        val o : Observable<Int> = listOf(1, null).toObservable().filterNotNull()
+        val o: Observable<Int> = listOf(1, null).toObservable().filterNotNull()
         o.toList().forEach {
             assertEquals(listOf(1), it)
         }
     }
 
     @test fun requireNoNullsWithoutNulls() {
-        (listOf(1,2) as List<Int?>).toObservable().requireNoNulls().subscribe()
+        (listOf(1, 2) as List<Int?>).toObservable().requireNoNulls().subscribe()
     }
 
     @test fun requireNoNulls() {
         try {
-            val o : Observable<Int> = listOf(1, null).toObservable().requireNoNulls()
+            val o: Observable<Int> = listOf(1, null).toObservable().requireNoNulls()
 
             o.subscribe()
             fail("shouldn't reach here")
-        } catch (expected : Throwable) {
+        } catch (expected: Throwable) {
         }
     }
 
@@ -115,13 +126,13 @@ class ObservablesTest {
     }
 
     @test fun testFold() {
-        listOf(1, 2, 3).toObservable().fold(0) {acc, e -> acc + e}.single().forEach {
+        listOf(1, 2, 3).toObservable().fold(0) { acc, e -> acc + e }.single().forEach {
             assertEquals(6, it)
         }
     }
 
     @test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
-        kotlin.sequences.generateSequence(0) {it + 1}.toObservable().take(3).toList().forEach {
+        kotlin.sequences.generateSequence(0) { it + 1 }.toObservable().take(3).toList().forEach {
             assertEquals(listOf(0, 1, 2), it)
         }
     }
@@ -139,18 +150,18 @@ class ObservablesTest {
     @test fun testFlatMapSequence() {
         assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
-            listOf(1,2,3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().toBlocking().single()
+                listOf(1, 2, 3).toObservable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().toBlocking().single()
         )
     }
 
     @test fun testCombineLatest() {
-        val list = listOf(1,2,3,2,3,4,3,4,5)
-        assertEquals(list, list.map { it.toSingletonObservable() }.combineLatest { it }.toBlocking().first())
+        val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
+        assertEquals(list, list.map { Observable.just(it) }.combineLatest { it }.toBlocking().first())
     }
 
     @test fun testZip() {
-        val list = listOf(1,2,3,2,3,4,3,4,5)
-        assertEquals(list, list.map { it.toSingletonObservable() }.zip { it }.toBlocking().first())
+        val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
+        assertEquals(list, list.map { Observable.just(it) }.zip { it }.toBlocking().first())
     }
 
     @test fun testCast() {

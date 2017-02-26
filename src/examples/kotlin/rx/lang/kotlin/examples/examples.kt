@@ -1,10 +1,16 @@
 package rx.lang.kotlin.examples
 
 import rx.Observable
-import rx.lang.kotlin.*
+import rx.lang.kotlin.addTo
+import rx.lang.kotlin.combineLatest
+import rx.lang.kotlin.onError
+import rx.lang.kotlin.plusAssign
+import rx.lang.kotlin.subscribeBy
+import rx.lang.kotlin.toObservable
+import rx.lang.kotlin.zip
 import rx.subscriptions.CompositeSubscription
 import java.net.URL
-import java.util.*
+import java.util.Scanner
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -36,54 +42,58 @@ fun main(args: Array<String>) {
 
     zip(listOfObservables())
 
-    simpleObservable().subscribe(FunctionSubscriber<String>()
-            .onNext { s -> println("1st onNext => $s") }
-            .onNext { s -> println("2nd onNext => $s") })
+    simpleObservable().subscribeBy(
+            onNext = { s: String -> println("1st onNext => $s") } andThen { s -> println("2nd onNext => $s") }
+    )
 
     addToCompositeSubscription()
 }
 
-private fun URL.toScannerObservable() = observable<String> { s ->
+private fun URL.toScannerObservable() = Observable.create<String> { s ->
     this.openStream().use { stream ->
-        Scanner(stream).useDelimiter("\\A").toObservable().subscribe(s)
+        Scanner(stream)
+                .useDelimiter("\\A")
+                .toObservable()
+                .subscribe { s.onNext(it) }
     }
 }
 
 fun syncObservable(): Observable<String> =
-    observable { subscriber ->
-        (0..75).toObservable()
-                .map { "Sync value_$it" }
-                .subscribe(subscriber)
-    }
+        Observable.create { subscriber ->
+            (0..75).toObservable()
+                    .map { "Sync value_$it" }
+                    .subscribe(subscriber)
+        }
 
 fun asyncObservable(): Observable<String> =
-    observable { subscriber ->
-        thread {
-            (0..75).toObservable()
-                    .map { "Async value_$it" }
-                    .subscribe(subscriber)
+        Observable.create { subscriber ->
+            thread {
+                (0..75).toObservable()
+                        .map { "Async value_$it" }
+                        .subscribe(subscriber)
+            }
         }
-    }
 
 fun asyncWiki(vararg articleNames: String): Observable<String> =
-    observable { subscriber ->
-        thread {
-            articleNames.toObservable()
-                    .flatMap { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().first() }
-                    .subscribe(subscriber)
+        Observable.create { subscriber ->
+            thread {
+                articleNames.toObservable()
+                        .flatMap { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().first() }
+                        .subscribe(subscriber)
+            }
         }
-    }
 
 fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> =
-    observable { subscriber ->
-        thread {
-            articleNames.toObservable()
-                    .flatMap { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().first() }
-                    .onError { e ->
-                        subscriber.onError(e) }
-                    .subscribe(subscriber)
+        Observable.create { subscriber ->
+            thread {
+                articleNames.toObservable()
+                        .flatMap { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().first() }
+                        .onError { e ->
+                            subscriber.onError(e)
+                        }
+                        .subscribe(subscriber)
+            }
         }
-    }
 
 fun simpleComposition() {
     asyncObservable().skip(10).take(5)
@@ -98,7 +108,7 @@ fun combineLatest(observables: List<Observable<String>>) {
 }
 
 fun zip(observables: List<Observable<String>>) {
-    observables.zip { it.reduce { one, two -> one + two } }.subscribe { println(it) }
+    observables.zip { it.reduce { one, two -> one + two } }.subscribe(::println)
 }
 
 fun simpleObservable(): Observable<String> = (0..17).toObservable().map { "Simple $it" }
@@ -113,3 +123,5 @@ fun addToCompositeSubscription() {
 
     compositeSubscription.unsubscribe()
 }
+
+infix inline fun <T : Any> ((T) -> Unit).andThen(crossinline block: (T) -> Unit): (T) -> Unit = { this(it); block(it) }
