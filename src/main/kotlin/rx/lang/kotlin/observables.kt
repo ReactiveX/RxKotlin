@@ -107,3 +107,8 @@ fun <T, R> List<Observable<T>>.zip(zipFunction: (args: List<T>) -> R): Observabl
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
  */
 inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class.java)
+
+/**
+ * Filters the items emitted by an Observable, only emitting those of the specified type.
+ */
+inline fun <reified R : Any> Observable<*>.ofType(): Observable<R> = ofType(R::class.java)
