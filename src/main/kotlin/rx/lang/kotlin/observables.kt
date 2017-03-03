@@ -30,7 +30,6 @@ fun <T> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.merge(th
 fun <T> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
 
 fun <T, R> Observable<T>.fold(initial: R, body: (R, T) -> R): Observable<R> = reduce(initial, { a, e -> body(a, e) })
-fun <T> Observable<T>.onError(block: (Throwable) -> Unit): Observable<T> = doOnError(block)
 @Suppress("BASE_WITH_NULLABLE_UPPER_BOUND")
 fun <T> Observable<T>.firstOrNull(): Observable<T?> = firstOrDefault(null)
 
