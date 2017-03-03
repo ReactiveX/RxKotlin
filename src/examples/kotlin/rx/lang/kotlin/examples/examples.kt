@@ -3,7 +3,6 @@ package rx.lang.kotlin.examples
 import rx.Observable
 import rx.lang.kotlin.addTo
 import rx.lang.kotlin.combineLatest
-import rx.lang.kotlin.onError
 import rx.lang.kotlin.plusAssign
 import rx.lang.kotlin.subscribeBy
 import rx.lang.kotlin.toObservable
@@ -88,7 +87,7 @@ fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> 
             thread {
                 articleNames.toObservable()
                         .flatMap { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().first() }
-                        .onError { e ->
+                        .doOnError { e ->
                             subscriber.onError(e)
                         }
                         .subscribe(subscriber)
