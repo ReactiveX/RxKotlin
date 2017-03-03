@@ -49,7 +49,7 @@ class ObservablesTest {
             }
         }
         val result = observable.filter(String::isNotEmpty)
-                .fold(StringBuilder(), StringBuilder::append)
+                .reduce(StringBuilder(), StringBuilder::append)
                 .map { it.toString() }
                 .toBlocking()
                 .single()
@@ -123,12 +123,6 @@ class ObservablesTest {
 
         subscriber2.awaitTerminalEvent()
         subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-    }
-
-    @Test fun testFold() {
-        listOf(1, 2, 3).toObservable().fold(0) { acc, e -> acc + e }.single().forEach {
-            assertEquals(6, it)
-        }
     }
 
     @Test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
