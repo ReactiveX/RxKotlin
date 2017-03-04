@@ -35,8 +35,6 @@ fun <T> BlockingObservable<T>.firstOrNull(): T = firstOrDefault(null)
 @Suppress("RedundantSamConstructor")
 fun <T> Observable<T>.onErrorReturnNull(): Observable<T?> = onErrorReturn(Func1<Throwable, T?> { t -> null })
 
-fun <T, R> Observable<T>.lift(operator: (Subscriber<in R>) -> Subscriber<T>): Observable<R> = lift { t1 -> operator(t1!!) }
-
 /**
  * Returns [Observable] that requires all objects to be non null. Raising [NullPointerException] in case of null object
  */
