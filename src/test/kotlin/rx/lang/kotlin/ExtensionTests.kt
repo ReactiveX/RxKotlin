@@ -17,8 +17,7 @@
 package rx.lang.kotlin
 
 import org.funktionale.partials.invoke
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
+import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.any
 import org.mockito.Mockito.inOrder
@@ -248,6 +247,37 @@ class ExtensionTests : KotlinTests() {
         inOrder.verify(a, times(1)).received(2L)
         inOrder.verifyNoMoreInteractions()
     }
+
+    @Test
+    fun testJoinToString1() {
+
+        val result = Observable.range(1,5)
+                .joinToString(separator = ",")
+                .toBlocking().first()
+
+        assertTrue(result == "1,2,3,4,5")
+    }
+    @Test
+    fun testJoinToString2() {
+
+        val result = Observable.range(1,5)
+                .joinToString(separator = ",", prefix = "(", postfix = ")")
+                .toBlocking().first()
+
+        assertTrue(result == "(1,2,3,4,5)")
+    }
+
+    @Test
+    fun testJoinToString3() {
+
+        val result = Observable.range(1,1000)
+                .joinToString(separator = ",", prefix = "(", postfix = ")", limit=10)
+                .toBlocking().first()
+
+        assertTrue(result == "(1,2,3,4,5,6,7,8,9,10,...)")
+    }
+
+
 
     val funOnSubscribe: (Int, Subscriber<in String>) -> Unit = { counter, subscriber ->
         subscriber.onNext("hello_$counter")
