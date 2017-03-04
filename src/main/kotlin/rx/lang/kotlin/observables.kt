@@ -20,9 +20,7 @@ fun IntProgression.toObservable(): Observable<Int> =
 
 fun <T> Iterator<T>.toObservable(): Observable<T> = toIterable().toObservable()
 fun <T> Iterable<T>.toObservable(): Observable<T> = Observable.from(this)
-fun <T> Sequence<T>.toObservable(): Observable<T> = Observable.from(object : Iterable<T> {
-    override fun iterator(): Iterator<T> = this@toObservable.iterator()
-})
+fun <T> Sequence<T>.toObservable(): Observable<T> = asIterable().toObservable()
 
 fun <T> Throwable.toObservable(): Observable<T> = Observable.error(this)
 
