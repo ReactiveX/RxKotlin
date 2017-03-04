@@ -5,13 +5,13 @@ import rx.Subscriber
 import rx.functions.Func1
 import rx.observables.BlockingObservable
 
-fun BooleanArray.toObservable(): Observable<Boolean> = this.toList().toObservable()
-fun ByteArray.toObservable(): Observable<Byte> = this.toList().toObservable()
-fun ShortArray.toObservable(): Observable<Short> = this.toList().toObservable()
-fun IntArray.toObservable(): Observable<Int> = this.toList().toObservable()
-fun LongArray.toObservable(): Observable<Long> = this.toList().toObservable()
-fun FloatArray.toObservable(): Observable<Float> = this.toList().toObservable()
-fun DoubleArray.toObservable(): Observable<Double> = this.toList().toObservable()
+fun BooleanArray.toObservable(): Observable<Boolean> = Observable.defer { this.iterator().toObservable() }
+fun ByteArray.toObservable(): Observable<Byte> = Observable.defer { this.iterator().toObservable() }
+fun ShortArray.toObservable(): Observable<Short> = Observable.defer { this.iterator().toObservable() }
+fun IntArray.toObservable(): Observable<Int> = Observable.defer { this.iterator().toObservable() }
+fun LongArray.toObservable(): Observable<Long> = Observable.defer { this.iterator().toObservable() }
+fun FloatArray.toObservable(): Observable<Float> = Observable.defer { this.iterator().toObservable() }
+fun DoubleArray.toObservable(): Observable<Double> = Observable.defer { this.iterator().toObservable() }
 fun <T> Array<out T>.toObservable(): Observable<T> = Observable.from(this)
 
 fun IntProgression.toObservable(): Observable<Int> =
