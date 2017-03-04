@@ -4,12 +4,13 @@ import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import rx.Observable
+import rx.Single
 import java.util.concurrent.Callable
 import org.junit.Test as test
 
 class SingleTest : KotlinTests() {
     @test fun testCreate() {
-        single<String> { s ->
+        Single.create<String> { s ->
             s.onSuccess("Hello World!")
         }.subscribe { result ->
             a.received(result)
