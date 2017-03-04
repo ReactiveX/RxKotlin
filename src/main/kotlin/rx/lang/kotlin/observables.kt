@@ -1,7 +1,6 @@
 package rx.lang.kotlin
 
 import rx.Observable
-import rx.Subscriber
 import rx.functions.Func1
 import rx.observables.BlockingObservable
 
