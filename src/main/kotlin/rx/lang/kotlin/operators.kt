@@ -27,7 +27,17 @@ fun <T> Observable<T>.joinToString(separator: String? = null,
                                    limit: Int = -1,
                                    truncated: String = "..."
 ) = map { it.toString() }
-        .let { if (limit <= 0) it else Observable.concat(it.take(limit), Observable.just(truncated)) }
+        .let { if (limit <= 0) it else
+            it.publish().autoConnect(2)
+                    .let {
+                        Observable.merge(
+                                it.take(limit),
+                                it.take(limit + 1)
+                                        .count()
+                                        .flatMap { if (it <= limit) Observable.empty() else Observable.just(truncated) }
+                        )
+                    }
+        }
         .let {
             if (separator == null)
                 it.reduce("") { rolling, next -> rolling + next }
