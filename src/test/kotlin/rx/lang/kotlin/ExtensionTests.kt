@@ -267,26 +267,6 @@ class ExtensionTests : KotlinTests() {
         assertTrue(result == "(1,2,3,4,5)")
     }
 
-    @Test
-    fun testJoinToString3() {
-
-        val result = Observable.range(1,1000)
-                .joinToString(separator = ",", prefix = "(", postfix = ")", limit=10)
-                .toBlocking().first()
-
-        assertTrue(result == "(1,2,3,4,5,6,7,8,9,10,...)")
-    }
-
-    @Test
-    fun testJoinToString4() {
-
-        val result = Observable.range(1,9)
-                .joinToString(separator = ",", prefix = "(", postfix = ")", limit=10)
-                .toBlocking().first().apply{ println(this) }
-
-        assertTrue(result == "(1,2,3,4,5,6,7,8,9)")
-    }
-
     val funOnSubscribe: (Int, Subscriber<in String>) -> Unit = { counter, subscriber ->
         subscriber.onNext("hello_$counter")
         subscriber.onCompleted()

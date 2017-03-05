@@ -19,29 +19,29 @@ fun <T> Observable<Observable<T>>.switchLatest() = switchMap { it }
 
 
 /**
- * Joins the emissions of a finite `Observable` into a `String`
+ * Joins the emissions of a finite `Observable` into a `String`.
+ *
+ * The `prefix` is appended to the front of the joined `String`.
+ *
+ * The `postfix` is appended to the end of the joined `String`.
+ *
 */
 fun <T> Observable<T>.joinToString(separator: String? = null,
                                    prefix: String? = null,
-                                   postfix: String? = null,
-                                   limit: Int = -1,
-                                   truncated: String = "..."
-) = map { it.toString() }
-        .let { if (limit <= 0) it else
-            it.publish().autoConnect(2)
-                    .let {
-                        Observable.merge(
-                                it.take(limit),
-                                it.take(limit + 1)
-                                        .count()
-                                        .flatMap { if (it <= limit) Observable.empty() else Observable.just(truncated) }
-                        )
+                                   postfix: String? = null
+) = Observable.fromCallable { StringBuilder(prefix?:"") }.flatMap { sb ->
+    this.map { it.toString() }
+            .let {
+                if (separator == null)
+                    it.doOnNext { sb.append(it) }
+                else
+                    it.withIndex().doOnNext {
+                        if (it.index > 0) {
+                            sb.append(separator)
+                        }
+                        sb.append(it.value)
                     }
-        }
-        .let {
-            if (separator == null)
-                it.reduce("") { rolling, next -> rolling + next }
-            else
-                it.withIndex().reduce("") { rolling, next -> rolling + (if (next.index == 0) "" else separator) + next.value }
-        }.let { if (prefix == null) it else it.map { str -> prefix + str } }
-        .let { if (postfix == null) it else it.map { str -> str + postfix } }
+            }.count()
+            .doOnNext { sb.append(postfix?:"") }
+            .map { sb.toString() }
+}
