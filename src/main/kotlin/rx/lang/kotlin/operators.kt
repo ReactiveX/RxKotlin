@@ -21,27 +21,17 @@ fun <T> Observable<Observable<T>>.switchLatest() = switchMap { it }
 /**
  * Joins the emissions of a finite `Observable` into a `String`.
  *
- * The `prefix` is appended to the front of the joined `String`.
+ * @param separator is the dividing character(s) between each element in the concatenated `String`
  *
- * The `postfix` is appended to the end of the joined `String`.
+ * @param prefix is the preceding `String` before the concatenated elements (optional)
  *
-*/
+ * @param postfix is the succeeding `String` after the concatenated elements (optional)
+ */
 fun <T> Observable<T>.joinToString(separator: String? = null,
                                    prefix: String? = null,
                                    postfix: String? = null
-) = Observable.fromCallable { StringBuilder(prefix?:"") }.flatMap { sb ->
-    this.map { it.toString() }
-            .let {
-                if (separator == null)
-                    it.doOnNext { sb.append(it) }
-                else
-                    it.withIndex().doOnNext {
-                        if (it.index > 0) {
-                            sb.append(separator)
-                        }
-                        sb.append(it.value)
-                    }
-            }.count()
-            .doOnNext { sb.append(postfix?:"") }
-            .map { sb.toString() }
-}
+) = withIndex()
+        .collect( { StringBuilder(prefix?:"") },
+            { builder: StringBuilder, next: IndexedValue<T> -> builder.append(if (next.index == 0) "" else separator?:"").append(next.value) }
+        )
+        .map {  it.append(postfix?:"").toString() }
