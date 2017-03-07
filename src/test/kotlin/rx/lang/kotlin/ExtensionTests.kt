@@ -57,7 +57,6 @@ class ExtensionTests : KotlinTests() {
         verify(a, times(1)).received(3)
     }
 
-
     @Test fun testLast() {
         assertEquals("three", listOf("one", "two", "three").toObservable().blockingLast())
     }
@@ -78,7 +77,6 @@ class ExtensionTests : KotlinTests() {
         verify(a, times(4)).received(any(Notification::class.java))
         verify(a, times(0)).error(any(Exception::class.java))
     }
-
 
     @Test fun testMerge() {
         listOf(listOf(1, 2, 3).toObservable(),
@@ -110,7 +108,6 @@ class ExtensionTests : KotlinTests() {
         verify(a, times(1)).received("hello_2")
     }
 
-
     @Test fun testFromWithIterable() {
         assertEquals(5, listOf(1, 2, 3, 4, 5).toObservable().count().blockingGet())
     }
@@ -123,45 +120,64 @@ class ExtensionTests : KotlinTests() {
     }
 
     @Test fun testScriptWithOnNext() {
-        TestFactory().observable.subscribe(received())
+        TestFactory().observable
+                .subscribe(received())
         verify(a, times(1)).received("hello_1")
     }
 
     @Test fun testSkipTake() {
-        listOf(1, 2, 3).toObservable().skip(1).take(1).subscribe(received())
+        listOf(1, 2, 3)
+                .toObservable()
+                .skip(1)
+                .take(1)
+                .subscribe(received())
         verify(a, times(0)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
     }
 
     @Test fun testSkip() {
-        listOf(1, 2, 3).toObservable().skip(2).subscribe(received())
+        listOf(1, 2, 3)
+                .toObservable()
+                .skip(2)
+                .subscribe(received())
         verify(a, times(0)).received(1)
         verify(a, times(0)).received(2)
         verify(a, times(1)).received(3)
     }
 
     @Test fun testTake() {
-        listOf(1, 2, 3).toObservable().take(2).subscribe(received())
+        listOf(1, 2, 3)
+                .toObservable()
+                .take(2)
+                .subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
     }
 
     @Test fun testTakeLast() {
-        TestFactory().observable.takeLast(1).subscribe(received())
+        TestFactory().observable
+                .takeLast(1)
+                .subscribe(received())
         verify(a, times(1)).received("hello_1")
     }
 
     @Test fun testTakeWhile() {
-        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.subscribe(received())
+        listOf(1, 2, 3)
+                .toObservable()
+                .takeWhile { x -> x < 3 }
+                .subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
     }
 
     @Test fun testTakeWhileWithIndex() {
-        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.zipWith((0..Integer.MAX_VALUE).toObservable(), BiFunction<Int, Int, Int> { x, i -> x }).subscribe(received())
+        listOf(1, 2, 3).toObservable()
+                .takeWhile { x -> x < 3 }
+                .zipWith((0..Integer.MAX_VALUE).toObservable(), BiFunction { x: Int, i: Int -> x })
+                .subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(0)).received(3)
@@ -269,7 +285,6 @@ class ExtensionTests : KotlinTests() {
                 .assertResult("1,2,3,4,5")
     }
 
-
     @Test
     fun testJoinToString2() {
         Observable.range(1, 5)
@@ -290,6 +305,5 @@ class ExtensionTests : KotlinTests() {
 
         val observable: Observable<String>
             get() = observable(onSubscribe)
-
     }
 }
