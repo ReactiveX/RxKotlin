@@ -270,14 +270,16 @@ class ExtensionTests : KotlinTests() {
     }
 
 
-@Test
+    @Test
     fun testJoinToString2() {
         Observable.range(1, 5)
                 .joinToString(separator = ",", prefix = "(", postfix = ")")
                 .test()
                 .await()
                 .assertResult("(1,2,3,4,5)")
-    }    inner class TestFactory {
+    }
+
+    inner class TestFactory {
         var counter = 1
 
         val numbers: Observable<Int>
