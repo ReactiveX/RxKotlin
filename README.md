@@ -25,36 +25,51 @@ fun main(args: Array<String>) {
 }
 ```
 
+## Build
+
+[![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=0.x)](https://travis-ci.org/ReactiveX/RxKotlin)
+
+
+## Binaries
+
+Until we finalize deployment to Maven Central, you can use Gradle or Maven with [JitPack](https://jitpack.io/) to build directly off a snapshot, branch, or commit of this repository.  
+
+For example, to build off the 1.x branch, use this setup for Gradle:
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile 'com.github.ReactiveX:RxKotlin:1.x-SNAPSHOT'
+}
+```
+
+Use this setup for Maven: 
+
+```xml
+	<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+    
+    <dependency>
+	    <groupId>com.github.ReactiveX</groupId>
+	    <artifactId>RxKotlin</artifactId>
+	    <version>1.x-SNAPSHOT</version>
+	</dependency>
+```
+
+Learn more about building this project with RxKotlin [here](https://jitpack.io/#ReactiveX/RxKotlin).
+
 ## Kotlin Slack Channel
 
 Join us on the #rx channel in Kotlin Slack!
 
 https://kotlinlang.slack.com/messages/rx
-
-
-## Build
-
-[![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=0.x)](https://travis-ci.org/ReactiveX/RxKotlin)
-
-## Binaries
-
-Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
-
-Example for Maven:
-
-```xml
-<dependency>
-    <groupId>io.reactivex</groupId>
-    <artifactId>rxkotlin</artifactId>
-    <version>x.y.z</version>
-</dependency>
-```
-
-and for Gradle:
-
-```groovy
-compile 'io.reactivex:rxkotlin:x.y.z'
-```
 
 ## Contributing
 
