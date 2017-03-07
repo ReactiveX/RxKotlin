@@ -3,20 +3,20 @@
 This adaptor exposes a set of Extension functions that allow a more idiomatic Kotlin usage
 
 ```kotlin
-    observable<String> { subscriber ->
-        subscriber.onNext("H")
-        subscriber.onNext("e")
-        subscriber.onNext("l")
-        subscriber.onNext("")
-        subscriber.onNext("l")
-        subscriber.onNext("o")
-        subscriber.onCompleted()
-    }.filter { it.isNotEmpty() }
-    .fold (StringBuilder()) { sb, e -> sb.append(e) }
-    .map { it.toString() }
-    .subscribe { a.received(it) }
+observable<String> { subscriber ->
+    subscriber.onNext("H")
+    subscriber.onNext("e")
+    subscriber.onNext("l")
+    subscriber.onNext("")
+    subscriber.onNext("l")
+    subscriber.onNext("o")
+    subscriber.onCompleted()
+}.filter { it.isNotEmpty() }
+.fold (StringBuilder()) { sb, e -> sb.append(e) }
+.map { it.toString() }
+.subscribe { a.received(it) }
 
-    verify(a, times(1)).received("Hello")
+verify(a, times(1)).received("Hello")
 ```
 
 ## Build
