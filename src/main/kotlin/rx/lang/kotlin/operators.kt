@@ -31,7 +31,7 @@ fun <T> Observable<T>.joinToString(separator: String? = null,
                                    prefix: String? = null,
                                    postfix: String? = null
 ) = withIndex()
-        .collect( { StringBuilder(prefix?:"") },
-            { builder: StringBuilder, next: IndexedValue<T> -> builder.append(if (next.index == 0) "" else separator?:"").append(next.value) }
+        .collect( { StringBuilder(prefix ?: "") },
+            { builder: StringBuilder, next: IndexedValue<T> -> builder.append(if (next.index == 0) "" else separator ?: "").append(next.value) }
         )
-        .map {  it.append(postfix?:"").toString() }
+        .map {  it.append(postfix ?: "").toString() }
