@@ -32,7 +32,26 @@ fun main(args: Array<String>) {
 
 ## Binaries
 
-Until we finalize deployment to Maven Central, you can use Gradle or Maven with [JitPack](https://jitpack.io/) to build directly off a snapshot, branch, or commit of this repository.  
+
+Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
+
+Example for Maven:
+
+```xml
+<dependency>
+    <groupId>io.reactivex</groupId>
+    <artifactId>rxkotlin</artifactId>
+    <version>x.y.z</version>
+</dependency>
+```
+
+and for Gradle:
+
+```groovy
+compile 'io.reactivex:rxkotlin:x.y.z'
+```
+
+You can also use Gradle or Maven with [JitPack](https://jitpack.io/) to build directly off a snapshot, branch, or commit of this repository.
 
 For example, to build off the 1.x branch, use this setup for Gradle:
 
