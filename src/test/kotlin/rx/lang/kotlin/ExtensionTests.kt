@@ -52,9 +52,9 @@ class ExtensionTests : KotlinTests() {
 
     @Test fun testFilter() {
         listOf(1, 2, 3).toObservable().filter { it >= 2 }.subscribe(received())
-        verify(a, times(0)).received(1);
-        verify(a, times(1)).received(2);
-        verify(a, times(1)).received(3);
+        verify(a, times(0)).received(1)
+        verify(a, times(1)).received(2)
+        verify(a, times(1)).received(3)
     }
 
 
@@ -260,6 +260,23 @@ class ExtensionTests : KotlinTests() {
         }
     }
 
+    @Test
+    fun testJoinToString1() {
+        Observable.range(1, 5)
+                .joinToString(separator = ",")
+                .test()
+                .await()
+                .assertResult("1,2,3,4,5")
+    }
+
+    @Test
+    fun testJoinToString2() {
+        Observable.range(1, 5)
+                .joinToString(separator = ",", prefix = "(", postfix = ")")
+                .test()
+                .await()
+                .assertResult("(1,2,3,4,5)")
+    }
 
     inner class TestFactory {
         var counter = 1
