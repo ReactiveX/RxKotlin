@@ -63,7 +63,7 @@ Use this setup for Maven:
 	</dependency>
 ```
 
-Learn more about building this project with RxKotlin [here](https://jitpack.io/#ReactiveX/RxKotlin).
+Learn more about building this project with JitPack [here](https://jitpack.io/#ReactiveX/RxKotlin).
 
 ## Kotlin Slack Channel
 
