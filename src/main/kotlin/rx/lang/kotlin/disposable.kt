@@ -4,16 +4,16 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 /**
- * subscription += observable.subscribe()
+ * disposable += observable.subscribe()
  */
-operator fun CompositeDisposable.plusAssign(subscription: Disposable) {
-    add(subscription)
+operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
+    add(disposable)
 }
 
 /**
  * Add the subscription to a CompositeSubscription.
- * @param compositeSubscription CompositeSubscription to add this subscription to
+ * @param compositeDisposable CompositeDisposable to add this subscription to
  * @return this instance
  */
-fun Disposable.addTo(compositeSubscription: CompositeDisposable): Disposable
-        = apply { compositeSubscription.add(this) }
+fun Disposable.addTo(compositeDisposable: CompositeDisposable): Disposable
+        = apply { compositeDisposable.add(this) }
