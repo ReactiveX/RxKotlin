@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Netflix, Inc.
+ * Copyright 2017 Netflix, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ class ExtensionTests : KotlinTests() {
 
 
     @Test fun testCreate() {
-        observable<String> { subscriber ->
+        Observable.create<String> { subscriber ->
             subscriber.onNext("Hello")
             subscriber.onComplete()
         }.subscribe { result ->
@@ -189,14 +189,14 @@ class ExtensionTests : KotlinTests() {
     }
 
     @Test fun testForEach() {
-        observable(asyncObservable).blockingForEach(received())
+        Observable.create(asyncObservable).blockingForEach(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)
         verify(a, times(1)).received(3)
     }
 
     @Test(expected = RuntimeException::class) fun testForEachWithError() {
-        observable(asyncObservable).blockingForEach { throw RuntimeException("err") }
+        Observable.create(asyncObservable).blockingForEach { throw RuntimeException("err") }
         fail("we expect an exception to be thrown")
     }
 
@@ -231,7 +231,7 @@ class ExtensionTests : KotlinTests() {
         val testScheduler = TestScheduler()
         val worker = testScheduler.createWorker()
 
-        val observable = observable<Observable<Long>> { s ->
+        val observable = Observable.create<Observable<Long>> { s ->
             fun at(delay: Long, func: () -> Unit) {
                 worker.schedule({
                     func()
