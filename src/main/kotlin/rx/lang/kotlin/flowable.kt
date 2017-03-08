@@ -43,7 +43,6 @@ fun <T : Any> Flowable<T>.withIndex(): Flowable<IndexedValue<T>>
 inline fun <T : Any, R : Any> Flowable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Flowable<R>
         = flatMap { body(it).toFlowable() }
 
-fun <T : Any> Flowable<Flowable<T>>.switchOnNext(): Flowable<T> = Flowable.switchOnNext(this)
 
 /**
  * Flowable.combineLatest(List<? extends Flowable<? extends T>> sources, FuncN<? extends R> combineFunction)

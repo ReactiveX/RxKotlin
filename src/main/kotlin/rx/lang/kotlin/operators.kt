@@ -26,6 +26,12 @@ fun <T : Any> Observable<Observable<T>>.concatAll() = concatMap { it }
 fun <T : Any> Flowable<Flowable<T>>.concatAll() = concatMap { it }
 
 
+fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
+
+
+fun <T : Any> Flowable<Flowable<T>>.switchOnNext(): Flowable<T> = Flowable.switchOnNext(this)
+
+
 /**
  * Emits the latest `Observable<T>` emitted through an `Observable<Observable<T>>`. Same as calling `switchMap { it }`.
  */

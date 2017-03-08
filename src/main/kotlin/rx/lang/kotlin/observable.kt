@@ -44,7 +44,6 @@ fun <T : Any> Observable<T>.withIndex(): Observable<IndexedValue<T>>
 inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Observable<R>
         = flatMap { body(it).toObservable() }
 
-fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
 
 /**
  * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
