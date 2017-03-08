@@ -18,6 +18,9 @@ fun <T> Observable<Observable<T>>.concatAll() = concatMap { it }
 fun <T> Observable<Observable<T>>.switchLatest() = switchMap { it }
 
 
+fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
+
+
 /**
  * Joins the emissions of a finite `Observable` into a `String`.
  *

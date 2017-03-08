@@ -60,8 +60,6 @@ fun <T> Observable<T>.withIndex(): Observable<IndexedValue<T>> =
  */
 fun <T, R> Observable<T>.flatMapSequence(body: (T) -> Sequence<R>): Observable<R> = flatMap { body(it).toObservable() }
 
-fun <T> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
-
 /**
  * Observable.combineLatest(Iterable<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
