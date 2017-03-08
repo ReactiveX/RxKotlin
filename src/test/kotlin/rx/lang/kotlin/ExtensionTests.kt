@@ -304,6 +304,6 @@ class ExtensionTests : KotlinTests() {
             get() = funOnSubscribe(p1 = counter++) // partial applied function
 
         val observable: Observable<String>
-            get() = observable(onSubscribe)
+            get() = Observable.create(onSubscribe)
     }
 }

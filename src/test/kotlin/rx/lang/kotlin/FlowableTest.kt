@@ -1,6 +1,8 @@
 package rx.lang.kotlin
 
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.FlowableEmitter
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
@@ -8,9 +10,12 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class FlowableTest {
 
+    private fun <T: Any>  bufferedFlowable(source: (FlowableEmitter<T>) -> Unit) =
+            Flowable.create(source, BackpressureStrategy.BUFFER)
+
     @Test fun testCreation() {
         val o0: Flowable<Int> = Flowable.empty()
-        val list = flowable<Int> { s ->
+        val list = bufferedFlowable<Int> { s ->
             s.onNext(1)
             s.onNext(777)
             s.onComplete()
@@ -19,7 +24,7 @@ class FlowableTest {
         val o1: Flowable<Int> = listOf(1, 2, 3).toFlowable()
         val o2: Flowable<List<Int>> = Flowable.just(listOf(1, 2, 3))
 
-        val o3: Flowable<Int> = Flowable.defer { flowable<Int> { s -> s.onNext(1) } }
+        val o3: Flowable<Int> = Flowable.defer { bufferedFlowable<Int> { s -> s.onNext(1) } }
         val o4: Flowable<Int> = Array(3) { 0 }.toFlowable()
         val o5: Flowable<Int> = IntArray(3).toFlowable()
 
@@ -32,7 +37,7 @@ class FlowableTest {
     }
 
     @Test fun testExampleFromReadme() {
-        val result = flowable<String> { subscriber ->
+        val result = bufferedFlowable<String> { subscriber ->
             subscriber.onNext("H")
             subscriber.onNext("e")
             subscriber.onNext("l")
@@ -41,7 +46,7 @@ class FlowableTest {
             subscriber.onNext("o")
             subscriber.onComplete()
         }.filter(String::isNotEmpty).
-                fold(StringBuilder(), StringBuilder::append).
+                reduce(StringBuilder(), StringBuilder::append).
                 map { it.toString() }.
                 blockingGet()
 
@@ -90,7 +95,7 @@ class FlowableTest {
     }
 
     @Test fun testFold() {
-        val result = listOf(1, 2, 3).toFlowable().fold(0) { acc, e -> acc + e }.blockingGet()
+        val result = listOf(1, 2, 3).toFlowable().reduce(0) { acc, e -> acc + e }.blockingGet()
         Assert.assertEquals(6, result)
     }
 
