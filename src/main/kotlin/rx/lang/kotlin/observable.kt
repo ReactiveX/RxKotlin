@@ -5,19 +5,14 @@ import io.reactivex.ObservableEmitter
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
-fun <T : Any> observable(body: (ObservableEmitter<in T>) -> Unit): Observable<T> = Observable.create(body)
 
-private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
-    override fun iterator(): Iterator<T> = this@toIterable
-}
-
-fun BooleanArray.toObservable(): Observable<Boolean> = Observable.fromArray(*this.toTypedArray())
-fun ByteArray.toObservable(): Observable<Byte> = Observable.fromArray(*this.toTypedArray())
-fun ShortArray.toObservable(): Observable<Short> = Observable.fromArray(*this.toTypedArray())
-fun IntArray.toObservable(): Observable<Int> = Observable.fromArray(*this.toTypedArray())
-fun LongArray.toObservable(): Observable<Long> = Observable.fromArray(*this.toTypedArray())
-fun FloatArray.toObservable(): Observable<Float> = Observable.fromArray(*this.toTypedArray())
-fun DoubleArray.toObservable(): Observable<Double> = Observable.fromArray(*this.toTypedArray())
+fun BooleanArray.toObservable(): Observable<Boolean> = this.asIterable().toObservable()
+fun ByteArray.toObservable(): Observable<Byte> = this.asIterable().toObservable()
+fun ShortArray.toObservable(): Observable<Short> = this.asIterable().toObservable()
+fun IntArray.toObservable(): Observable<Int> = this.asIterable().toObservable()
+fun LongArray.toObservable(): Observable<Long> = this.asIterable().toObservable()
+fun FloatArray.toObservable(): Observable<Float> = this.asIterable().toObservable()
+fun DoubleArray.toObservable(): Observable<Double> = this.asIterable().toObservable()
 fun <T : Any> Array<T>.toObservable(): Observable<T> = Observable.fromArray(*this)
 
 fun IntProgression.toObservable(): Observable<Int> =
@@ -26,13 +21,10 @@ fun IntProgression.toObservable(): Observable<Int> =
 
 fun <T : Any> Iterator<T>.toObservable(): Observable<T> = toIterable().toObservable()
 fun <T : Any> Iterable<T>.toObservable(): Observable<T> = Observable.fromIterable(this)
-fun <T : Any> Sequence<T>.toObservable(): Observable<T> = Observable.fromIterable(iterator().toIterable())
+fun <T : Any> Sequence<T>.toObservable(): Observable<T> = asIterable().toObservable()
 
 fun <T : Any> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.merge(this.toObservable())
 fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
-
-inline fun <T : Any, R : Any> Observable<T>.fold(initial: R, crossinline body: (R, T) -> R): Single<R>
-        = reduce(initial) { a, e -> body(a, e) }
 
 /**
  * Returns Observable that wrap all values into [IndexedValue] and populates corresponding index value.
@@ -58,14 +50,14 @@ fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observab
  * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> List<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R>
+inline fun <T, R> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R>
         = Observable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Observable.zip(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> List<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
+inline fun <T, R> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
         = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
@@ -77,3 +69,7 @@ inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class
  * Filters the items emitted by an Observable, only emitting those of the specified type.
  */
 inline fun <reified R : Any> Observable<*>.ofType(): Observable<R> = ofType(R::class.java)
+
+private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
+    override fun iterator(): Iterator<T> = this@toIterable
+}
