@@ -1,6 +1,7 @@
 package rx.lang.kotlin
 
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 
 
@@ -11,6 +12,7 @@ fun IntArray.toFlowable(): Flowable<Int> = this.asIterable().toFlowable()
 fun LongArray.toFlowable(): Flowable<Long> = this.asIterable().toFlowable()
 fun FloatArray.toFlowable(): Flowable<Float> = this.asIterable().toFlowable()
 fun DoubleArray.toFlowable(): Flowable<Double> = this.asIterable().toFlowable()
+fun <T : Any> Array<T>.toFlowable(): Flowable<T> = Flowable.fromArray(*this)
 
 fun IntProgression.toFlowable(): Flowable<Int> =
         if (step == 1 && last.toLong() - first < Integer.MAX_VALUE) Flowable.range(first, Math.max(0, last - first + 1))
