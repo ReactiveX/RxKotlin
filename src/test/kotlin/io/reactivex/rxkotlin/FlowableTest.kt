@@ -1,8 +1,6 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.FlowableEmitter
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test

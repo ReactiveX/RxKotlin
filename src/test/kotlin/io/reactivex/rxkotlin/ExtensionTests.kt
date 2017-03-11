@@ -26,10 +26,7 @@ import org.funktionale.partials.invoke
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-import org.mockito.Mockito.any
-import org.mockito.Mockito.inOrder
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 

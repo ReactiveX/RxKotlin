@@ -1,8 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
 
