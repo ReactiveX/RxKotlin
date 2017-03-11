@@ -153,6 +153,110 @@ class ObservablesTest {
         assertEquals(list, list.map { it.toSingletonObservable() }.zip { it }.toBlocking().first())
     }
 
+    @test fun testFlatZip() {
+        val list = listOf(1,2,3,2,3,4,3,4,5)
+        assertEquals(list, list.map { it.toSingletonObservable() }.flatZip { it.toSingletonObservable() }.toBlocking().first())
+    }
+
+    @test fun testFlatZipWith1() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            { a, b -> Observable.from(listOf(a, b))}).toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2), list)
+    }
+
+    @test fun testFlatZipWith2() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            { a, b, c -> Observable.from(listOf(a, b, c))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3), list)
+    }
+
+    @test fun testFlatZipWith3() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            4.toSingletonObservable(),
+            { a, b, c, d -> Observable.from(listOf(a, b, c, d))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3, 4), list)
+    }
+
+    @test fun testFlatZipWith4() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            4.toSingletonObservable(),
+            5.toSingletonObservable(),
+            { a, b, c, d, e -> Observable.from(listOf(a, b, c, d, e))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3, 4, 5), list)
+    }
+
+    @test fun testFlatZipWith5() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            4.toSingletonObservable(),
+            5.toSingletonObservable(),
+            6.toSingletonObservable(),
+            { a, b, c, d, e, f -> Observable.from(listOf(a, b, c, d, e, f))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3, 4, 5, 6), list)
+    }
+
+    @test fun testFlatZipWith6() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            4.toSingletonObservable(),
+            5.toSingletonObservable(),
+            6.toSingletonObservable(),
+            7.toSingletonObservable(),
+            { a, b, c, d, e, f, g -> Observable.from(listOf(a, b, c, d, e, f, g))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3, 4, 5, 6, 7), list)
+    }
+
+    @test fun testFlatZipWith7() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            4.toSingletonObservable(),
+            5.toSingletonObservable(),
+            6.toSingletonObservable(),
+            7.toSingletonObservable(),
+            8.toSingletonObservable(),
+            { a, b, c, d, e, f, g, h -> Observable.from(listOf(a, b, c, d, e, f, g, h))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3, 4, 5, 6, 7, 8), list)
+    }
+
+    @test fun testFlatZipWith8() {
+        val list = 1.toSingletonObservable().flatZipWith(
+            2.toSingletonObservable(),
+            3.toSingletonObservable(),
+            4.toSingletonObservable(),
+            5.toSingletonObservable(),
+            6.toSingletonObservable(),
+            7.toSingletonObservable(),
+            8.toSingletonObservable(),
+            9.toSingletonObservable(),
+            { a, b, c, d, e, f, g, h, i -> Observable.from(listOf(a, b, c, d, e, f, g, h, i))})
+            .toList().toBlocking().first()
+
+        assertEquals(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), list)
+    }
+
     @test fun testCast() {
         val source = Observable.just<Any>(1, 2)
         val observable = source.cast<Int>()
