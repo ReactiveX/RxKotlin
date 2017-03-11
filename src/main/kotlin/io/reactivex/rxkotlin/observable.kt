@@ -4,13 +4,13 @@ import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 
 
-fun BooleanArray.toObservable(): Observable<Boolean> = this.asIterable().toObservable()
-fun ByteArray.toObservable(): Observable<Byte> = this.asIterable().toObservable()
-fun ShortArray.toObservable(): Observable<Short> = this.asIterable().toObservable()
-fun IntArray.toObservable(): Observable<Int> = this.asIterable().toObservable()
-fun LongArray.toObservable(): Observable<Long> = this.asIterable().toObservable()
-fun FloatArray.toObservable(): Observable<Float> = this.asIterable().toObservable()
-fun DoubleArray.toObservable(): Observable<Double> = this.asIterable().toObservable()
+fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
+fun ByteArray.toObservable(): Observable<Byte> = asIterable().toObservable()
+fun ShortArray.toObservable(): Observable<Short> = asIterable().toObservable()
+fun IntArray.toObservable(): Observable<Int> = asIterable().toObservable()
+fun LongArray.toObservable(): Observable<Long> = asIterable().toObservable()
+fun FloatArray.toObservable(): Observable<Float> = asIterable().toObservable()
+fun DoubleArray.toObservable(): Observable<Double> = asIterable().toObservable()
 fun <T : Any> Array<T>.toObservable(): Observable<T> = Observable.fromArray(*this)
 
 fun IntProgression.toObservable(): Observable<Int> =
@@ -47,14 +47,14 @@ inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T
  * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R>
+inline fun <T : Any, R : Any> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R>
         = Observable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Observable.zip(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
+inline fun <T : Any, R : Any> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
         = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**

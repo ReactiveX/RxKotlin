@@ -4,13 +4,13 @@ import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 
 
-fun BooleanArray.toFlowable(): Flowable<Boolean> = this.asIterable().toFlowable()
-fun ByteArray.toFlowable(): Flowable<Byte> = this.asIterable().toFlowable()
-fun ShortArray.toFlowable(): Flowable<Short> = this.asIterable().toFlowable()
-fun IntArray.toFlowable(): Flowable<Int> = this.asIterable().toFlowable()
-fun LongArray.toFlowable(): Flowable<Long> = this.asIterable().toFlowable()
-fun FloatArray.toFlowable(): Flowable<Float> = this.asIterable().toFlowable()
-fun DoubleArray.toFlowable(): Flowable<Double> = this.asIterable().toFlowable()
+fun BooleanArray.toFlowable(): Flowable<Boolean> = asIterable().toFlowable()
+fun ByteArray.toFlowable(): Flowable<Byte> = asIterable().toFlowable()
+fun ShortArray.toFlowable(): Flowable<Short> = asIterable().toFlowable()
+fun IntArray.toFlowable(): Flowable<Int> = asIterable().toFlowable()
+fun LongArray.toFlowable(): Flowable<Long> = asIterable().toFlowable()
+fun FloatArray.toFlowable(): Flowable<Float> = asIterable().toFlowable()
+fun DoubleArray.toFlowable(): Flowable<Double> = asIterable().toFlowable()
 fun <T : Any> Array<T>.toFlowable(): Flowable<T> = Flowable.fromArray(*this)
 
 fun IntProgression.toFlowable(): Flowable<Int> =
@@ -47,14 +47,14 @@ inline fun <T : Any, R : Any> Flowable<T>.flatMapSequence(crossinline body: (T) 
  * Flowable.combineLatest(List<? extends Flowable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> Iterable<Flowable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Flowable<R>
+inline fun <T : Any, R : Any> Iterable<Flowable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Flowable<R>
         = Flowable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Flowable.zip(List<? extends Flowable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> Iterable<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Flowable<R>
+inline fun <T : Any, R : Any> Iterable<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Flowable<R>
         = Flowable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
