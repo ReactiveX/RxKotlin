@@ -1,4 +1,4 @@
-package rx.lang.kotlin.examples.retrofit
+package io.reactivex.rxkotlin.examples.retrofit
 
 import io.reactivex.Observable
 import retrofit.RestAdapter

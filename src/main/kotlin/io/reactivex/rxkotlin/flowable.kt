@@ -1,27 +1,16 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
-import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.FlowableEmitter
-import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 
-fun <T : Any> flowable(
-        strategy: BackpressureStrategy = BackpressureStrategy.BUFFER,
-        body: (FlowableEmitter<in T>) -> Unit
-): Flowable<T> = Flowable.create(body, strategy)
 
-private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
-    override fun iterator(): Iterator<T> = this@toIterable
-}
-
-fun BooleanArray.toFlowable(): Flowable<Boolean> = Flowable.fromArray(*this.toTypedArray())
-fun ByteArray.toFlowable(): Flowable<Byte> = Flowable.fromArray(*this.toTypedArray())
-fun ShortArray.toFlowable(): Flowable<Short> = Flowable.fromArray(*this.toTypedArray())
-fun IntArray.toFlowable(): Flowable<Int> = Flowable.fromArray(*this.toTypedArray())
-fun LongArray.toFlowable(): Flowable<Long> = Flowable.fromArray(*this.toTypedArray())
-fun FloatArray.toFlowable(): Flowable<Float> = Flowable.fromArray(*this.toTypedArray())
-fun DoubleArray.toFlowable(): Flowable<Double> = Flowable.fromArray(*this.toTypedArray())
+fun BooleanArray.toFlowable(): Flowable<Boolean> = this.asIterable().toFlowable()
+fun ByteArray.toFlowable(): Flowable<Byte> = this.asIterable().toFlowable()
+fun ShortArray.toFlowable(): Flowable<Short> = this.asIterable().toFlowable()
+fun IntArray.toFlowable(): Flowable<Int> = this.asIterable().toFlowable()
+fun LongArray.toFlowable(): Flowable<Long> = this.asIterable().toFlowable()
+fun FloatArray.toFlowable(): Flowable<Float> = this.asIterable().toFlowable()
+fun DoubleArray.toFlowable(): Flowable<Double> = this.asIterable().toFlowable()
 fun <T : Any> Array<T>.toFlowable(): Flowable<T> = Flowable.fromArray(*this)
 
 fun IntProgression.toFlowable(): Flowable<Int> =
@@ -30,13 +19,10 @@ fun IntProgression.toFlowable(): Flowable<Int> =
 
 fun <T : Any> Iterator<T>.toFlowable(): Flowable<T> = toIterable().toFlowable()
 fun <T : Any> Iterable<T>.toFlowable(): Flowable<T> = Flowable.fromIterable(this)
-fun <T : Any> Sequence<T>.toFlowable(): Flowable<T> = Flowable.fromIterable(iterator().toIterable())
+fun <T : Any> Sequence<T>.toFlowable(): Flowable<T> = asIterable().toFlowable()
 
 fun <T : Any> Iterable<Flowable<out T>>.merge(): Flowable<T> = Flowable.merge(this.toFlowable())
 fun <T : Any> Iterable<Flowable<out T>>.mergeDelayError(): Flowable<T> = Flowable.mergeDelayError(this.toFlowable())
-
-inline fun <T : Any, R : Any> Flowable<T>.fold(initial: R, crossinline body: (R, T) -> R): Single<R>
-        = reduce(initial) { a, e -> body(a, e) }
 
 /**
  * Returns Flowable that wrap all values into [IndexedValue] and populates corresponding index value.
@@ -56,20 +42,19 @@ fun <T : Any> Flowable<T>.withIndex(): Flowable<IndexedValue<T>>
 inline fun <T : Any, R : Any> Flowable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Flowable<R>
         = flatMap { body(it).toFlowable() }
 
-fun <T : Any> Flowable<Flowable<T>>.switchOnNext(): Flowable<T> = Flowable.switchOnNext(this)
 
 /**
  * Flowable.combineLatest(List<? extends Flowable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> List<Flowable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Flowable<R>
+inline fun <T, R> Iterable<Flowable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Flowable<R>
         = Flowable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Flowable.zip(List<? extends Flowable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T, R> List<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Flowable<R>
+inline fun <T, R> Iterable<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Flowable<R>
         = Flowable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
@@ -78,6 +63,10 @@ inline fun <T, R> List<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>)
 inline fun <reified R : Any> Flowable<*>.cast(): Flowable<R> = cast(R::class.java)
 
 /**
- * Filters the items emitted by an Observable, only emitting those of the specified type.
+ * Filters the items emitted by an Flowable, only emitting those of the specified type.
  */
 inline fun <reified R : Any> Flowable<*>.ofType(): Flowable<R> = ofType(R::class.java)
+
+private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
+    override fun iterator(): Iterator<T> = this@toIterable
+}

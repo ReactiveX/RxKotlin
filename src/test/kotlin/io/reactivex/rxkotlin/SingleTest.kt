@@ -1,6 +1,7 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
@@ -9,7 +10,7 @@ import java.util.concurrent.Callable
 
 class SingleTest : KotlinTests() {
     @Test fun testCreate() {
-        single<String> { s ->
+        Single.create<String> { s ->
             s.onSuccess("Hello World!")
         }.subscribe { result ->
             a.received(result)

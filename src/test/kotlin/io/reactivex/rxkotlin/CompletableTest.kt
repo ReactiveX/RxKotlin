@@ -1,11 +1,11 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.Single
 import io.reactivex.functions.Action
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
-import java.util.NoSuchElementException
+import java.util.*
 import java.util.concurrent.Callable
 
 class CompletableTest {

@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
             .subscribeBy(  // named arguments for lambda Subscribers
                 onNext = { println(it) },
                 onError =  { it.printStackTrace() },
-                onCompleted = { println("Done!") }
+                onComplete = { println("Done!") }
             )
 
 }

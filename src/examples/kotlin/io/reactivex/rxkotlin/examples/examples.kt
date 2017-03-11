@@ -1,14 +1,12 @@
-package rx.lang.kotlin.examples
+package io.reactivex.rxkotlin.examples
 
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import rx.lang.kotlin.addTo
-import rx.lang.kotlin.combineLatest
-import rx.lang.kotlin.observable
-import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.subscribeBy
-import rx.lang.kotlin.toObservable
-import rx.lang.kotlin.zip
+import io.reactivex.rxkotlin.*
+import io.reactivex.rxkotlin.combineLatest
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
+import io.reactivex.rxkotlin.zip
 import java.net.URL
 import java.util.Scanner
 import java.util.concurrent.TimeUnit
@@ -50,7 +48,7 @@ fun main(args: Array<String>) {
     addToCompositeSubscription()
 }
 
-private fun URL.toScannerObservable() = observable<String> { s ->
+private fun URL.toScannerObservable() = Observable.create<String> { s ->
     this.openStream().use { stream ->
         Scanner(stream).useDelimiter("\\A")
                 .toObservable()
@@ -58,13 +56,13 @@ private fun URL.toScannerObservable() = observable<String> { s ->
     }
 }
 
-fun syncObservable(): Observable<String> = observable { subscriber ->
+fun syncObservable(): Observable<String> = Observable.create { subscriber ->
     (0..75).toObservable()
             .map { "Sync value_$it" }
             .subscribe { subscriber.onNext(it) }
 }
 
-fun asyncObservable(): Observable<String> = observable { subscriber ->
+fun asyncObservable(): Observable<String> = Observable.create { subscriber ->
     thread {
         (0..75).toObservable()
                 .map { "Async value_$it" }
@@ -72,7 +70,7 @@ fun asyncObservable(): Observable<String> = observable { subscriber ->
     }
 }
 
-fun asyncWiki(vararg articleNames: String): Observable<String> = observable { subscriber ->
+fun asyncWiki(vararg articleNames: String): Observable<String> = Observable.create { subscriber ->
     thread {
         articleNames.toObservable()
                 .flatMapMaybe { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().firstElement() }
@@ -80,7 +78,7 @@ fun asyncWiki(vararg articleNames: String): Observable<String> = observable { su
     }
 }
 
-fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> = observable { subscriber ->
+fun asyncWikiWithErrorHandling(vararg articleNames: String): Observable<String> = Observable.create { subscriber ->
     thread {
         articleNames.toObservable()
                 .flatMapMaybe { name -> URL("http://en.wikipedia.org/wiki/$name").toScannerObservable().firstElement() }

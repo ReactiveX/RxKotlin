@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
-import io.reactivex.Notification
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.Single
+import io.reactivex.*
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-import org.mockito.Mockito.any
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import kotlin.concurrent.thread
 
 /**

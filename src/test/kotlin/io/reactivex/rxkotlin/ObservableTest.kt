@@ -1,4 +1,4 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class ObservableTest {
 
     @Test fun testCreation() {
-        val observable = observable<Int> { s ->
+        val observable = Observable.create<Int> { s ->
             s.apply {
                 onNext(1)
                 onNext(777)
@@ -26,7 +26,7 @@ class ObservableTest {
         val o1: Observable<Int> = listOf(1, 2, 3).toObservable()
         val o2: Observable<List<Int>> = Observable.just(listOf(1, 2, 3))
 
-        val o3: Observable<Int> = Observable.defer { observable<Int> { s -> s.onNext(1) } }
+        val o3: Observable<Int> = Observable.defer { Observable.create<Int> { s -> s.onNext(1) } }
         val o4: Observable<Int> = Array(3) { 0 }.toObservable()
         val o5: Observable<Int> = IntArray(3).toObservable()
 
@@ -39,7 +39,7 @@ class ObservableTest {
     }
 
     @Test fun testExampleFromReadme() {
-        val observable = observable<String> { s ->
+        val observable = Observable.create<String> { s ->
             s.apply {
                 onNext("H")
                 onNext("e")
@@ -52,7 +52,7 @@ class ObservableTest {
         }
         val result = observable
                 .filter(String::isNotEmpty)
-                .fold(StringBuilder(), StringBuilder::append)
+                .reduce(StringBuilder(), StringBuilder::append)
                 .map { it.toString() }
                 .blockingGet()
 
@@ -109,8 +109,8 @@ class ObservableTest {
         subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
     }
 
-    @Test fun testFold() {
-        val result = listOf(1, 2, 3).toObservable().fold(0) { acc, e -> acc + e }.blockingGet()
+    @Test fun testReduce() {
+        val result = listOf(1, 2, 3).toObservable().reduce(0) { acc, e -> acc + e }.blockingGet()
         assertEquals(6, result)
     }
 
