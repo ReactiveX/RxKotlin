@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import org.junit.Before
 import org.mockito.Mock

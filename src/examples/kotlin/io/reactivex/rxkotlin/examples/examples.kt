@@ -1,13 +1,12 @@
-package rx.lang.kotlin.examples
+package io.reactivex.rxkotlin.examples
 
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import rx.lang.kotlin.addTo
-import rx.lang.kotlin.combineLatest
-import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.subscribeBy
-import rx.lang.kotlin.toObservable
-import rx.lang.kotlin.zip
+import io.reactivex.rxkotlin.*
+import io.reactivex.rxkotlin.combineLatest
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
+import io.reactivex.rxkotlin.zip
 import java.net.URL
 import java.util.Scanner
 import java.util.concurrent.TimeUnit

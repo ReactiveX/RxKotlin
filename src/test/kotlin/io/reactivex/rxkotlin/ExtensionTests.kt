@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.Notification
 import io.reactivex.Observable

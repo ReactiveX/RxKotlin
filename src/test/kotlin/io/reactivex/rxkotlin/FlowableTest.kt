@@ -1,4 +1,4 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -10,33 +10,33 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class FlowableTest {
 
-    private fun <T: Any>  bufferedFlowable(source: (FlowableEmitter<T>) -> Unit) =
-            Flowable.create(source, BackpressureStrategy.BUFFER)
+    private fun <T: Any>  bufferedFlowable(source: (io.reactivex.FlowableEmitter<T>) -> Unit) =
+            io.reactivex.Flowable.create(source, io.reactivex.BackpressureStrategy.BUFFER)
 
-    @Test fun testCreation() {
-        val o0: Flowable<Int> = Flowable.empty()
+    @org.junit.Test fun testCreation() {
+        val o0: io.reactivex.Flowable<Int> = io.reactivex.Flowable.empty()
         val list = bufferedFlowable<Int> { s ->
             s.onNext(1)
             s.onNext(777)
             s.onComplete()
         }.toList().blockingGet()
-        Assert.assertEquals(listOf(1, 777), list)
-        val o1: Flowable<Int> = listOf(1, 2, 3).toFlowable()
-        val o2: Flowable<List<Int>> = Flowable.just(listOf(1, 2, 3))
+        org.junit.Assert.assertEquals(listOf(1, 777), list)
+        val o1: io.reactivex.Flowable<Int> = listOf(1, 2, 3).toFlowable()
+        val o2: io.reactivex.Flowable<List<Int>> = io.reactivex.Flowable.just(listOf(1, 2, 3))
 
-        val o3: Flowable<Int> = Flowable.defer { bufferedFlowable<Int> { s -> s.onNext(1) } }
-        val o4: Flowable<Int> = Array(3) { 0 }.toFlowable()
-        val o5: Flowable<Int> = IntArray(3).toFlowable()
+        val o3: io.reactivex.Flowable<Int> = io.reactivex.Flowable.defer { bufferedFlowable<Int> { s -> s.onNext(1) } }
+        val o4: io.reactivex.Flowable<Int> = Array(3) { 0 }.toFlowable()
+        val o5: io.reactivex.Flowable<Int> = IntArray(3).toFlowable()
 
-        Assert.assertNotNull(o0)
-        Assert.assertNotNull(o1)
-        Assert.assertNotNull(o2)
-        Assert.assertNotNull(o3)
-        Assert.assertNotNull(o4)
-        Assert.assertNotNull(o5)
+        org.junit.Assert.assertNotNull(o0)
+        org.junit.Assert.assertNotNull(o1)
+        org.junit.Assert.assertNotNull(o2)
+        org.junit.Assert.assertNotNull(o3)
+        org.junit.Assert.assertNotNull(o4)
+        org.junit.Assert.assertNotNull(o5)
     }
 
-    @Test fun testExampleFromReadme() {
+    @org.junit.Test fun testExampleFromReadme() {
         val result = bufferedFlowable<String> { subscriber ->
             subscriber.onNext("H")
             subscriber.onNext("e")

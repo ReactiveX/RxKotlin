@@ -1,4 +1,4 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -72,8 +72,8 @@ fun <T : Any> Observable<T>.joinToString(separator: String? = null,
  * @param postfix is the succeeding `String` after the concatenated elements (optional)
  */
 fun <T : Any> Flowable<T>.joinToString(separator: String? = null,
-                                         prefix: String? = null,
-                                         postfix: String? = null
+                                       prefix: String? = null,
+                                       postfix: String? = null
 ): Single<String> = collect({ StringBuilder(prefix ?: "") }) { builder: StringBuilder, next: T ->
     builder.append(if (builder.length == prefix?.length ?: 0) "" else separator ?: "").append(next)
 }.map { it.append(postfix ?: "").toString() }

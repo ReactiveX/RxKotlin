@@ -1,4 +1,4 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

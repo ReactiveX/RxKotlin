@@ -1,4 +1,4 @@
-package rx.lang.kotlin
+package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
 import io.reactivex.Observable
