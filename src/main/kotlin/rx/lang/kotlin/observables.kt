@@ -44,11 +44,6 @@ fun <T : Any> Observable<T?>.requireNoNulls(): Observable<T> = map { it ?: throw
  */
 @Suppress("UNCHECKED_CAST") fun <T : Any> Observable<T?>.filterNotNull(): Observable<T> = filter { it != null } as Observable<T>
 
-/**
- * Returns Observable that wrap all values into [IndexedValue] and populates corresponding index value.
- */
-fun <T> Observable<T>.withIndex(): Observable<IndexedValue<T>> =
-        zipWith(Observable.range(0, Int.MAX_VALUE)) { value, index -> IndexedValue(index, value) }
 
 /**
  * Returns Observable that emits objects from kotlin [Sequence] returned by function you provided by parameter [body] for

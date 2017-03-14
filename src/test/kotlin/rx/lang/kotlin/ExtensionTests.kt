@@ -248,25 +248,6 @@ class ExtensionTests : KotlinTests() {
         inOrder.verifyNoMoreInteractions()
     }
 
-    @Test
-    fun testJoinToString1() {
-
-        val result = Observable.range(1,5)
-                .joinToString(separator = ",")
-                .toBlocking().first()
-
-        assertTrue(result == "1,2,3,4,5")
-    }
-    @Test
-    fun testJoinToString2() {
-
-        val result = Observable.range(1,5)
-                .joinToString(separator = ",", prefix = "(", postfix = ")")
-                .toBlocking().first()
-
-        assertTrue(result == "(1,2,3,4,5)")
-    }
-
     val funOnSubscribe: (Int, Subscriber<in String>) -> Unit = { counter, subscriber ->
         subscriber.onNext("hello_$counter")
         subscriber.onCompleted()

@@ -100,30 +100,6 @@ class ObservablesTest {
         }
     }
 
-    @Test fun testWithIndex() {
-        listOf("a", "b", "c").toObservable().
-                withIndex().
-                toList().
-                forEach {
-                    assertEquals(listOf(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c")), it)
-                }
-    }
-
-    @Test fun `withIndex() shouldn't share index between multiple subscribers`() {
-        val o = listOf("a", "b", "c").toObservable().withIndex()
-
-        val subscriber1 = TestSubscriber<IndexedValue<String>>()
-        val subscriber2 = TestSubscriber<IndexedValue<String>>()
-
-        o.subscribe(subscriber1)
-        o.subscribe(subscriber2)
-
-        subscriber1.awaitTerminalEvent()
-        subscriber1.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-
-        subscriber2.awaitTerminalEvent()
-        subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-    }
 
     @Test fun `kotlin sequence should produce expected items and observable be able to handle em`() {
         kotlin.sequences.generateSequence(0) { it + 1 }.toObservable().take(3).toList().forEach {
