@@ -1,10 +1,14 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
 private val onNextStub: (Any) -> Unit = {}
-private val onErrorStub: (Throwable) -> Unit = {}
+private val onErrorStub: (Throwable) -> Unit = { throw it }
 private val onCompleteStub: () -> Unit = {}
 
 /**
