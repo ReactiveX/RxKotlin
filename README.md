@@ -27,7 +27,7 @@ fun main(args: Array<String>) {
 
 ## Build
 
-[![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=0.x)](https://travis-ci.org/ReactiveX/RxKotlin)
+[![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=1.x)](https://travis-ci.org/ReactiveX/RxKotlin)
 
 
 ## Binaries
