@@ -4,9 +4,10 @@ import rx.Completable
 import rx.Observable
 import rx.Single
 import rx.Subscription
+import rx.exceptions.OnErrorNotImplementedException
 
 private val onNextStub: (Any) -> Unit = {}
-private val onErrorStub: (Throwable) -> Unit = {}
+private val onErrorStub: (Throwable) -> Unit = { throw OnErrorNotImplementedException(it) }
 private val onCompleteStub: () -> Unit = {}
 
 /**
