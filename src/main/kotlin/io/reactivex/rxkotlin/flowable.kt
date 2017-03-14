@@ -1,7 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
-import io.reactivex.functions.BiFunction
 
 
 fun BooleanArray.toFlowable(): Flowable<Boolean> = asIterable().toFlowable()
@@ -23,13 +22,6 @@ fun <T : Any> Sequence<T>.toFlowable(): Flowable<T> = asIterable().toFlowable()
 
 fun <T : Any> Iterable<Flowable<out T>>.merge(): Flowable<T> = Flowable.merge(this.toFlowable())
 fun <T : Any> Iterable<Flowable<out T>>.mergeDelayError(): Flowable<T> = Flowable.mergeDelayError(this.toFlowable())
-
-/**
- * Returns Flowable that wrap all values into [IndexedValue] and populates corresponding index value.
- * Works similar to [kotlin.withIndex]
- */
-fun <T : Any> Flowable<T>.withIndex(): Flowable<IndexedValue<T>>
-        = zipWith(Flowable.range(0, Int.MAX_VALUE), BiFunction { value, index -> IndexedValue(index, value) })
 
 /**
  * Returns Flowable that emits objects from kotlin [Sequence] returned by function you provided by parameter [body] for
