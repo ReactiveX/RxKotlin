@@ -7,6 +7,9 @@ buildscript {
     }
 }
 
+group = 'io.reactivex.rxjava2'
+
+
 apply plugin: 'nebula.rxjava-project'
 apply plugin: 'kotlin'
 
