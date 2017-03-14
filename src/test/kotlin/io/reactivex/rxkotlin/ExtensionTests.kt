@@ -170,15 +170,6 @@ class ExtensionTests : KotlinTests() {
         verify(a, times(0)).received(3)
     }
 
-    @Test fun testTakeWhileWithIndex() {
-        listOf(1, 2, 3).toObservable()
-                .takeWhile { x -> x < 3 }
-                .zipWith((0..Integer.MAX_VALUE).toObservable(), BiFunction { x: Int, i: Int -> x })
-                .subscribe(received())
-        verify(a, times(1)).received(1)
-        verify(a, times(1)).received(2)
-        verify(a, times(0)).received(3)
-    }
 
     @Test fun testToSortedList() {
         TestFactory().numbers.toSortedList().subscribe(received())
@@ -271,24 +262,6 @@ class ExtensionTests : KotlinTests() {
             subscriber.onNext(3)
             subscriber.onComplete()
         }
-    }
-
-    @Test
-    fun testJoinToString1() {
-        Observable.range(1, 5)
-                .joinToString(separator = ",")
-                .test()
-                .await()
-                .assertResult("1,2,3,4,5")
-    }
-
-    @Test
-    fun testJoinToString2() {
-        Observable.range(1, 5)
-                .joinToString(separator = ",", prefix = "(", postfix = ")")
-                .test()
-                .await()
-                .assertResult("(1,2,3,4,5)")
     }
 
     inner class TestFactory {

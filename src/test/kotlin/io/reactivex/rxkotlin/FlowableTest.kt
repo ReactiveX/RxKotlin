@@ -72,25 +72,6 @@ class FlowableTest {
         Assert.assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toFlowable().skip(Integer.MAX_VALUE.toLong()).map { Integer.MAX_VALUE - it }.toList().blockingGet())
     }
 
-    @Test fun testWithIndex() {
-        listOf("a", "b", "c").toFlowable()
-                .withIndex()
-                .toList()
-                .test()
-                .assertValues(listOf(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c")))
-    }
-
-    @Test fun `withIndex() shouldn't share index between multiple subscribers`() {
-        val o = listOf("a", "b", "c").toFlowable().withIndex()
-
-        o.test()
-                .await()
-                .assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-
-        o.test()
-                .await()
-                .assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-    }
 
     @Test fun testFold() {
         val result = listOf(1, 2, 3).toFlowable().reduce(0) { acc, e -> acc + e }.blockingGet()

@@ -85,30 +85,6 @@ class ObservableTest {
         assertEquals((0..10).toList().reversed(), result)
     }
 
-    @Test fun testWithIndex() {
-        listOf("a", "b", "c").toObservable()
-                .withIndex()
-                .toList()
-                .test()
-                .assertValues(listOf(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c")))
-    }
-
-    @Test fun `withIndex() shouldn't share index between multiple subscribers`() {
-        val o = listOf("a", "b", "c").toObservable().withIndex()
-
-        val subscriber1 = TestObserver.create<IndexedValue<String>>()
-        val subscriber2 = TestObserver.create<IndexedValue<String>>()
-
-        o.subscribe(subscriber1)
-        o.subscribe(subscriber2)
-
-        subscriber1.awaitTerminalEvent()
-        subscriber1.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-
-        subscriber2.awaitTerminalEvent()
-        subscriber2.assertValues(IndexedValue(0, "a"), IndexedValue(1, "b"), IndexedValue(2, "c"))
-    }
-
     @Test fun testReduce() {
         val result = listOf(1, 2, 3).toObservable().reduce(0) { acc, e -> acc + e }.blockingGet()
         assertEquals(6, result)
