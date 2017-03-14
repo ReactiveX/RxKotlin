@@ -161,13 +161,6 @@ class ExtensionTests : KotlinTests() {
         verify(a, times(0)).received(3)
     }
 
-    @Test fun testTakeWhileWithIndex() {
-        listOf(1, 2, 3).toObservable().takeWhile { x -> x < 3 }.zipWith((0..Integer.MAX_VALUE).toObservable()) { x, i -> x }.subscribe(received())
-        verify(a, times(1)).received(1)
-        verify(a, times(1)).received(2)
-        verify(a, times(0)).received(3)
-    }
-
     @Test fun testToSortedList() {
         TestFactory().numbers.toSortedList().subscribe(received())
         verify(a, times(1)).received(listOf(1, 2, 3, 4, 5))
