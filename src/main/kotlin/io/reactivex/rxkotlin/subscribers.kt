@@ -1,10 +1,15 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.Flowable
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import java.lang.RuntimeException
 
 private val onNextStub: (Any) -> Unit = {}
-private val onErrorStub: (Throwable) -> Unit = {}
+private val onErrorStub: (Throwable) -> Unit = { throw OnErrorNotImplementedException(it) }
 private val onCompleteStub: () -> Unit = {}
 
 /**
@@ -49,3 +54,5 @@ fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
 ): Disposable = subscribe(onComplete, onError)
+
+class OnErrorNotImplementedException(e: Throwable) : RuntimeException(e)
