@@ -1,7 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 
 
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
@@ -23,13 +22,6 @@ fun <T : Any> Sequence<T>.toObservable(): Observable<T> = asIterable().toObserva
 
 fun <T : Any> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.merge(this.toObservable())
 fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
-
-/**
- * Returns Observable that wrap all values into [IndexedValue] and populates corresponding index value.
- * Works similar to [kotlin.withIndex]
- */
-fun <T : Any> Observable<T>.withIndex(): Observable<IndexedValue<T>>
-        = zipWith(Observable.range(0, Int.MAX_VALUE), BiFunction { value, index -> IndexedValue(index, value) })
 
 /**
  * Returns Observable that emits objects from kotlin [Sequence] returned by function you provided by parameter [body] for
