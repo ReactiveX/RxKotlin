@@ -11,7 +11,7 @@ apply plugin: 'nebula.rxjava-project'
 apply plugin: 'kotlin'
 
 dependencies {
-    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile 'org.funktionale:funktionale:0.9'
     testCompile 'junit:junit:4.12'
