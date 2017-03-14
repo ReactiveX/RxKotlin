@@ -9,5 +9,5 @@ fun <T : Any> Future<T>.toMaybe(): Maybe<T> = Maybe.fromFuture(this)
 fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 
-inline fun <reified R : Any> Maybe<*>.cast(): Maybe<R> = cast(R::class.java)
-inline fun <reified R : Any> Maybe<*>.ofType(): Maybe<R> = ofType(R::class.java)
+inline fun <reified R : Any> Maybe<Any>.cast(): Maybe<R> = cast(R::class.java)
+inline fun <reified R : Any> Maybe<Any>.ofType(): Maybe<R> = ofType(R::class.java)
