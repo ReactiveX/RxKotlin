@@ -62,3 +62,24 @@ inline fun <reified R : Any> Observable<*>.ofType(): Observable<R> = ofType(R::c
 private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
+
+
+// EXTENSION FUNCTION OPERATORS
+
+/**
+ * Merges the emissions of an Observable<Observable<T>>. Same as calling `flatMap { it }`.
+ */
+fun <T : Any> Observable<Observable<T>>.mergeAll() = flatMap { it }
+
+/**
+ * Concatenates the emissions of an Observable<Observable<T>>. Same as calling `concatMap { it }`.
+ */
+fun <T : Any> Observable<Observable<T>>.concatAll() = concatMap { it }
+
+/**
+ * Emits the latest `Observable<T>` emitted through an `Observable<Observable<T>>`. Same as calling `switchMap { it }`.
+ */
+fun <T : Any> Observable<Observable<T>>.switchLatest() = switchMap { it }
+
+fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
+
