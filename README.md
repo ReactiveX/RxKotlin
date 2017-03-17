@@ -25,6 +25,18 @@ fun main(args: Array<String>) {
 }
 ```
 
+## Support for RxJava 1.x and RxJava 2.x
+
+Use RxKotlin 1.x versions to target RxJava 1.x.
+
+Use RxKotlin 2.x versions to target RxJava 2.x.
+
+
+## Usage with Other Rx Libraries
+
+RxKotlin can be used in conjunction with other Rx and Kotlin libraries, such as [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding), and [TornadoFX](https://github.com/edvin/tornadofx)/[RxKotlinFX](https://github.com/thomasnield/RxKotlinFX). These libraries and RxKkotlin are modular, and RxKotlin is merely a set of extension functions to RxJava that can be used with these other libraries. There should be no overlap or dependency issues. 
+
+
 ## Build
 
 [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=2.x)](https://travis-ci.org/ReactiveX/RxKotlin)
@@ -34,6 +46,8 @@ fun main(args: Array<String>) {
 
 
 Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
+
+### RxKotlin 1.x 
 
 Example for Maven:
 
@@ -50,6 +64,26 @@ and for Gradle:
 ```groovy
 compile 'io.reactivex:rxkotlin:x.y.z'
 ```
+
+### RxKotlin 2.x 
+
+Example for Maven:
+
+```xml
+<dependency>
+    <groupId>io.reactivex.rxjava2</groupId>
+    <artifactId>rxkotlin</artifactId>
+    <version>x.y.z</version>
+</dependency>
+```
+
+and for Gradle:
+
+```groovy
+compile 'io.reactivex.rxjava2:rxkotlin:x.y.z'
+```
+
+### Building with JitPack
 
 You can also use Gradle or Maven with [JitPack](https://jitpack.io/) to build directly off a snapshot, branch, or commit of this repository.
 
