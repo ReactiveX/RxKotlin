@@ -27,24 +27,3 @@ fun <T : Any> Observable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
  * Merges the emissions of a Flowable<Maybe<T>>. Same as calling `flatMap { it }`.
  */
 fun <T : Any> Flowable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
-
-/**
- * Concatenates the emissions of an Flowable<Maybe<T>>.
- */
-fun <T : Any> Observable<Maybe<T>>.concatAllMaybes() = concatMap { it.toObservable() }
-
-/**
- * Concatenates the emissions of an Flowable<Maybe<T>>.
- */
-fun <T : Any> Flowable<Maybe<T>>.concatAllMaybes() = concatMap { it.toFlowable() }
-
-/**
- * Emits the latest `Maybe<T>` emitted through an `Flowable<Maybe<T>>`.
- */
-fun <T : Any> Observable<Maybe<T>>.switchLatestMaybe() = switchMap { it.toObservable() }
-
-/**
- * Emits the latest `Maybe<T>` emitted through an `Flowable<Maybe<T>>`.
- */
-fun <T : Any> Flowable<Maybe<T>>.switchLatestMaybe() = switchMap { it.toFlowable() }
-
