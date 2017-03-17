@@ -41,10 +41,10 @@ fun <T : Any> Flowable<Maybe<T>>.concatAllMaybes() = concatMap { it.toFlowable()
 /**
  * Emits the latest `Maybe<T>` emitted through an `Flowable<Maybe<T>>`.
  */
-fun <T : Any> Observable<Maybe<T>>.switchLatestMaybes() = switchMap { it.toObservable() }
+fun <T : Any> Observable<Maybe<T>>.switchLatestMaybe() = switchMap { it.toObservable() }
 
 /**
  * Emits the latest `Maybe<T>` emitted through an `Flowable<Maybe<T>>`.
  */
-fun <T : Any> Flowable<Maybe<T>>.switchLatestMaybes() = switchMap { it.toFlowable() }
+fun <T : Any> Flowable<Maybe<T>>.switchLatestMaybe() = switchMap { it.toFlowable() }
 
