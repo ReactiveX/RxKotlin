@@ -11,8 +11,8 @@ operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
 }
 
 /**
- * Add the subscription to a CompositeSubscription.
- * @param compositeDisposable CompositeDisposable to add this subscription to
+ * Add the disposable to a CompositeDisposable.
+ * @param compositeDisposable CompositeDisposable to add this disposable to
  * @return this instance
  */
 fun Disposable.addTo(compositeDisposable: CompositeDisposable): Disposable
