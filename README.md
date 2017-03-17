@@ -55,7 +55,7 @@ Example for Maven:
 <dependency>
     <groupId>io.reactivex</groupId>
     <artifactId>rxkotlin</artifactId>
-    <version>x.y.z</version>
+    <version>1.x.y</version>
 </dependency>
 ```
 
@@ -73,7 +73,7 @@ Example for Maven:
 <dependency>
     <groupId>io.reactivex.rxjava2</groupId>
     <artifactId>rxkotlin</artifactId>
-    <version>x.y.z</version>
+    <version>2.x.y</version>
 </dependency>
 ```
 
