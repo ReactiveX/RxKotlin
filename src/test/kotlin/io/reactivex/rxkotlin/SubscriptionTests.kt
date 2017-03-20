@@ -5,7 +5,8 @@ import io.reactivex.disposables.CompositeDisposable
 import org.junit.Test
 import java.util.concurrent.TimeUnit
 
-class SubscriptionTest {
+class SubscriptionTests {
+
     @Test fun testSubscriptionAddTo() {
         val compositeSubscription = CompositeDisposable()
 

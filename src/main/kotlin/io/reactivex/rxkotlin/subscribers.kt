@@ -23,7 +23,7 @@ fun <T : Any> Observable<T>.subscribeBy(
         onFinish: (() -> Unit)? = null
 ): Disposable {
     onStart?.invoke()
-    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    val withOnFinish = if (onFinish != null) doFinally { onFinish() } else this
     return withOnFinish.subscribe(onNext, onError, onComplete)
 }
 
@@ -38,7 +38,7 @@ fun <T : Any> Flowable<T>.subscribeBy(
         onFinish: (() -> Unit)? = null
 ): Disposable {
     onStart?.invoke()
-    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    val withOnFinish = if (onFinish != null) doFinally { onFinish() } else this
     return withOnFinish.subscribe(onNext, onError, onComplete)
 }
 
@@ -52,7 +52,7 @@ fun <T : Any> Single<T>.subscribeBy(
         onFinish: (() -> Unit)? = null
 ): Disposable {
     onStart?.invoke()
-    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    val withOnFinish = if (onFinish != null) doFinally { onFinish() } else this
     return withOnFinish.subscribe(onSuccess, onError)
 }
 
@@ -62,27 +62,15 @@ fun <T : Any> Single<T>.subscribeBy(
 fun <T : Any> Maybe<T>.subscribeBy(
         onSuccess: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onStart: (() -> Unit)? = null,
-        onFinish: (() -> Unit)? = null
-): Disposable {
-    onStart?.invoke()
-    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
-    return withOnFinish.subscribe(onSuccess, onError, onComplete)
-}
+        onComplete: () -> Unit = onCompleteStub
+) = subscribe(onSuccess, onError, onComplete)
 
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onStart: (() -> Unit)? = null,
-        onFinish: (() -> Unit)? = null
-): Disposable {
-    onStart?.invoke()
-    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
-    return withOnFinish.subscribe(onComplete, onError)
-}
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onComplete, onError)
 
 class OnErrorNotImplementedException(e: Throwable) : RuntimeException(e)
