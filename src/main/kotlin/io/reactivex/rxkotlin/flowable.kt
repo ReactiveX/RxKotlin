@@ -62,3 +62,25 @@ inline fun <reified R : Any> Flowable<*>.ofType(): Flowable<R> = ofType(R::class
 private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
+
+//EXTENSION FUNCTION OPERATORS
+
+/**
+ * Merges the emissions of a Flowable<Flowable<T>>. Same as calling `flatMap { it }`.
+ */
+fun <T : Any> Flowable<Flowable<T>>.mergeAll() = flatMap { it }
+
+
+/**
+ * Concatenates the emissions of an Flowable<Flowable<T>>. Same as calling `concatMap { it }`.
+ */
+fun <T : Any> Flowable<Flowable<T>>.concatAll() = concatMap { it }
+
+
+/**
+ * Emits the latest `Flowable<T>` emitted through an `Flowable<Flowable<T>>`. Same as calling `switchMap { it }`.
+ */
+fun <T : Any> Flowable<Flowable<T>>.switchLatest() = switchMap { it }
+
+
+fun <T : Any> Flowable<Flowable<T>>.switchOnNext(): Flowable<T> = Flowable.switchOnNext(this)
