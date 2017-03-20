@@ -63,7 +63,7 @@ fun <T : Any> Maybe<T>.subscribeBy(
         onSuccess: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
-) = subscribe(onSuccess, onError, onComplete)
+): Disposable = subscribe(onSuccess, onError, onComplete)
 
 /**
  * Overloaded subscribe function that allow passing named parameters
