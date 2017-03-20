@@ -18,8 +18,14 @@ private val onCompleteStub: () -> Unit = {}
 fun <T : Any> Observable<T>.subscribeBy(
         onNext: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub
-): Disposable = subscribe(onNext, onError, onComplete)
+        onComplete: () -> Unit = onCompleteStub,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
+): Disposable {
+    onStart?.invoke()
+    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    return withOnFinish.subscribe(onNext, onError, onComplete)
+}
 
 /**
  * Overloaded subscribe function that allow passing named parameters
@@ -27,16 +33,28 @@ fun <T : Any> Observable<T>.subscribeBy(
 fun <T : Any> Flowable<T>.subscribeBy(
         onNext: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub
-): Disposable = subscribe(onNext, onError, onComplete)
+        onComplete: () -> Unit = onCompleteStub,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
+): Disposable {
+    onStart?.invoke()
+    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    return withOnFinish.subscribe(onNext, onError, onComplete)
+}
 
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun <T : Any> Single<T>.subscribeBy(
         onSuccess: (T) -> Unit = onNextStub,
-        onError: (Throwable) -> Unit = onErrorStub
-): Disposable = subscribe(onSuccess, onError)
+        onError: (Throwable) -> Unit = onErrorStub,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
+): Disposable {
+    onStart?.invoke()
+    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    return withOnFinish.subscribe(onSuccess, onError)
+}
 
 /**
  * Overloaded subscribe function that allow passing named parameters
@@ -44,15 +62,27 @@ fun <T : Any> Single<T>.subscribeBy(
 fun <T : Any> Maybe<T>.subscribeBy(
         onSuccess: (T) -> Unit = onNextStub,
         onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub
-): Disposable = subscribe(onSuccess, onError, onComplete)
+        onComplete: () -> Unit = onCompleteStub,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
+): Disposable {
+    onStart?.invoke()
+    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    return withOnFinish.subscribe(onSuccess, onError, onComplete)
+}
 
 /**
  * Overloaded subscribe function that allow passing named parameters
  */
 fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub
-): Disposable = subscribe(onComplete, onError)
+        onComplete: () -> Unit = onCompleteStub,
+        onStart: (() -> Unit)? = null,
+        onFinish: (() -> Unit)? = null
+): Disposable {
+    onStart?.invoke()
+    val withOnFinish = if(onFinish != null) doFinally { onFinish() } else this
+    return withOnFinish.subscribe(onComplete, onError)
+}
 
 class OnErrorNotImplementedException(e: Throwable) : RuntimeException(e)
