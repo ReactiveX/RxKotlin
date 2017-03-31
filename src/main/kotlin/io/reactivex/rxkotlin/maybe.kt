@@ -2,7 +2,9 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.MaybeSource
 import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 
@@ -14,7 +16,11 @@ fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 inline fun <reified R : Any> Maybe<Any>.cast(): Maybe<R> = cast(R::class.java)
 inline fun <reified R : Any> Maybe<Any>.ofType(): Maybe<R> = ofType(R::class.java)
 
-
+/**
+ * An alias to [Maybe.zipWith], but allowing for cleaner lambda syntax.
+ */
+inline fun <T, U, R> Maybe<T>.zipWith(other: MaybeSource<U>, crossinline zipper: (T, U) -> R): Maybe<R>
+        = zipWith(other, BiFunction { t, u -> zipper.invoke(t, u) })
 
 // EXTENSION FUNCTION OPERATORS
 

@@ -47,4 +47,8 @@ class SingleTest : KotlinTests() {
         Mockito.verify(a, Mockito.times(1))
                 .received("Hello World!")
     }
+
+    @Test fun testZipWith() {
+        Single.just(1).zipWith(Single.just(2)) { a, b -> a + b }.test().assertValue(3)
+    }
 }
