@@ -109,7 +109,7 @@ Use this setup for Maven:
 		</repository>
 	</repositories>
 
-    <dependency>
+        <dependency>
 	    <groupId>com.github.ReactiveX</groupId>
 	    <artifactId>RxKotlin</artifactId>
 	    <version>1.x-SNAPSHOT</version>
