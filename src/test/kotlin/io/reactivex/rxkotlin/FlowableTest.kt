@@ -129,4 +129,16 @@ class FlowableTest {
         flowable.test()
                 .assertError(ClassCastException::class.java)
     }
+
+    @Test fun testWithLatestFrom() {
+        val emit1 = Flowable.just(1)
+        emit1.withLatestFrom(emit1) { a, b -> a + b }.test().assertValue(2)
+        emit1.withLatestFrom(emit1, emit1) { a, b, c -> a + b + c }.test().assertValue(3)
+        emit1.withLatestFrom(emit1, emit1, emit1) { a, b, c, d -> a + b + c + d }.test().assertValue(4)
+        emit1.withLatestFrom(emit1, emit1, emit1, emit1) { a, b, c, d, e -> a + b + c + d + e }.test().assertValue(5)
+    }
+
+    @Test fun testZipWith() {
+        Flowable.fromArray(1, 2).zipWith(Flowable.fromArray(3, 4)) { a, b -> a + b }.test().assertValues(4, 6)
+    }
 }

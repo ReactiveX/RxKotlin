@@ -1,7 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Ignore
@@ -175,4 +174,15 @@ class ObservableTest {
 
     }
 
+    @Test fun testWithLatestFrom() {
+        val emit1 = Observable.just(1)
+        emit1.withLatestFrom(emit1) { a, b -> a + b }.test().assertValue(2)
+        emit1.withLatestFrom(emit1, emit1) { a, b, c -> a + b + c }.test().assertValue(3)
+        emit1.withLatestFrom(emit1, emit1, emit1) { a, b, c, d -> a + b + c + d }.test().assertValue(4)
+        emit1.withLatestFrom(emit1, emit1, emit1, emit1) { a, b, c, d, e -> a + b + c + d + e }.test().assertValue(5)
+    }
+
+    @Test fun testZipWith() {
+        Observable.fromArray(1, 2).zipWith(Observable.fromArray(3, 4)) { a, b -> a + b }.test().assertValues(4, 6)
+    }
 }
