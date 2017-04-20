@@ -30,9 +30,39 @@ object ObservableKt {
                     io.reactivex.functions.Function5<T1, T2, T3, T4, T5, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1,t2, t3, t4, t5) })!!
 
 
+    inline fun <T1,T2,T3,T4,T5,T6,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>,
+                                                source3: Observable<T3>, source4: Observable<T4>,
+                                                source5: Observable<T5>, source6: Observable<T6>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6) -> R) =
+            Observable.combineLatest(source1, source2,source3, source4, source5, source6,
+                    io.reactivex.functions.Function6<T1, T2, T3, T4, T5, T6, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1,t2, t3, t4, t5, t6) })!!
+
+    inline fun <T1,T2,T3,T4,T5,T6,T7,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>,
+                                                   source3: Observable<T3>, source4: Observable<T4>,
+                                                   source5: Observable<T5>, source6: Observable<T6>,
+                                                      source7: Observable<T7>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7) -> R) =
+            Observable.combineLatest(source1, source2,source3, source4, source5, source6, source7,
+                    io.reactivex.functions.Function7<T1, T2, T3, T4, T5, T6, T7, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1,t2, t3, t4, t5, t6, t7) })!!
 
 
+    inline fun <T1,T2,T3,T4,T5,T6,T7,T8,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>,
+                                                      source3: Observable<T3>, source4: Observable<T4>,
+                                                      source5: Observable<T5>, source6: Observable<T6>,
+                                                      source7: Observable<T7>, source8: Observable<T8>,
+                                                         crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8) -> R) =
+            Observable.combineLatest(source1, source2,source3, source4, source5, source6, source7, source8,
+                    io.reactivex.functions.Function8<T1, T2, T3, T4, T5, T6, T7, T8,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8) })!!
 
+    inline fun <T1,T2,T3,T4,T5,T6,T7,T8,T9,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>,
+                                                         source3: Observable<T3>, source4: Observable<T4>,
+                                                         source5: Observable<T5>, source6: Observable<T6>,
+                                                         source7: Observable<T7>, source8: Observable<T8>,
+                                                         source9: Observable<T9>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8, T9) -> R) =
+            Observable.combineLatest(source1, source2,source3, source4, source5, source6, source7, source8, source9,
+                    io.reactivex.functions.Function9<T1, T2, T3, T4, T5, T6, T7, T8,T9,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
+
+
+    
+    
     inline fun <T1,T2,R> zip(source1: Observable<T1>, source2: Observable<T2>, crossinline combineFunction: (T1, T2) -> R) =
             Observable.zip(source1, source2,
                     BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1,t2) })!!
@@ -46,10 +76,43 @@ object ObservableKt {
                     io.reactivex.functions.Function4<T1, T2, T3, T4, R> { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1,t2, t3, t4) })!!
 
     inline fun <T1,T2,T3,T4,T5,R> zip(source1: Observable<T1>, source2: Observable<T2>,
-                                                source3: Observable<T3>, source4: Observable<T4>,
-                                                source5: Observable<T5>, crossinline combineFunction: (T1,T2, T3, T4, T5) -> R) =
+                                      source3: Observable<T3>, source4: Observable<T4>,
+                                      source5: Observable<T5>, crossinline combineFunction: (T1,T2, T3, T4, T5) -> R) =
             Observable.zip(source1, source2,source3, source4, source5,
                     io.reactivex.functions.Function5<T1, T2, T3, T4, T5, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1,t2, t3, t4, t5) })!!
+
+
+
+    inline fun <T1,T2,T3,T4,T5,T6,R> zip(source1: Observable<T1>, source2: Observable<T2>,
+                                                   source3: Observable<T3>, source4: Observable<T4>,
+                                                   source5: Observable<T5>, source6: Observable<T6>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6) -> R) =
+            Observable.zip(source1, source2,source3, source4, source5, source6,
+                    io.reactivex.functions.Function6<T1, T2, T3, T4, T5, T6, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1,t2, t3, t4, t5, t6) })!!
+
+    inline fun <T1,T2,T3,T4,T5,T6,T7,R> zip(source1: Observable<T1>, source2: Observable<T2>,
+                                                      source3: Observable<T3>, source4: Observable<T4>,
+                                                      source5: Observable<T5>, source6: Observable<T6>,
+                                                      source7: Observable<T7>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7) -> R) =
+            Observable.zip(source1, source2,source3, source4, source5, source6, source7,
+                    io.reactivex.functions.Function7<T1, T2, T3, T4, T5, T6, T7, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1,t2, t3, t4, t5, t6, t7) })!!
+
+
+    inline fun <T1,T2,T3,T4,T5,T6,T7,T8,R> zip(source1: Observable<T1>, source2: Observable<T2>,
+                                                         source3: Observable<T3>, source4: Observable<T4>,
+                                                         source5: Observable<T5>, source6: Observable<T6>,
+                                                         source7: Observable<T7>, source8: Observable<T8>,
+                                                         crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8) -> R) =
+            Observable.zip(source1, source2,source3, source4, source5, source6, source7, source8,
+                    io.reactivex.functions.Function8<T1, T2, T3, T4, T5, T6, T7, T8,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8) })!!
+
+    inline fun <T1,T2,T3,T4,T5,T6,T7,T8,T9,R> zip(source1: Observable<T1>, source2: Observable<T2>,
+                                                            source3: Observable<T3>, source4: Observable<T4>,
+                                                            source5: Observable<T5>, source6: Observable<T6>,
+                                                            source7: Observable<T7>, source8: Observable<T8>,
+                                                            source9: Observable<T9>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8, T9) -> R) =
+            Observable.zip(source1, source2,source3, source4, source5, source6, source7, source8, source9,
+                    io.reactivex.functions.Function9<T1, T2, T3, T4, T5, T6, T7, T8,T9,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
+
 }
 
 
