@@ -4,7 +4,7 @@ import io.reactivex.Maybe
 import io.reactivex.MaybeSource
 import io.reactivex.functions.BiFunction
 
-object MaybeKt {
+object Maybes {
     inline fun <T, U, R> zip(s1: MaybeSource<T>, s2: MaybeSource<U>, crossinline zipper: (T, U) -> R): MaybeSource<R>
             = Maybe.zip(s1,s2, BiFunction { t, u -> zipper.invoke(t, u) })
 }

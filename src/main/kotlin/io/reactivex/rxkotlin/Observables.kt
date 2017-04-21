@@ -7,7 +7,7 @@ import io.reactivex.functions.BiFunction
 /**
  * SAM adapters to aid Kotlin lambda support
  */
-object ObservableKt {
+object Observables {
 
     inline fun <T1,T2,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>, crossinline combineFunction: (T1, T2) -> R) =
             Observable.combineLatest(source1, source2,

@@ -8,7 +8,7 @@ import io.reactivex.functions.Function5
 import org.reactivestreams.Publisher
 
 
-object FlowableKt {
+object Flowables {
 
     inline fun <T1,T2,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>, crossinline combineFunction: (T1, T2) -> R) =
             Flowable.combineLatest(source1, source2,
