@@ -10,109 +10,109 @@ import org.reactivestreams.Publisher
 
 object Flowables {
 
-    inline fun <T1,T2,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>, crossinline combineFunction: (T1, T2) -> R) =
+    inline fun <T1,T2,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>, crossinline combiner: (T1, T2) -> R) =
             Flowable.combineLatest(source1, source2,
-                    BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1,t2) })!!
+                    BiFunction<T1, T2, R> { t1, t2 -> combiner(t1,t2) })!!
 
-    inline fun <T1,T2,T3,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>, crossinline combineFunction: (T1,T2, T3) -> R) =
+    inline fun <T1,T2,T3,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>, crossinline combiner: (T1,T2, T3) -> R) =
             Flowable.combineLatest(source1, source2,source3,
-                    io.reactivex.functions.Function3<T1, T2, T3, R> { t1: T1, t2: T2, t3: T3 -> combineFunction(t1,t2, t3) })!!
+                    io.reactivex.functions.Function3<T1, T2, T3, R> { t1: T1, t2: T2, t3: T3 -> combiner(t1,t2, t3) })!!
 
     inline fun <T1,T2,T3,T4,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>,
-                                             source4: Flowable<T4>, crossinline combineFunction: (T1,T2, T3, T4) -> R) =
+                                             source4: Flowable<T4>, crossinline combiner: (T1,T2, T3, T4) -> R) =
             Flowable.combineLatest(source1, source2,source3, source4,
-                    io.reactivex.functions.Function4<T1, T2, T3, T4, R> { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1,t2, t3, t4) })!!
+                    io.reactivex.functions.Function4<T1, T2, T3, T4, R> { t1: T1, t2: T2, t3: T3, t4: T4 -> combiner(t1,t2, t3, t4) })!!
 
 
     inline fun <T1,T2,T3,T4,T5,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>,
                                                 source3: Flowable<T3>, source4: Flowable<T4>,
-                                                source5: Flowable<T5>, crossinline combineFunction: (T1,T2, T3, T4, T5) -> R) =
+                                                source5: Flowable<T5>, crossinline combiner: (T1,T2, T3, T4, T5) -> R) =
             Flowable.combineLatest(source1, source2,source3, source4, source5,
-                    io.reactivex.functions.Function5<T1, T2, T3, T4, T5, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1,t2, t3, t4, t5) })!!
+                    io.reactivex.functions.Function5<T1, T2, T3, T4, T5, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combiner(t1,t2, t3, t4, t5) })!!
 
 
     inline fun <T1,T2,T3,T4,T5,T6,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>,
                                                    source3: Flowable<T3>, source4: Flowable<T4>,
-                                                   source5: Flowable<T5>, source6: Flowable<T6>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6) -> R) =
+                                                   source5: Flowable<T5>, source6: Flowable<T6>, crossinline combiner: (T1,T2, T3, T4, T5, T6) -> R) =
             Flowable.combineLatest(source1, source2,source3, source4, source5, source6,
-                    io.reactivex.functions.Function6<T1, T2, T3, T4, T5, T6, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1,t2, t3, t4, t5, t6) })!!
+                    io.reactivex.functions.Function6<T1, T2, T3, T4, T5, T6, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combiner(t1,t2, t3, t4, t5, t6) })!!
 
     inline fun <T1,T2,T3,T4,T5,T6,T7,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>,
                                                       source3: Flowable<T3>, source4: Flowable<T4>,
                                                       source5: Flowable<T5>, source6: Flowable<T6>,
-                                                      source7: Flowable<T7>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7) -> R) =
+                                                      source7: Flowable<T7>, crossinline combiner: (T1,T2, T3, T4, T5, T6, T7) -> R) =
             Flowable.combineLatest(source1, source2,source3, source4, source5, source6, source7,
-                    io.reactivex.functions.Function7<T1, T2, T3, T4, T5, T6, T7, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1,t2, t3, t4, t5, t6, t7) })!!
+                    io.reactivex.functions.Function7<T1, T2, T3, T4, T5, T6, T7, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combiner(t1,t2, t3, t4, t5, t6, t7) })!!
 
 
     inline fun <T1,T2,T3,T4,T5,T6,T7,T8,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>,
                                                          source3: Flowable<T3>, source4: Flowable<T4>,
                                                          source5: Flowable<T5>, source6: Flowable<T6>,
                                                          source7: Flowable<T7>, source8: Flowable<T8>,
-                                                         crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8) -> R) =
+                                                         crossinline combiner: (T1,T2, T3, T4, T5, T6, T7, T8) -> R) =
             Flowable.combineLatest(source1, source2,source3, source4, source5, source6, source7, source8,
-                    io.reactivex.functions.Function8<T1, T2, T3, T4, T5, T6, T7, T8,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8) })!!
+                    io.reactivex.functions.Function8<T1, T2, T3, T4, T5, T6, T7, T8,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combiner(t1,t2, t3, t4, t5, t6, t7, t8) })!!
 
     inline fun <T1,T2,T3,T4,T5,T6,T7,T8,T9,R> combineLatest(source1: Flowable<T1>, source2: Flowable<T2>,
                                                             source3: Flowable<T3>, source4: Flowable<T4>,
                                                             source5: Flowable<T5>, source6: Flowable<T6>,
                                                             source7: Flowable<T7>, source8: Flowable<T8>,
-                                                            source9: Flowable<T9>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8, T9) -> R) =
+                                                            source9: Flowable<T9>, crossinline combiner: (T1,T2, T3, T4, T5, T6, T7, T8, T9) -> R) =
             Flowable.combineLatest(source1, source2,source3, source4, source5, source6, source7, source8, source9,
-                    io.reactivex.functions.Function9<T1, T2, T3, T4, T5, T6, T7, T8,T9,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
+                    io.reactivex.functions.Function9<T1, T2, T3, T4, T5, T6, T7, T8,T9,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combiner(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
 
 
 
 
-    inline fun <T1,T2,R> zip(source1: Flowable<T1>, source2: Flowable<T2>, crossinline combineFunction: (T1, T2) -> R) =
+    inline fun <T1,T2,R> zip(source1: Flowable<T1>, source2: Flowable<T2>, crossinline combiner: (T1, T2) -> R) =
             Flowable.zip(source1, source2,
-                    BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1,t2) })!!
+                    BiFunction<T1, T2, R> { t1, t2 -> combiner(t1,t2) })!!
 
-    inline fun <T1,T2,T3,R> zip(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>, crossinline combineFunction: (T1,T2, T3) -> R) =
+    inline fun <T1,T2,T3,R> zip(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>, crossinline combiner: (T1,T2, T3) -> R) =
             Flowable.zip(source1, source2,source3,
-                    io.reactivex.functions.Function3<T1, T2, T3, R> { t1: T1, t2: T2, t3: T3 -> combineFunction(t1,t2, t3) })!!
+                    io.reactivex.functions.Function3<T1, T2, T3, R> { t1: T1, t2: T2, t3: T3 -> combiner(t1,t2, t3) })!!
 
-    inline fun <T1,T2,T3,T4,R> zip(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>, source4: Flowable<T4>, crossinline combineFunction: (T1,T2, T3, T4) -> R) =
+    inline fun <T1,T2,T3,T4,R> zip(source1: Flowable<T1>, source2: Flowable<T2>, source3: Flowable<T3>, source4: Flowable<T4>, crossinline combiner: (T1,T2, T3, T4) -> R) =
             Flowable.zip(source1, source2,source3, source4,
-                    io.reactivex.functions.Function4<T1, T2, T3, T4, R> { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1,t2, t3, t4) })!!
+                    io.reactivex.functions.Function4<T1, T2, T3, T4, R> { t1: T1, t2: T2, t3: T3, t4: T4 -> combiner(t1,t2, t3, t4) })!!
 
     inline fun <T1,T2,T3,T4,T5,R> zip(source1: Flowable<T1>, source2: Flowable<T2>,
                                       source3: Flowable<T3>, source4: Flowable<T4>,
-                                      source5: Flowable<T5>, crossinline combineFunction: (T1,T2, T3, T4, T5) -> R) =
+                                      source5: Flowable<T5>, crossinline combiner: (T1,T2, T3, T4, T5) -> R) =
             Flowable.zip(source1, source2,source3, source4, source5,
-                    io.reactivex.functions.Function5<T1, T2, T3, T4, T5, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1,t2, t3, t4, t5) })!!
+                    io.reactivex.functions.Function5<T1, T2, T3, T4, T5, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combiner(t1,t2, t3, t4, t5) })!!
 
 
 
     inline fun <T1,T2,T3,T4,T5,T6,R> zip(source1: Flowable<T1>, source2: Flowable<T2>,
                                          source3: Flowable<T3>, source4: Flowable<T4>,
-                                         source5: Flowable<T5>, source6: Flowable<T6>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6) -> R) =
+                                         source5: Flowable<T5>, source6: Flowable<T6>, crossinline combiner: (T1,T2, T3, T4, T5, T6) -> R) =
             Flowable.zip(source1, source2,source3, source4, source5, source6,
-                    io.reactivex.functions.Function6<T1, T2, T3, T4, T5, T6, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1,t2, t3, t4, t5, t6) })!!
+                    io.reactivex.functions.Function6<T1, T2, T3, T4, T5, T6, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combiner(t1,t2, t3, t4, t5, t6) })!!
 
     inline fun <T1,T2,T3,T4,T5,T6,T7,R> zip(source1: Flowable<T1>, source2: Flowable<T2>,
                                             source3: Flowable<T3>, source4: Flowable<T4>,
                                             source5: Flowable<T5>, source6: Flowable<T6>,
-                                            source7: Flowable<T7>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7) -> R) =
+                                            source7: Flowable<T7>, crossinline combiner: (T1,T2, T3, T4, T5, T6, T7) -> R) =
             Flowable.zip(source1, source2,source3, source4, source5, source6, source7,
-                    io.reactivex.functions.Function7<T1, T2, T3, T4, T5, T6, T7, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1,t2, t3, t4, t5, t6, t7) })!!
+                    io.reactivex.functions.Function7<T1, T2, T3, T4, T5, T6, T7, R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combiner(t1,t2, t3, t4, t5, t6, t7) })!!
 
 
     inline fun <T1,T2,T3,T4,T5,T6,T7,T8,R> zip(source1: Flowable<T1>, source2: Flowable<T2>,
                                                source3: Flowable<T3>, source4: Flowable<T4>,
                                                source5: Flowable<T5>, source6: Flowable<T6>,
                                                source7: Flowable<T7>, source8: Flowable<T8>,
-                                               crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8) -> R) =
+                                               crossinline combiner: (T1,T2, T3, T4, T5, T6, T7, T8) -> R) =
             Flowable.zip(source1, source2,source3, source4, source5, source6, source7, source8,
-                    io.reactivex.functions.Function8<T1, T2, T3, T4, T5, T6, T7, T8,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8) })!!
+                    io.reactivex.functions.Function8<T1, T2, T3, T4, T5, T6, T7, T8,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combiner(t1,t2, t3, t4, t5, t6, t7, t8) })!!
 
     inline fun <T1,T2,T3,T4,T5,T6,T7,T8,T9,R> zip(source1: Flowable<T1>, source2: Flowable<T2>,
                                                   source3: Flowable<T3>, source4: Flowable<T4>,
                                                   source5: Flowable<T5>, source6: Flowable<T6>,
                                                   source7: Flowable<T7>, source8: Flowable<T8>,
-                                                  source9: Flowable<T9>, crossinline combineFunction: (T1,T2, T3, T4, T5, T6, T7, T8, T9) -> R) =
+                                                  source9: Flowable<T9>, crossinline combiner: (T1,T2, T3, T4, T5, T6, T7, T8, T9) -> R) =
             Flowable.zip(source1, source2,source3, source4, source5, source6, source7, source8, source9,
-                    io.reactivex.functions.Function9<T1, T2, T3, T4, T5, T6, T7, T8,T9,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
+                    io.reactivex.functions.Function9<T1, T2, T3, T4, T5, T6, T7, T8,T9,R> { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combiner(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
 
 }
 
