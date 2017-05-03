@@ -1,6 +1,8 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 
 
 fun BooleanArray.toFlowable(): Flowable<Boolean> = asIterable().toFlowable()
@@ -62,6 +64,18 @@ inline fun <reified R : Any> Flowable<*>.ofType(): Flowable<R> = ofType(R::class
 private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
+
+/**
+ * Combine latest operator that produces [Pair]
+ */
+fun <T : Any, R : Any> Flowable<T>.combineLatest(flowable: Flowable<R>): Flowable<Pair<T, R>>
+        = Flowable.combineLatest(this, flowable, BiFunction(::Pair))
+
+/**
+ * Combine latest operator that produces [Triple]
+ */
+fun <T : Any, R : Any, U : Any> Flowable<T>.combineLatest(flowable1: Flowable<R>, flowable2: Flowable<U>): Flowable<Triple<T, R, U>>
+        = Flowable.combineLatest(this, flowable1, flowable2, Function3(::Triple))
 
 //EXTENSION FUNCTION OPERATORS
 

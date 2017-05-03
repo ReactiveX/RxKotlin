@@ -1,37 +1,41 @@
 package io.reactivex.rxkotlin
 
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import org.junit.Assert
+import io.reactivex.Flowable.create
+import io.reactivex.FlowableEmitter
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Ignore
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
 
 class FlowableTest {
 
-    private fun <T: Any>  bufferedFlowable(source: (io.reactivex.FlowableEmitter<T>) -> Unit) =
-            io.reactivex.Flowable.create(source, io.reactivex.BackpressureStrategy.BUFFER)
+    private fun <T : Any> bufferedFlowable(source: (FlowableEmitter<T>) -> Unit) =
+            create(source, BackpressureStrategy.BUFFER)
 
     @org.junit.Test fun testCreation() {
-        val o0: io.reactivex.Flowable<Int> = io.reactivex.Flowable.empty()
+        val o0: Flowable<Int> = Flowable.empty()
         val list = bufferedFlowable<Int> { s ->
             s.onNext(1)
             s.onNext(777)
             s.onComplete()
         }.toList().blockingGet()
-        org.junit.Assert.assertEquals(listOf(1, 777), list)
-        val o1: io.reactivex.Flowable<Int> = listOf(1, 2, 3).toFlowable()
-        val o2: io.reactivex.Flowable<List<Int>> = io.reactivex.Flowable.just(listOf(1, 2, 3))
+        assertEquals(listOf(1, 777), list)
+        val o1: Flowable<Int> = listOf(1, 2, 3).toFlowable()
+        val o2: Flowable<List<Int>> = Flowable.just(listOf(1, 2, 3))
 
-        val o3: io.reactivex.Flowable<Int> = io.reactivex.Flowable.defer { bufferedFlowable<Int> { s -> s.onNext(1) } }
-        val o4: io.reactivex.Flowable<Int> = Array(3) { 0 }.toFlowable()
-        val o5: io.reactivex.Flowable<Int> = IntArray(3).toFlowable()
+        val o3: Flowable<Int> = Flowable.defer { bufferedFlowable<Int> { s -> s.onNext(1) } }
+        val o4: Flowable<Int> = Array(3) { 0 }.toFlowable()
+        val o5: Flowable<Int> = IntArray(3).toFlowable()
 
-        org.junit.Assert.assertNotNull(o0)
-        org.junit.Assert.assertNotNull(o1)
-        org.junit.Assert.assertNotNull(o2)
-        org.junit.Assert.assertNotNull(o3)
-        org.junit.Assert.assertNotNull(o4)
-        org.junit.Assert.assertNotNull(o5)
+        assertNotNull(o0)
+        assertNotNull(o1)
+        assertNotNull(o2)
+        assertNotNull(o3)
+        assertNotNull(o4)
+        assertNotNull(o5)
     }
 
     @org.junit.Test fun testExampleFromReadme() {
@@ -48,34 +52,34 @@ class FlowableTest {
                 map { it.toString() }.
                 blockingGet()
 
-        Assert.assertEquals("Hello", result)
+        assertEquals("Hello", result)
     }
 
     @Test fun iteratorFlowable() {
-        Assert.assertEquals(listOf(1, 2, 3), listOf(1, 2, 3).iterator().toFlowable().toList().blockingGet())
+        assertEquals(listOf(1, 2, 3), listOf(1, 2, 3).iterator().toFlowable().toList().blockingGet())
     }
 
     @Test fun intProgressionStep1Empty() {
-        Assert.assertEquals(listOf(1), (1..1).toFlowable().toList().blockingGet())
+        assertEquals(listOf(1), (1..1).toFlowable().toList().blockingGet())
     }
 
     @Test fun intProgressionStep1() {
-        Assert.assertEquals((1..10).toList(), (1..10).toFlowable().toList().blockingGet())
+        assertEquals((1..10).toList(), (1..10).toFlowable().toList().blockingGet())
     }
 
     @Test fun intProgressionDownTo() {
-        Assert.assertEquals((1 downTo 10).toList(), (1 downTo 10).toFlowable().toList().blockingGet())
+        assertEquals((1 downTo 10).toList(), (1 downTo 10).toFlowable().toList().blockingGet())
     }
 
     @Ignore("Too slow")
     @Test fun intProgressionOverflow() {
-        Assert.assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toFlowable().skip(Integer.MAX_VALUE.toLong()).map { Integer.MAX_VALUE - it }.toList().blockingGet())
+        assertEquals((0..10).toList().reversed(), (-10..Integer.MAX_VALUE).toFlowable().skip(Integer.MAX_VALUE.toLong()).map { Integer.MAX_VALUE - it }.toList().blockingGet())
     }
 
 
     @Test fun testFold() {
         val result = listOf(1, 2, 3).toFlowable().reduce(0) { acc, e -> acc + e }.blockingGet()
-        Assert.assertEquals(6, result)
+        assertEquals(6, result)
     }
 
     @Test fun `kotlin sequence should produce expected items and flowable be able to handle em`() {
@@ -93,11 +97,11 @@ class FlowableTest {
                 toList().
                 subscribe()
 
-        Assert.assertEquals(100, generated.get())
+        assertEquals(100, generated.get())
     }
 
     @Test fun testFlatMapSequence() {
-        Assert.assertEquals(
+        assertEquals(
                 listOf(1, 2, 3, 2, 3, 4, 3, 4, 5),
                 listOf(1, 2, 3).toFlowable().flatMapSequence { listOf(it, it + 1, it + 2).asSequence() }.toList().blockingGet()
         )
@@ -105,12 +109,12 @@ class FlowableTest {
 
     @Test fun testCombineLatest() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
-        Assert.assertEquals(list, list.map { Flowable.just(it) }.combineLatest { it }.blockingFirst())
+        assertEquals(list, list.map { Flowable.just(it) }.combineLatest { it }.blockingFirst())
     }
 
     @Test fun testZip() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
-        Assert.assertEquals(list, list.map { Flowable.just(it) }.zip { it }.blockingFirst())
+        assertEquals(list, list.map { Flowable.just(it) }.zip { it }.blockingFirst())
     }
 
     @Test fun testCast() {
@@ -128,5 +132,21 @@ class FlowableTest {
         val flowable = source.cast<String>()
         flowable.test()
                 .assertError(ClassCastException::class.java)
+    }
+
+    @Test fun combineLatestPair() {
+        Flowable.just(3)
+                .combineLatest(Flowable.just(10))
+                .map { (x, y) -> x * y }
+                .test()
+                .assertValues(30)
+    }
+
+    @Test fun combineLatestTriple() {
+        Flowable.just(3)
+                .combineLatest(Flowable.just(10), Flowable.just(20))
+                .map { (x, y, z) -> x * y * z }
+                .test()
+                .assertValues(600)
     }
 }

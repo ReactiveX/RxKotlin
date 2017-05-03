@@ -1,7 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Ignore
@@ -172,7 +171,22 @@ class ObservableTest {
                 .assertValues(BigDecimal.valueOf(15, 1), 2, BigDecimal.valueOf(42), 15)
                 .assertNoErrors()
                 .assertComplete()
+    }
 
+    @Test fun combineLatestPair() {
+        Observable.just(3)
+                .combineLatest(Observable.just(10))
+                .map { (x, y) -> x * y }
+                .test()
+                .assertValues(30)
+    }
+
+    @Test fun combineLatestTriple() {
+        Observable.just(3)
+                .combineLatest(Observable.just(10), Observable.just(20))
+                .map { (x, y, z) -> x * y * z }
+                .test()
+                .assertValues(600)
     }
 
 }
