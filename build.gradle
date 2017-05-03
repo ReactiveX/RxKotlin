@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.1.2'
+    ext.kotlin_version = '1.1.2-2'
     repositories { jcenter() }
     dependencies {
         classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:4.+',
@@ -9,6 +9,8 @@ buildscript {
 
 group = 'io.reactivex.rxjava2'
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 apply plugin: 'nebula.rxjava-project'
 apply plugin: 'kotlin'
