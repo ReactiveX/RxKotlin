@@ -6,9 +6,8 @@ RxKotlin is a lightweight library that adds convenient extension functions to [R
 
 
 ```kotlin
-package rx.lang.kotlin
-
-import rx.Observable
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
 
 fun main(args: Array<String>) {
 
@@ -17,9 +16,9 @@ fun main(args: Array<String>) {
     list.toObservable() // extension function for Iterables
             .filter { it.length >= 5 }
             .subscribeBy(  // named arguments for lambda Subscribers
-                onNext = { println(it) },
-                onError =  { it.printStackTrace() },
-                onComplete = { println("Done!") }
+                    onNext = { println(it) },
+                    onError =  { it.printStackTrace() },
+                    onComplete = { println("Done!") }
             )
 
 }
