@@ -5,6 +5,7 @@ import rx.Observable
 import rx.Single
 import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
+import rx.observables.BlockingObservable
 
 private val onNextStub: (Any) -> Unit = {}
 private val onErrorStub: (Throwable) -> Unit = { throw OnErrorNotImplementedException(it) }
@@ -18,6 +19,15 @@ fun <T : Any> Observable<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onCompleted: () -> Unit = onCompleteStub
 ): Subscription = subscribe(onNext, onError, onCompleted)
+
+/**
+ * Overloaded subscribe function that allow passing named parameters
+ */
+fun <T : Any> BlockingObservable<T>.subscribeBy(
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onCompleted: () -> Unit = onCompleteStub
+) = subscribe(onNext, onError, onCompleted)
 
 /**
  * Overloaded subscribe function that allow passing named parameters
