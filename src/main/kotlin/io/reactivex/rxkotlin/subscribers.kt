@@ -1,10 +1,6 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import java.lang.RuntimeException
 
@@ -54,5 +50,23 @@ fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
 ): Disposable = subscribe(onComplete, onError)
+
+/**
+ * Overloaded blockingSubscribe function that allow passing named parameters
+ */
+fun <T : Any> Observable<T>.blockingSubscribeBy(
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+) = blockingSubscribe(onNext, onError, onComplete)
+
+/**
+ * Overloaded blockingSubscribe function that allow passing named parameters
+ */
+fun <T : Any> Flowable<T>.blockingSubscribeBy(
+        onNext: (T) -> Unit = onNextStub,
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+) = blockingSubscribe(onNext, onError, onComplete)
 
 class OnErrorNotImplementedException(e: Throwable) : RuntimeException(e)
