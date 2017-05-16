@@ -11,7 +11,7 @@ private val onErrorStub: (Throwable) -> Unit = { throw OnErrorNotImplementedExce
 private val onCompleteStub: () -> Unit = {}
 
 /**
- * Overloaded subscribe function that allow passing named parameters
+ * Overloaded subscribe function that allows passing named parameters
  */
 fun <T : Any> Observable<T>.subscribeBy(
         onNext: (T) -> Unit = onNextStub,
@@ -20,7 +20,7 @@ fun <T : Any> Observable<T>.subscribeBy(
 ): Subscription = subscribe(onNext, onError, onCompleted)
 
 /**
- * Overloaded subscribe function that allow passing named parameters
+ * Overloaded subscribe function that allows passing named parameters
  */
 fun <T : Any> Single<T>.subscribeBy(
         onSuccess: (T) -> Unit = onNextStub,
@@ -28,7 +28,7 @@ fun <T : Any> Single<T>.subscribeBy(
 ): Subscription = subscribe(onSuccess, onError)
 
 /**
- * Overloaded subscribe function that allow passing named parameters
+ * Overloaded subscribe function that allows passing named parameters
  */
 fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
