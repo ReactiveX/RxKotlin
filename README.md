@@ -24,6 +24,25 @@ fun main(args: Array<String>) {
 }
 ```
 
+## SAM Helpers
+
+To help cope with the [SAM ambiguity issue](https://youtrack.jetbrains.com/oauth?state=%2Fissue%2FKT-13609) when using RxJava 2.x with Kotlin, there are a number of helper factories and extension functions to workaround the affected operators. 
+
+```
+Observables.zip()
+Observables.combineLatest()
+Observable#zipWith()
+Observable#withLatestFrom()
+Flowables.zip()
+Flowables.combineLatest()
+Flowable#zipWith()
+Flowable#withLatestFrom()
+Singles.zip()
+Single#zipWith()
+Maybes.zip()
+```
+
+
 ## Support for RxJava 1.x and RxJava 2.x
 
 Use RxKotlin 1.x versions to target RxJava 1.x.
