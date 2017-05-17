@@ -14,9 +14,6 @@ apply plugin: 'nebula.rxjava-project'
 apply plugin: 'kotlin'
 apply plugin: 'java'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.0.7'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
