@@ -77,6 +77,19 @@ fun <T : Any, R : Any> Observable<T>.combineLatest(observable: Observable<R>): O
 fun <T : Any, R : Any, U : Any> Observable<T>.combineLatest(observable1: Observable<R>, observable2: Observable<U>): Observable<Triple<T, R, U>>
         = Observable.combineLatest(this, observable1, observable2, Function3(::Triple))
 
+/**
+ * Zip that produces [Pair]
+ */
+fun <T : Any, R : Any> Observable<T>.zip(observable: Observable<R>): Observable<Pair<T, R>>
+        = Observable.zip(this, observable, BiFunction(::Pair))
+
+/**
+ * Zip operator that produces [Triple]
+ */
+fun <T : Any, R : Any, U : Any> Observable<T>.zip(observable1: Observable<R>, observable2: Observable<U>): Observable<Triple<T, R, U>>
+        = Observable.zip(this, observable1, observable2, Function3(::Triple))
+
+
 // EXTENSION FUNCTION OPERATORS
 
 /**

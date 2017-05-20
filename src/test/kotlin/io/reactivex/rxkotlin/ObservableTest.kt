@@ -189,4 +189,20 @@ class ObservableTest {
                 .assertValues(600)
     }
 
+    @Test fun zipPair() {
+        Observable.just(3)
+                .zip(Observable.just(10))
+                .map { (x, y) -> x * y }
+                .test()
+                .assertValues(30)
+    }
+
+    @Test fun zipTriple() {
+        Observable.just(3)
+                .zip(Observable.just(10), Observable.just(20))
+                .map { (x, y, z) -> x * y * z }
+                .test()
+                .assertValues(600)
+    }
+
 }
