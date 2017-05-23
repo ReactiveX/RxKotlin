@@ -6,6 +6,7 @@ import org.junit.Test
 import java.util.concurrent.TimeUnit
 
 class SubscriptionTest {
+
     @Test fun testSubscriptionAddTo() {
         val compositeSubscription = CompositeDisposable()
 
