@@ -175,7 +175,15 @@ class ObservableTest {
 
     @Test fun combineLatestPair() {
         Observable.just(3)
-                .combineLatest(Observable.just(10))
+                .combineLatestWith(Observable.just(10))
+                .map { (x, y) -> x * y }
+                .test()
+                .assertValues(30)
+
+        Observable.just(3)
+                //does not work with method references https://youtrack.jetbrains.com/issue/KT-18080
+                //.combineLatestWith(Observable.just(10), ::Pair)
+                .combineLatestWith(Observable.just(10), { a, b -> a to b })
                 .map { (x, y) -> x * y }
                 .test()
                 .assertValues(30)
@@ -183,7 +191,13 @@ class ObservableTest {
 
     @Test fun combineLatestTriple() {
         Observable.just(3)
-                .combineLatest(Observable.just(10), Observable.just(20))
+                .combineLatestWith(Observable.just(10), Observable.just(20))
+                .map { (x, y, z) -> x * y * z }
+                .test()
+                .assertValues(600)
+
+        Observable.just(3)
+                .combineLatestWith(Observable.just(10), Observable.just(20), ::Triple)
                 .map { (x, y, z) -> x * y * z }
                 .test()
                 .assertValues(600)
@@ -191,18 +205,30 @@ class ObservableTest {
 
     @Test fun zipPair() {
         Observable.just(3)
-                .zip(Observable.just(10))
-                .map { (x, y) -> x * y }
+                .zipWith(Observable.just(10))
+                .map { (x, y) -> "$x$y" }
                 .test()
-                .assertValues(30)
+                .assertValues("310")
+
+        Observable.just(3)
+                .zipWith(Observable.just(10), { a, b -> a to b })
+                .map { (x, y) -> "$x$y" }
+                .test()
+                .assertValues("310")
     }
 
     @Test fun zipTriple() {
         Observable.just(3)
-                .zip(Observable.just(10), Observable.just(20))
-                .map { (x, y, z) -> x * y * z }
+                .zipWith(Observable.just(10), Observable.just(20))
+                .map { (x, y, z) -> "$x$y$z" }
                 .test()
-                .assertValues(600)
+                .assertValues("31020")
+
+        Observable.just(3)
+                .zipWith(Observable.just(10), Observable.just(20), ::Triple)
+                .map { (x, y, z) -> "$x$y$z" }
+                .test()
+                .assertValues("31020")
     }
 
 }
