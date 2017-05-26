@@ -154,13 +154,13 @@ inline fun <T, T1, T2, T3, T4, R> Observable<T>.withLatestFrom(o1: ObservableSou
         = withLatestFrom(o1, o2, o3, o4, Function5<T, T1, T2, T3, T4, R> { t, t1, t2, t3, t4 -> combiner.invoke(t, t1, t2, t3, t4) })
 
 /**
- * Combine latest operator that produces [Pair]
+ * Shortcut for [Observable.combineLatest] with two args
  */
 inline fun <T1 : Any, T2 : Any, R : Any> Observable<T1>.combineLatestWith(observable: Observable<T2>, crossinline combiner: (T1, T2) -> R): Observable<R>
         = Observable.combineLatest(this, observable, BiFunction { t1, t2 -> combiner.invoke(t1, t2) })
 
 /**
- * Combine latest operator that produces [Triple]
+ * * Shortcut for [Observable.combineLatest] with three args
  */
 inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any> Observable<T1>.combineLatestWith(observable1: Observable<T2>, observable2: Observable<T3>, crossinline combiner: (T1, T2, T3) -> R): Observable<R>
         = Observable.combineLatest(this, observable1, observable2, Function3 { t1, t2, t3 -> combiner.invoke(t1, t2, t3) })
