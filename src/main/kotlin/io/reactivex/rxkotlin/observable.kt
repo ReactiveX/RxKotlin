@@ -96,3 +96,12 @@ fun <T : Any> Observable<Observable<T>>.switchLatest() = switchMap { it }
 
 fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
 
+/**
+ * Collects `Pair` emission into a `Map`
+ */
+fun <A: Any, B: Any> Observable<Pair<A,B>>.toMap() = toMap({it.first},{it.second})
+
+/**
+ * Collects `Pair` emission into a multimap
+ */
+fun <A: Any, B: Any> Observable<Pair<A,B>>.toMultimap() = toMultimap({it.first},{it.second})
