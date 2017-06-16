@@ -1,7 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 
