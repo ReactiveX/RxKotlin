@@ -47,4 +47,13 @@ class SingleTest : KotlinTests() {
         Mockito.verify(a, Mockito.times(1))
                 .received("Hello World!")
     }
+    @Test
+    fun testSubscribeBy() {
+        Single.just("Alpha")
+                .subscribeBy {
+                    a.received(it)
+                }
+        verify(a, Mockito.times(1))
+                .received("Alpha")
+    }
 }

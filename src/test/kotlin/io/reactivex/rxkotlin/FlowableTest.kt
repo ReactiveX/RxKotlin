@@ -1,14 +1,15 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
+import io.reactivex.*
 import io.reactivex.Flowable.create
-import io.reactivex.FlowableEmitter
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Ignore
 import org.junit.Test
+import org.mockito.Mockito
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicReference
 
 class FlowableTest {
 
@@ -148,5 +149,26 @@ class FlowableTest {
                 .map { (x, y, z) -> x * y * z }
                 .test()
                 .assertValues(600)
+    }
+    @Test
+    fun testSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Flowable.just("Alpha")
+                .subscribeBy {
+                    first.set(it)
+                }
+        Assert.assertTrue(first.get() == "Alpha")
+    }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Flowable.just("Alpha")
+                .blockingSubscribeBy {
+                    first.set(it)
+                }
+        Assert.assertTrue(first.get() == "Alpha")
     }
 }
