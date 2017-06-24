@@ -6,7 +6,6 @@ import io.reactivex.Observable
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 
-@Deprecated("This will be removed in a future release due to API confusion")
 fun <T : Any> T?.toMaybe(): Maybe<T> = Maybe.create { s -> if (this != null) s.onSuccess(this); s.onComplete() }
 fun <T : Any> Future<T>.toMaybe(): Maybe<T> = Maybe.fromFuture(this)
 fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = Maybe.fromCallable(this)
