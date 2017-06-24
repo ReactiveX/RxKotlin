@@ -65,15 +65,12 @@ private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
 
-/**
- * Combine latest operator that produces [Pair]
- */
+@Deprecated("Use `Observables.combineLatest() factory")
 fun <T : Any, R : Any> Observable<T>.combineLatest(observable: Observable<R>): Observable<Pair<T, R>>
         = Observable.combineLatest(this, observable, BiFunction(::Pair))
 
-/**
- * Combine latest operator that produces [Triple]
- */
+
+@Deprecated("Use `Observables.combineLatest() factory")
 fun <T : Any, R : Any, U : Any> Observable<T>.combineLatest(observable1: Observable<R>, observable2: Observable<U>): Observable<Triple<T, R, U>>
         = Observable.combineLatest(this, observable1, observable2, Function3(::Triple))
 
@@ -96,3 +93,12 @@ fun <T : Any> Observable<Observable<T>>.switchLatest() = switchMap { it }
 
 fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
 
+/**
+ * Collects `Pair` emission into a `Map`
+ */
+fun <A: Any, B: Any> Observable<Pair<A,B>>.toMap() = toMap({it.first},{it.second})
+
+/**
+ * Collects `Pair` emission into a multimap
+ */
+fun <A: Any, B: Any> Observable<Pair<A,B>>.toMultimap() = toMultimap({it.first},{it.second})

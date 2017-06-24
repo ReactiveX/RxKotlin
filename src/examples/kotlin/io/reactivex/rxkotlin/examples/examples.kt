@@ -3,12 +3,8 @@ package io.reactivex.rxkotlin.examples
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.*
-import io.reactivex.rxkotlin.combineLatest
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.rxkotlin.toObservable
-import io.reactivex.rxkotlin.zip
 import java.net.URL
-import java.util.Scanner
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 

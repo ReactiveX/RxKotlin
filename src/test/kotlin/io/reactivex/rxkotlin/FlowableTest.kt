@@ -4,11 +4,14 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.create
 import io.reactivex.FlowableEmitter
+import io.reactivex.subscribers.TestSubscriber
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Ignore
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicReference
 
 class FlowableTest {
 
@@ -148,5 +151,52 @@ class FlowableTest {
                 .map { (x, y, z) -> x * y * z }
                 .test()
                 .assertValues(600)
+    }
+    @Test
+    fun testSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Flowable.just("Alpha")
+                .subscribeBy {
+                    first.set(it)
+                }
+        Assert.assertTrue(first.get() == "Alpha")
+    }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Flowable.just("Alpha")
+                .blockingSubscribeBy {
+                    first.set(it)
+                }
+        Assert.assertTrue(first.get() == "Alpha")
+    }
+    @Test
+    fun testPairZip() {
+
+        val testSubscriber = TestSubscriber<Pair<String,Int>>()
+
+        Flowables.zip(
+                Flowable.just("Alpha", "Beta", "Gamma"),
+                Flowable.range(1,4)
+        ).subscribe(testSubscriber)
+
+        testSubscriber.assertValues(Pair("Alpha",1), Pair("Beta",2), Pair("Gamma",3))
+    }
+
+    @Test
+    fun testTripleZip() {
+
+        val testSubscriber = TestSubscriber<Triple<String,Int,Int>>()
+
+        Flowables.zip(
+                Flowable.just("Alpha", "Beta", "Gamma"),
+                Flowable.range(1,4),
+                Flowable.just(100,200,300)
+        ).subscribe(testSubscriber)
+
+        testSubscriber.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
     }
 }

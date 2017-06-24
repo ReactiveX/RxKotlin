@@ -19,7 +19,6 @@ package io.reactivex.rxkotlin
 import io.reactivex.Notification
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.TestScheduler
 import org.funktionale.partials.invoke

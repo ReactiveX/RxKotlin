@@ -1,9 +1,11 @@
 package io.reactivex.rxkotlin.examples.retrofit
 
 import io.reactivex.Observable
-import retrofit.RestAdapter
-import retrofit.http.GET
-import retrofit.http.Query
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 data class SearchResultEntry(val id : String, val latestVersion : String)
 data class SearchResults(val docs : List<SearchResultEntry>)
@@ -15,14 +17,15 @@ interface MavenSearchService {
 }
 
 fun main(args: Array<String>) {
-    val service = RestAdapter.Builder().
-            setEndpoint("http://search.maven.org").
+    val service = Retrofit.Builder().
+            baseUrl("http://search.maven.org").
+            addCallAdapterFactory(RxJava2CallAdapterFactory.create()).
+            addConverterFactory(MoshiConverterFactory.create()).
             build().
             create(MavenSearchService::class.java)
 
     service.search("rxkotlin").
             flatMapIterable { it.response.docs }.
-            doAfterTerminate { System.exit(0) }.   // we need this otherwise Rx's executor service will shutdown a minute after request completion
             subscribe { artifact ->
                 println("${artifact.id} (${artifact.latestVersion})")
             }
