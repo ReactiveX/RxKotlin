@@ -1,12 +1,14 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import io.reactivex.Single
+import org.junit.Assert.*
 import org.junit.Ignore
 import org.junit.Test
+import org.mockito.Mockito
 import java.math.BigDecimal
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicReference
 
 class ObservableTest {
 
@@ -189,4 +191,25 @@ class ObservableTest {
                 .assertValues(600)
     }
 
+    @Test
+    fun testSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Observable.just("Alpha")
+                .subscribeBy {
+                    first.set(it)
+                }
+        assertTrue(first.get() == "Alpha")
+    }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Observable.just("Alpha")
+                .blockingSubscribeBy {
+                    first.set(it)
+                }
+        assertTrue(first.get() == "Alpha")
+    }
 }
