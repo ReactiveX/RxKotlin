@@ -150,11 +150,18 @@ object Flowables {
 inline fun <T, U, R> Flowable<T>.withLatestFrom(other: Publisher<U>, crossinline combiner: (T, U) -> R): Flowable<R>
         = withLatestFrom(other, BiFunction<T, U, R> { t, u -> combiner.invoke(t, u)  })
 
+inline fun <T, U> Flowable<T>.withLatestFrom(other: Publisher<U>): Flowable<Pair<T, U>>
+        = withLatestFrom(other, BiFunction{ t, u -> Pair(t,u)  })
+
+
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
 inline fun <T, T1, T2, R> Flowable<T>.withLatestFrom(o1: Publisher<T1>, o2: Publisher<T2>, crossinline combiner: (T, T1, T2) -> R): Flowable<R>
         = withLatestFrom(o1, o2, Function3 { t, t1, t2 -> combiner.invoke(t, t1, t2) })
+
+inline fun <T, T1, T2> Flowable<T>.withLatestFrom(o1: Publisher<T1>, o2: Publisher<T2>): Publisher<Triple<T,T1,T2>>
+        = withLatestFrom(o1, o2, Function3 { t, t1, t2 -> Triple(t, t1, t2) })
 
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
@@ -173,3 +180,9 @@ inline fun <T, T1, T2, T3, T4, R> Flowable<T>.withLatestFrom(o1: Publisher<T1>, 
  */
 inline fun <T, U, R> Flowable<T>.zipWith(other: Publisher<U>, crossinline zipper: (T, U) -> R): Flowable<R>
         = zipWith(other, BiFunction { t, u -> zipper.invoke(t, u) })
+
+/**
+ * Emits a zipped `Pair`
+ */
+inline fun <T, U> Flowable<T>.zipWith(other: Publisher<U>): Flowable<Pair<T, U>>
+        = zipWith(other, BiFunction { t, u -> Pair(t,u) })
