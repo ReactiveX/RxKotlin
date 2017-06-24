@@ -1,9 +1,6 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
-
 
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
 fun ByteArray.toObservable(): Observable<Byte> = asIterable().toObservable()
@@ -36,7 +33,6 @@ fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Obs
 inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Observable<R>
         = flatMap { body(it).toObservable() }
 
-
 /**
  * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
@@ -68,14 +64,16 @@ private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
 /**
  * Combine latest operator that produces [Pair]
  */
+@Deprecated("", ReplaceWith("this.combineLatestWith(observable)"))
 fun <T : Any, R : Any> Observable<T>.combineLatest(observable: Observable<R>): Observable<Pair<T, R>>
-        = Observable.combineLatest(this, observable, BiFunction(::Pair))
+        = this.combineLatestWith(observable)
 
 /**
  * Combine latest operator that produces [Triple]
  */
+@Deprecated("", ReplaceWith("this.combineLatestWith(observable1, observable2)"))
 fun <T : Any, R : Any, U : Any> Observable<T>.combineLatest(observable1: Observable<R>, observable2: Observable<U>): Observable<Triple<T, R, U>>
-        = Observable.combineLatest(this, observable1, observable2, Function3(::Triple))
+        = this.combineLatestWith(observable1, observable2)
 
 // EXTENSION FUNCTION OPERATORS
 
