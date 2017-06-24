@@ -98,3 +98,14 @@ fun <T : Any> Flowable<Flowable<T>>.switchLatest() = switchMap { it }
 
 
 fun <T : Any> Flowable<Flowable<T>>.switchOnNext(): Flowable<T> = Flowable.switchOnNext(this)
+
+
+/**
+ * Collects `Pair` emission into a `Map`
+ */
+fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMap() = toMap({it.first},{it.second})
+
+/**
+ * Collects `Pair` emission into a multimap
+ */
+fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMultimap() = toMultimap({it.first},{it.second})
