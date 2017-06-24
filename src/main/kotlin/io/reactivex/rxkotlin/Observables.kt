@@ -13,9 +13,23 @@ object Observables {
             Observable.combineLatest(source1, source2,
                     BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1,t2) })!!
 
+    /**
+     * Emits `Pair<T1,T2>`
+     */
+    fun <T1,T2> combineLatest(source1: Observable<T1>, source2: Observable<T2>) =
+            Observable.combineLatest(source1, source2,
+                    BiFunction<T1, T2, Pair<T1,T2>> { t1, t2 -> t1 to t2 })!!
+
     inline fun <T1,T2,T3,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>, source3: Observable<T3>, crossinline combineFunction: (T1,T2, T3) -> R) =
             Observable.combineLatest(source1, source2,source3,
                     Function3 { t1: T1, t2: T2, t3: T3 -> combineFunction(t1,t2, t3) })!!
+
+    /**
+     * Emits `Triple<T1,T2,T3>`
+     */
+    fun <T1,T2,T3> combineLatest(source1: Observable<T1>, source2: Observable<T2>, source3: Observable<T3>) =
+            Observable.combineLatest(source1, source2, source3,
+                    Function3<T1, T2, T3, Triple<T1,T2,T3>> { t1, t2, t3 -> Triple(t1,t2,t3) })!!
 
     inline fun <T1,T2,T3,T4,R> combineLatest(source1: Observable<T1>, source2: Observable<T2>, source3: Observable<T3>,
                                              source4: Observable<T4>, crossinline combineFunction: (T1,T2, T3, T4) -> R) =
@@ -67,9 +81,24 @@ object Observables {
             Observable.zip(source1, source2,
                     BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1,t2) })!!
 
+
+    /**
+     * Emits `Pair<T1,T2>`
+     */
+    fun <T1,T2> zip(source1: Observable<T1>, source2: Observable<T2>) =
+            Observable.zip(source1, source2,
+                    BiFunction<T1, T2, Pair<T1,T2>> { t1, t2 -> t1 to t2 })!!
+
     inline fun <T1,T2,T3,R> zip(source1: Observable<T1>, source2: Observable<T2>, source3: Observable<T3>, crossinline combineFunction: (T1,T2, T3) -> R) =
             Observable.zip(source1, source2,source3,
                     Function3 { t1: T1, t2: T2, t3: T3 -> combineFunction(t1,t2, t3) })!!
+
+    /**
+     * Emits `Triple<T1,T2,T3>`
+     */
+    fun <T1,T2,T3> zip(source1: Observable<T1>, source2: Observable<T2>, source3: Observable<T3>) =
+            Observable.zip(source1, source2, source3,
+                    Function3<T1, T2, T3, Triple<T1,T2,T3>> { t1, t2, t3 -> Triple(t1,t2,t3) })!!
 
     inline fun <T1,T2,T3,T4,R> zip(source1: Observable<T1>, source2: Observable<T2>, source3: Observable<T3>, source4: Observable<T4>, crossinline combineFunction: (T1,T2, T3, T4) -> R) =
             Observable.zip(source1, source2,source3, source4,

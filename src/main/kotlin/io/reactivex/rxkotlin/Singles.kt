@@ -2,14 +2,7 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Single
 import io.reactivex.SingleSource
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
-import io.reactivex.functions.Function4
-import io.reactivex.functions.Function5
-import io.reactivex.functions.Function6
-import io.reactivex.functions.Function7
-import io.reactivex.functions.Function8
-import io.reactivex.functions.Function9
+import io.reactivex.functions.*
 
 
 object Singles {
