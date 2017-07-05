@@ -201,7 +201,7 @@ https://kotlinlang.slack.com/messages/rx
 
 ## SAM Helpers
 
-To help cope with the [SAM ambiguity issue](https://youtrack.jetbrains.com/oauth?state=%2Fissue%2FKT-13609) when using RxJava 2.x with Kotlin, there are a number of helper factories and extension functions to workaround the affected operators. 
+To help cope with the [SAM ambiguity issue](https://youtrack.jetbrains.com/issue/KT-14984) when using RxJava 2.x with Kotlin, there are a number of helper factories and extension functions to workaround the affected operators. 
 
 ```
 Observables.zip()
