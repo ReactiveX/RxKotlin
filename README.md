@@ -224,7 +224,7 @@ RxKotlin can be used in conjunction with other Rx and Kotlin libraries, such as 
 
 ## Contributing
 
-We welcome contributions and discussion for new features. It is recommended to file an issue first to prevent unnecessary efforts, but feel free to put in pull requests. The vision is to keep this library lightweight, with a tight and focused scope applicable to all platforms (including Android, server, and desktop). Anything specific to a particular domain (for example, [JavaFX](https://github.com/thomasnield/RxKotlinFX), [Math](https://github.com/thomasnield/rxkotlin-math), or [JDBC](https://github.com/davidmoten/rxjava-jdbc)) might be better suited as a separate project. Feel free to open discussion and we will help figure out where your functionality may belong.
+We welcome contributions and discussion for new features. It is recommended to file an issue first to prevent unnecessary efforts, but feel free to put in pull requests. The vision is to keep this library lightweight, with a tight and focused scope applicable to all platforms (including Android, server, and desktop). Anything specific to a particular domain (for example, [JavaFX](https://github.com/thomasnield/RxKotlinFX) or [JDBC](https://github.com/thomasnield/rxkotlin-jdbc)), might be better suited as a separate project. Feel free to open discussion and we will help figure out where your functionality may belong.
 
 
 
