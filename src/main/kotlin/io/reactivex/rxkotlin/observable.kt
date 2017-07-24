@@ -52,6 +52,19 @@ inline fun <T : Any, R : Any> Iterable<Observable<T>>.zip(crossinline zipFunctio
         = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
+ * Zip the outputs of a kotlin [Pair] of Observables.
+ */
+inline fun <T1 : Any, T2 : Any, R : Any> Pair<Observable<T1>,Observable<T2>>.zip(crossinline combineFunction: (T1, T2) -> R ) : Observable<R>
+        = Observable.zip(first,second, BiFunction { t1, t2 -> combineFunction(t1,t2) } )
+
+/**
+ * Zip the outputs of a kotlin [Triple] of Observables.
+ */
+inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any> Triple<Observable<T1>,Observable<T2>,Observable<T3>>.zip(crossinline combineFunction: (T1, T2, T3) -> R ) : Observable<R>
+        = Observable.zip(first,second,third, Function3 { t1, t2, t3 -> combineFunction(t1,t2,t3) } )
+
+
+/**
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
  */
 inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class.java)
@@ -73,6 +86,19 @@ fun <T : Any, R : Any> Observable<T>.combineLatest(observable: Observable<R>): O
 @Deprecated("Use `Observables.combineLatest() factory")
 fun <T : Any, R : Any, U : Any> Observable<T>.combineLatest(observable1: Observable<R>, observable2: Observable<U>): Observable<Triple<T, R, U>>
         = Observable.combineLatest(this, observable1, observable2, Function3(::Triple))
+
+/**
+ * Combine the outputs of a kotlin [Pair] of Observables.
+ */
+inline fun <T1 : Any, T2 : Any, R : Any> Pair<Observable<T1>,Observable<T2>>.combineLatest(crossinline combineFunction: (T1, T2) -> R ) : Observable<R>
+        = Observable.combineLatest(first,second, BiFunction { t1, t2 -> combineFunction(t1,t2) } )
+
+/**
+ * Combine the outputs of a kotlin [Triple] of Observables.
+ */
+inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any> Triple<Observable<T1>,Observable<T2>,Observable<T3>>.combineLatest(crossinline combineFunction: (T1, T2, T3) -> R ) : Observable<R>
+        = Observable.combineLatest(first,second,third, Function3 { t1, t2, t3 -> combineFunction(t1,t2,t3) } )
+
 
 // EXTENSION FUNCTION OPERATORS
 
