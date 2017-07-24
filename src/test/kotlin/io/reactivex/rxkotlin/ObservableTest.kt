@@ -2,10 +2,13 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import org.junit.Assert.*
 import org.junit.Ignore
 import org.junit.Test
 import java.math.BigDecimal
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 
@@ -221,6 +224,91 @@ class ObservableTest {
         ).subscribe(testObserver)
 
         testObserver.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
+    }
+
+    @Test
+    fun testZipByPair() {
+
+        val testObserver = TestObserver<String>()
+
+        val workDays = Observable.just("Mon","Tue","Wed","Thu","Fri")
+        val drinks   = Observable.just("Espresso","Cappuccino","Mocha","Beer","Whisky")
+
+        val workdayDrinks : Observable<String> = (workDays to drinks).zip { workDay, drink -> "$workDay: $drink" }
+
+        workdayDrinks.subscribe(testObserver)
+
+        testObserver.assertValues(
+                "Mon: Espresso",
+                "Tue: Cappuccino",
+                "Wed: Mocha",
+                "Thu: Beer",
+                "Fri: Whisky"
+        )
+    }
+
+    @Test
+    fun testZipByTriple() {
+
+        val testObserver = TestObserver<String>()
+
+        val speciesNameObservable = Observable.just("human","bird","spider")
+        val letCountObservable    = Observable.just(2,2,8)
+        val hirsutenessObservable = Observable.just(true,false,true)
+
+        val animalInfo : Observable<String> = Triple(speciesNameObservable,letCountObservable,hirsutenessObservable).zip {
+            speciesName,legCount,isHairy -> "A $speciesName has $legCount legs and ${if(isHairy){"is"}else{"isn't"}} hairy."
+        }
+
+        animalInfo.subscribe(testObserver)
+
+        testObserver.assertValues(
+            "A human has 2 legs and is hairy.",
+            "A bird has 2 legs and isn't hairy.",
+            "A spider has 8 legs and is hairy."
+        )
+    }
+
+    @Test
+    fun testCombineLatestByPair() {
+
+        val testObserver = TestObserver<Int>()
+
+        val subjectA = BehaviorSubject.createDefault<Int>(0)
+        val subjectB = BehaviorSubject.createDefault<Int>(0)
+
+        val constantSum = (subjectA to subjectB).combineLatest { a,b -> a + b }
+
+        constantSum.subscribe(testObserver)
+
+        for(n in 1..3) {
+            subjectA.onNext(n)
+            subjectB.onNext(n)
+        }
+
+        testObserver.assertValues(0,1,2,3,4,5,6)
+    }
+
+    @Test
+    fun testCombineLatestByTriple() {
+
+        val testObserver = TestObserver<Int>()
+
+        val subjectA : Subject<Int>             = BehaviorSubject.createDefault(0)
+        val subjectB : Subject<Int>             = BehaviorSubject.createDefault(0)
+        val subjectC : BehaviorSubject<Boolean> = BehaviorSubject.createDefault(false)
+
+        val constantSum = Triple(subjectA,subjectB,subjectC).combineLatest { a,b,c -> (a + b) * if(c) 1 else -1 }
+
+        constantSum.subscribe(testObserver)
+
+        for(n in 1..3) {
+            subjectA.onNext(n)
+            subjectB.onNext(n)
+            subjectC.onNext(!subjectC.value)
+        }
+
+        testObserver.assertValues(0, -1, -2, 2, 3, 4, -4, -5, -6, 6)
     }
 
 }
