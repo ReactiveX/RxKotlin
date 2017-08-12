@@ -154,7 +154,7 @@ inline fun <T, U, R> Observable<T>.withLatestFrom(other: ObservableSource<U>, cr
 /**
  * Emits a `Pair`
  */
-inline fun <T, U, R> Observable<T>.withLatestFrom(other: ObservableSource<U>): Observable<Pair<T,U>>
+inline fun <T, U> Observable<T>.withLatestFrom(other: ObservableSource<U>): Observable<Pair<T,U>>
         = withLatestFrom(other, BiFunction{ t, u -> Pair(t,u)  })
 
 /**
