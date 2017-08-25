@@ -17,10 +17,11 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.*
+import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
+import io.reactivex.plugins.RxJavaPlugins
+import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.*
 import kotlin.concurrent.thread
@@ -39,6 +40,20 @@ class BasicKotlinTests : KotlinTests() {
         )
 
         verify(a, times(1)).received("Hello")
+    }
+
+    @Test fun testOnError() {
+        class TestException : RuntimeException()
+        val list = ArrayList<Throwable>()
+        RxJavaPlugins.setErrorHandler { list.add(it) }
+        try {
+            Observable.error<Any>(TestException()).subscribeBy()
+            assertEquals(1, list.size)
+            assertTrue(list[0] is OnErrorNotImplementedException)
+            assertTrue(list[0].cause is TestException)
+        } finally {
+            RxJavaPlugins.reset()
+        }
     }
 
     @Test fun testFilter() {
