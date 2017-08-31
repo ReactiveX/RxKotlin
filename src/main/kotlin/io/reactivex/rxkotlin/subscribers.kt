@@ -2,10 +2,11 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
-import java.lang.RuntimeException
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.plugins.RxJavaPlugins
 
 private val onNextStub: (Any) -> Unit = {}
-private val onErrorStub: (Throwable) -> Unit = { throw OnErrorNotImplementedException(it) }
+private val onErrorStub: (Throwable) -> Unit = { RxJavaPlugins.onError(OnErrorNotImplementedException(it)) }
 private val onCompleteStub: () -> Unit = {}
 
 /**
@@ -68,5 +69,3 @@ fun <T : Any> Flowable<T>.blockingSubscribeBy(
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
         ) = blockingSubscribe(onNext, onError, onComplete)
-
-class OnErrorNotImplementedException(e: Throwable) : RuntimeException(e)
