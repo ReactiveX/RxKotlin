@@ -27,6 +27,6 @@ fun  Observable<Completable>.mergeAllCompletables() = flatMapCompletable { it }
 fun  Flowable<Completable>.mergeAllCompletables() = flatMapCompletable { it }
 
 /**
- * Concats Iterable of completables into flowable. Same as calling `Completable.concat(this)`
+ * Concats an Iterable of completables into flowable. Same as calling `Completable.concat(this)`
  */
 fun Iterable<CompletableSource>.concatCompletables() = Completable.concat(this)

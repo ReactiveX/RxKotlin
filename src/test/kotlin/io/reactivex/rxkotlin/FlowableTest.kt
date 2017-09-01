@@ -199,4 +199,14 @@ class FlowableTest {
 
         testSubscriber.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
     }
+
+    @Test fun testConcatFlowables() {
+        (0 until 10)
+                .map { Flowable.just(it) }
+                .concatFlowables()
+                .toList()
+                .subscribe { result ->
+                    Assert.assertEquals((0 until 10).toList(), result)
+                }
+    }
 }

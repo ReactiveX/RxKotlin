@@ -30,6 +30,6 @@ fun <T : Any> Observable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
 fun <T : Any> Flowable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
 
 /**
- * Concats the emissions of an Iterable of maybes into flowable. Same as calling `Maybe.concat(this)`
+ * Concats an Iterable of maybes into flowable. Same as calling `Maybe.concat(this)`
  */
 fun <T : Any> Iterable<MaybeSource<T>>.concatMaybes() = Maybe.concat(this)

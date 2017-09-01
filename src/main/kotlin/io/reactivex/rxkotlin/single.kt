@@ -28,6 +28,6 @@ fun <T : Any> Observable<Single<T>>.mergeAllSingles() = flatMapSingle { it }
 fun <T : Any> Flowable<Single<T>>.mergeAllSingles() = flatMapSingle { it }
 
 /**
- * Concats the emissions of an Iterable of singles into flowable. Same as calling `Single.concat(this)`
+ * Concats an Iterable of singles into flowable. Same as calling `Single.concat(this)`
  */
 fun <T : Any> Iterable<SingleSource<T>>.concatSingles() = Single.concat(this)
