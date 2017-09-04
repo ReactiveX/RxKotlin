@@ -30,4 +30,4 @@ fun <T : Any> Flowable<Single<T>>.mergeAllSingles() = flatMapSingle { it }
 /**
  * Concats an Iterable of singles into flowable. Same as calling `Single.concat(this)`
  */
-fun <T : Any> Iterable<SingleSource<T>>.concatSingles() = Single.concat(this)
+fun <T : Any> Iterable<SingleSource<T>>.concatAll() = Single.concat(this)

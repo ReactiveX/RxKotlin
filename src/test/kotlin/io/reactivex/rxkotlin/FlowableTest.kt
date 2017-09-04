@@ -203,7 +203,7 @@ class FlowableTest {
     @Test fun testConcatFlowables() {
         (0 until 10)
                 .map { Flowable.just(it) }
-                .concatFlowables()
+                .concatAll()
                 .toList()
                 .subscribe { result ->
                     Assert.assertEquals((0 until 10).toList(), result)

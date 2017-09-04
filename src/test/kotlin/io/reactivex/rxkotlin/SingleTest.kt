@@ -61,7 +61,7 @@ class SingleTest : KotlinTests() {
     @Test fun testConcatSingles() {
         (0 until 10)
                 .map { Single.just(it) }
-                .concatSingles()
+                .concatAll()
                 .toList()
                 .subscribe { result ->
                     Assert.assertEquals((0 until 10).toList(), result)

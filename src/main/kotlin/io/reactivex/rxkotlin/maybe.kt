@@ -32,4 +32,4 @@ fun <T : Any> Flowable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
 /**
  * Concats an Iterable of maybes into flowable. Same as calling `Maybe.concat(this)`
  */
-fun <T : Any> Iterable<MaybeSource<T>>.concatMaybes() = Maybe.concat(this)
+fun <T : Any> Iterable<MaybeSource<T>>.concatAll() = Maybe.concat(this)

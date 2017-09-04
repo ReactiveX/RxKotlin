@@ -46,7 +46,7 @@ class CompletableTest {
         var list = emptyList<Int>()
         (0 until 10)
                 .map { v -> Completable.create { list += v } }
-                .concatCompletables()
+                .concatAll()
                 .subscribe {
                     Assert.assertEquals((0 until 10).toList(), list)
                 }

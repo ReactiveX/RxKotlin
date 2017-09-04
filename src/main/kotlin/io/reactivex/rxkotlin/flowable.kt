@@ -114,4 +114,4 @@ fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMultimap() = toMultimap({it.first},{
 /**
  * Concats an Iterable of flowables into flowable. Same as calling `Flowable.concat(this)`
  */
-fun <T : Any> Iterable<Publisher<T>>.concatFlowables() = Flowable.concat(this)
+fun <T : Any> Iterable<Publisher<T>>.concatAll() = Flowable.concat(this)

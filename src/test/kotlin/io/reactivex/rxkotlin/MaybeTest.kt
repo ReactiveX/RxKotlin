@@ -20,7 +20,7 @@ class MaybeTest {
     @Test fun testConcatMaybes() {
         (0 until 10)
                 .map { Maybe.just(it) }
-                .concatMaybes()
+                .concatAll()
                 .toList()
                 .subscribe { result ->
                     Assert.assertEquals((0 until 10).toList(), result)
