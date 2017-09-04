@@ -17,7 +17,7 @@ class MaybeTest {
         Assert.assertTrue(first.get() == "Alpha")
     }
 
-    @Test fun testConcatMaybes() {
+    @Test fun testConcatAll() {
         (0 until 10)
                 .map { Maybe.just(it) }
                 .concatAll()

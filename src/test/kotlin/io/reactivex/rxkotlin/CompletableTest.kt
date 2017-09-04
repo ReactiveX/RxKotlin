@@ -42,7 +42,7 @@ class CompletableTest {
         c1.toObservable<String>().blockingFirst()
     }
 
-    @Test fun testConcatCompletables() {
+    @Test fun testConcatAll() {
         var list = emptyList<Int>()
         (0 until 10)
                 .map { v -> Completable.create { list += v } }

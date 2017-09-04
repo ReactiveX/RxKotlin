@@ -58,7 +58,7 @@ class SingleTest : KotlinTests() {
                 .received("Alpha")
     }
 
-    @Test fun testConcatSingles() {
+    @Test fun testConcatAll() {
         (0 until 10)
                 .map { Single.just(it) }
                 .concatAll()

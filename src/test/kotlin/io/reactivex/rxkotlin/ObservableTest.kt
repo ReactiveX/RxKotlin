@@ -2,6 +2,7 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
+import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Ignore
 import org.junit.Test
@@ -223,4 +224,14 @@ class ObservableTest {
         testObserver.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
     }
 
+    @Test fun testConcatAll() {
+        var counter = 0
+        (0 until 10)
+                .map { Observable.just(counter++, counter++, counter++) }
+                .concatAll()
+                .toList()
+                .subscribe { result ->
+                    Assert.assertEquals((0 until 30).toList(), result)
+                }
+    }
 }
