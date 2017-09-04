@@ -31,6 +31,7 @@ Use RxKotlin 1.x versions to target RxJava 1.x.
 
 Use RxKotlin 2.x versions to target RxJava 2.x.
 
+The maintainers do not update the RxJava dependency version for every RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle`.
 
 ## Build
 
