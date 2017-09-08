@@ -223,4 +223,15 @@ class ObservableTest {
         testObserver.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
     }
 
+    @Test
+    fun testFilterNot() {
+        val testObserver = TestObserver<String>()
+
+        Observable.fromArray("foo", "bar", "lorem")
+                .filterNot { it == "bar"}
+                .subscribe(testObserver)
+
+        testObserver.assertValues("foo", "lorem")
+    }
+
 }

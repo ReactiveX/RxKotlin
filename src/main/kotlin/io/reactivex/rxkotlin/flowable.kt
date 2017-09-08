@@ -109,3 +109,16 @@ fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMap() = toMap({it.first},{it.second}
  * Collects `Pair` emission into a multimap
  */
 fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMultimap() = toMultimap({it.first},{it.second})
+
+
+/**
+ * Filters items emitted by a Publisher by only emitting those that does not satisfy a specified predicate.
+ *
+ * @param predicate
+ *            a function that evaluates each item emitted by the source Publisher, returning {@code true}
+ *            if it should not pass the filter
+ * @return a Flowable that emits only those items emitted by the source Publisher that the filter
+ *         evaluates as {@code false}
+ */
+fun <T> Flowable<T>.filterNot(predicate: (T) -> Boolean): Flowable<T>
+        = this.filter { !predicate(it) }

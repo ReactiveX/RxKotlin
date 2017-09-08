@@ -102,3 +102,16 @@ fun <A: Any, B: Any> Observable<Pair<A,B>>.toMap() = toMap({it.first},{it.second
  * Collects `Pair` emission into a multimap
  */
 fun <A: Any, B: Any> Observable<Pair<A,B>>.toMultimap() = toMultimap({it.first},{it.second})
+
+/**
+ * Filters items emitted by an ObservableSource by only emitting those that does not satisfy a specified predicate.
+ *
+ * @param predicate
+ *            a function that evaluates each item emitted by the source ObservableSource, returning {@code true}
+ *            if it should not pass the filter
+ *
+ * @return an Observable that emits only those items emitted by the source ObservableSource that the filter
+ *         evaluates as {@code false}
+ */
+fun <T : Any> Observable<T>.filterNot(predicate: (T) -> Boolean): Observable<T>
+        = this.filter { !predicate(it) }
