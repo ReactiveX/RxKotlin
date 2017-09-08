@@ -4,6 +4,8 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.create
 import io.reactivex.FlowableEmitter
+import io.reactivex.Observable
+import io.reactivex.observers.TestObserver
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -198,5 +200,16 @@ class FlowableTest {
         ).subscribe(testSubscriber)
 
         testSubscriber.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
+    }
+
+    @Test
+    fun testFilterNot() {
+        val testObserver = TestSubscriber<String>()
+
+        Flowable.fromArray("foo", "bar", "lorem")
+                .filterNot { it == "bar"}
+                .subscribe(testObserver)
+
+        testObserver.assertValues("foo", "lorem")
     }
 }
