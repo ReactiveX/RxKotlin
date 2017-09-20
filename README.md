@@ -24,6 +24,12 @@ fun main(args: Array<String>) {
 }
 ```
 
+## Books
+
+Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-development/learning-rxjava) coveres RxKotlin and Kotlin idioms with RxJava. 
+
+![](https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B06263_cover.png)
+
 
 ## Support for RxJava 1.x and RxJava 2.x
 
