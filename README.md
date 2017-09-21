@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
 
 Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-development/learning-rxjava) covers RxKotlin and Kotlin idioms with RxJava. 
 
-![](https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B06263_cover.png)
+[![](https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B06263_cover.png)](https://www.packtpub.com/application-development/learning-rxjava) 
 
 ### Kotlin Slack Channel
 
