@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
 
 ## Resources
 
-### Learning RxJava Packt Book
+### _Learning RxJava_ Packt Book
 
 Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-development/learning-rxjava) covers RxKotlin and Kotlin idioms with RxJava. 
 
