@@ -8,6 +8,7 @@ import org.reactivestreams.Publisher
 
 fun BooleanArray.toFlowable(): Flowable<Boolean> = asIterable().toFlowable()
 fun ByteArray.toFlowable(): Flowable<Byte> = asIterable().toFlowable()
+fun CharArray.toFlowable(): Flowable<Char> = asIterable().toFlowable()
 fun ShortArray.toFlowable(): Flowable<Short> = asIterable().toFlowable()
 fun IntArray.toFlowable(): Flowable<Int> = asIterable().toFlowable()
 fun LongArray.toFlowable(): Flowable<Long> = asIterable().toFlowable()

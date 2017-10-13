@@ -8,6 +8,7 @@ import io.reactivex.functions.Function3
 
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
 fun ByteArray.toObservable(): Observable<Byte> = asIterable().toObservable()
+fun CharArray.toObservable(): Observable<Char> = asIterable().toObservable()
 fun ShortArray.toObservable(): Observable<Short> = asIterable().toObservable()
 fun IntArray.toObservable(): Observable<Int> = asIterable().toObservable()
 fun LongArray.toObservable(): Observable<Long> = asIterable().toObservable()
