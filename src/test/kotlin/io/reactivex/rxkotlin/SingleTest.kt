@@ -2,6 +2,7 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
 import io.reactivex.Single
+import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
@@ -55,5 +56,15 @@ class SingleTest : KotlinTests() {
                 }
         verify(a, Mockito.times(1))
                 .received("Alpha")
+    }
+
+    @Test fun testConcatAll() {
+        (0 until 10)
+                .map { Single.just(it) }
+                .concatAll()
+                .toList()
+                .subscribe { result ->
+                    Assert.assertEquals((0 until 10).toList(), result)
+                }
     }
 }

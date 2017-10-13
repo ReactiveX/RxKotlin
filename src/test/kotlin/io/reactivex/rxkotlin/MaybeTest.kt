@@ -16,4 +16,14 @@ class MaybeTest {
                 }
         Assert.assertTrue(first.get() == "Alpha")
     }
+
+    @Test fun testConcatAll() {
+        (0 until 10)
+                .map { Maybe.just(it) }
+                .concatAll()
+                .toList()
+                .subscribe { result ->
+                    Assert.assertEquals((0 until 10).toList(), result)
+                }
+    }
 }

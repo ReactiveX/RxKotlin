@@ -1,6 +1,7 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
+import io.reactivex.ObservableSource
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 
@@ -102,3 +103,5 @@ fun <A: Any, B: Any> Observable<Pair<A,B>>.toMap() = toMap({it.first},{it.second
  * Collects `Pair` emission into a multimap
  */
 fun <A: Any, B: Any> Observable<Pair<A,B>>.toMultimap() = toMultimap({it.first},{it.second})
+
+fun  <T : Any> Iterable<ObservableSource<T>>.concatAll() = Observable.concat(this)

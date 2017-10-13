@@ -3,6 +3,7 @@ package io.reactivex.rxkotlin
 import io.reactivex.Flowable
 import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
+import org.reactivestreams.Publisher
 
 
 fun BooleanArray.toFlowable(): Flowable<Boolean> = asIterable().toFlowable()
@@ -109,3 +110,8 @@ fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMap() = toMap({it.first},{it.second}
  * Collects `Pair` emission into a multimap
  */
 fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMultimap() = toMultimap({it.first},{it.second})
+
+/**
+ * Concats an Iterable of flowables into flowable. Same as calling `Flowable.concat(this)`
+ */
+fun <T : Any> Iterable<Publisher<T>>.concatAll() = Flowable.concat(this)

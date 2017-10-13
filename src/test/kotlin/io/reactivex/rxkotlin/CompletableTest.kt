@@ -1,7 +1,9 @@
 package io.reactivex.rxkotlin
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.Action
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test
@@ -38,6 +40,16 @@ class CompletableTest {
         val c1 = Single.just("Hello World!").toCompletable()
         assertNotNull(c1)
         c1.toObservable<String>().blockingFirst()
+    }
+
+    @Test fun testConcatAll() {
+        var list = emptyList<Int>()
+        (0 until 10)
+                .map { v -> Completable.create { list += v } }
+                .concatAll()
+                .subscribe {
+                    Assert.assertEquals((0 until 10).toList(), list)
+                }
     }
 
 }

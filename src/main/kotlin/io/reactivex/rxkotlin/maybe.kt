@@ -2,6 +2,7 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.MaybeSource
 import io.reactivex.Observable
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
@@ -27,3 +28,8 @@ fun <T : Any> Observable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
  * Merges the emissions of a Flowable<Maybe<T>>. Same as calling `flatMap { it }`.
  */
 fun <T : Any> Flowable<Maybe<T>>.mergeAllMaybes() = flatMapMaybe { it }
+
+/**
+ * Concats an Iterable of maybes into flowable. Same as calling `Maybe.concat(this)`
+ */
+fun <T : Any> Iterable<MaybeSource<T>>.concatAll() = Maybe.concat(this)
