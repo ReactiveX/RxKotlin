@@ -14,7 +14,13 @@ import java.util.concurrent.Future
                 expression = "let { if(it != null) { Maybe.just(it)!! } else { Maybe.empty()!! } }",
                 imports = "io.reactivex.Maybe"))
 fun <T : Any> T?.toMaybe(): Maybe<T> = error("Deprecated")
-fun <T : Any> Future<T>.toMaybe(): Maybe<T> = Maybe.fromFuture(this)
+@Deprecated(
+        message = "Use Maybe.fromFuture instead",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { Maybe.fromFuture(it) }",
+                imports = "io.reactivex.Maybe"))
+fun <T : Any> Future<T>.toMaybe(): Maybe<T> = error("Deprecated")
 fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 
