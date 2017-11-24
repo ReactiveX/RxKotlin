@@ -7,7 +7,13 @@ import io.reactivex.Observable
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 
-fun <T : Any> T?.toMaybe(): Maybe<T> = Maybe.create { s -> if (this != null) s.onSuccess(this); s.onComplete() }
+@Deprecated(
+        message = "Use Maybe.just and Maybe.empty respectively",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { if(it != null) { Maybe.just(it)!! } else { Maybe.empty()!! } }",
+                imports = "io.reactivex.Maybe"))
+fun <T : Any> T?.toMaybe(): Maybe<T> = error("Deprecated")
 fun <T : Any> Future<T>.toMaybe(): Maybe<T> = Maybe.fromFuture(this)
 fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = Maybe.fromCallable(this)
 fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
