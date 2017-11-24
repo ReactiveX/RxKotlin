@@ -7,10 +7,34 @@ import io.reactivex.Observable
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 
-fun <T : Any> T?.toMaybe(): Maybe<T> = Maybe.create { s -> if (this != null) s.onSuccess(this); s.onComplete() }
-fun <T : Any> Future<T>.toMaybe(): Maybe<T> = Maybe.fromFuture(this)
-fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = Maybe.fromCallable(this)
-fun <T : Any> (() -> T).toMaybe(): Maybe<T> = Maybe.fromCallable(this)
+@Deprecated(
+        message = "Use Maybe.just and Maybe.empty respectively",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { if(it != null) { Maybe.just(it)!! } else { Maybe.empty()!! } }",
+                imports = "io.reactivex.Maybe"))
+fun <T : Any> T?.toMaybe(): Maybe<T> = error("Deprecated")
+@Deprecated(
+        message = "Use Maybe.fromFuture instead",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { Maybe.fromFuture(it) }",
+                imports = "io.reactivex.Maybe"))
+fun <T : Any> Future<T>.toMaybe(): Maybe<T> = error("Deprecated")
+@Deprecated(
+        message = "Use Maybe.fromCallable instead",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { Maybe.fromCallable(it) }",
+                imports = "io.reactivex.Maybe"))
+fun <T : Any> Callable<T>.toMaybe(): Maybe<T> = error("Deprecated")
+@Deprecated(
+        message = "Use Maybe.fromCallable instead",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { Maybe.fromCallable(it) }",
+                imports = "io.reactivex.Maybe"))
+fun <T : Any> (() -> T).toMaybe(): Maybe<T> = error("Deprecated")
 
 inline fun <reified R : Any> Maybe<Any>.cast(): Maybe<R> = cast(R::class.java)
 inline fun <reified R : Any> Maybe<Any>.ofType(): Maybe<R> = ofType(R::class.java)
