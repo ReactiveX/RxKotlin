@@ -4,9 +4,7 @@ import io.reactivex.Single
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
-import java.util.concurrent.Callable
 
 class SingleTest : KotlinTests() {
     @Test fun testCreate() {
@@ -16,18 +14,6 @@ class SingleTest : KotlinTests() {
             a.received(result)
         }
         verify(a, Mockito.times(1)).received("Hello World!")
-    }
-
-    @Test fun testCreateFromCallable() {
-        val callable = mock(Callable::class.java)
-
-        Mockito.`when`(callable.call()).thenReturn("value")
-
-        callable.toSingle().subscribe { result ->
-            a.received(result)
-        }
-
-        verify(a, Mockito.times(1)).received("value")
     }
 
     @Test
