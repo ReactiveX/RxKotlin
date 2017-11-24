@@ -40,14 +40,6 @@ class SingleTest : KotlinTests() {
         verify(a, Mockito.times(1)).received("value")
     }
 
-    @Test fun testCreateFromJust() {
-        "Hello World!".toSingle()
-                .subscribe { result ->
-                    a.received(result)
-                }
-        Mockito.verify(a, Mockito.times(1))
-                .received("Hello World!")
-    }
     @Test
     fun testSubscribeBy() {
         Single.just("Alpha")
