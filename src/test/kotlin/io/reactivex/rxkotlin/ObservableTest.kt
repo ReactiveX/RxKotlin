@@ -202,6 +202,14 @@ class ObservableTest {
     }
 
     @Test
+    @Ignore("Fix with adding support for LambdaConsumerIntrospection - #151")
+    fun testSubscribeByErrorIntrospectionDefaultWithOnComplete() {
+        val disposable = Observable.just(Unit)
+                .subscribeBy(onComplete = {}) as LambdaConsumerIntrospection
+        assertFalse(disposable.hasCustomOnError())
+    }
+
+    @Test
     fun testBlockingSubscribeBy() {
         val first = AtomicReference<String>()
 
