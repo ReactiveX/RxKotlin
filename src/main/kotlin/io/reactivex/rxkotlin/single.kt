@@ -14,7 +14,13 @@ import java.util.concurrent.Future
                 expression = "let { Single.just(it) }",
                 imports = "io.reactivex.Single"))
 fun <T : Any> T.toSingle(): Single<T> = error("Deprecated")
-fun <T : Any> Future<T>.toSingle(): Single<T> = Single.fromFuture(this)
+@Deprecated(
+        message = "Use Single.fromFuture instead",
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith(
+                expression = "let { Single.fromFuture(it) }",
+                imports = "io.reactivex.Single"))
+fun <T : Any> Future<T>.toSingle(): Single<T> = error("Deprecated")
 fun <T : Any> Callable<T>.toSingle(): Single<T> = Single.fromCallable(this)
 fun <T : Any> (() -> T).toSingle(): Single<T> = Single.fromCallable(this)
 

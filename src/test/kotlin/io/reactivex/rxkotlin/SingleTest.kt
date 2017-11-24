@@ -1,6 +1,5 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.Observable
 import io.reactivex.Single
 import org.junit.Assert
 import org.junit.Test
@@ -14,15 +13,6 @@ class SingleTest : KotlinTests() {
         Single.create<String> { s ->
             s.onSuccess("Hello World!")
         }.subscribe { result ->
-            a.received(result)
-        }
-        verify(a, Mockito.times(1)).received("Hello World!")
-    }
-
-    @Test fun testCreateFromFuture() {
-        val future = Observable.just("Hello World!").toFuture()
-        val single = future.toSingle()
-        single.subscribe { result ->
             a.received(result)
         }
         verify(a, Mockito.times(1)).received("Hello World!")
