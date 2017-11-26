@@ -179,7 +179,6 @@ class FlowableTest {
     }
 
     @Test
-    @Ignore("Fix with adding support for LambdaConsumerIntrospection - #151")
     fun testSubscribeByErrorIntrospectionDefaultWithOnComplete() {
         val disposable = Flowable.just(Unit)
                 .subscribeBy(onComplete = {}) as LambdaConsumerIntrospection
