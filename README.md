@@ -34,7 +34,7 @@ Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-developme
 
 ### _Reactive Programming in Kotlin_ Packt Book
 
-The book [_Reactive Programming in Kotlin_](https://www.packtpub.com/application-development/reactive-programming-kotlin) has mainly focuses on RxKotlin. It helps you learn Reactive Programming with Kotlin and RxKotlin. 
+The book [_Reactive Programming in Kotlin_](https://www.packtpub.com/application-development/reactive-programming-kotlin) mainly focuses on RxKotlin, as well as learn reactive programming with Kotlin. 
 
 [![](https://i.imgur.com/0GjGMn5.png)](https://www.packtpub.com/application-development/reactive-programming-kotlin) 
 
