@@ -67,15 +67,6 @@ private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
 
-@Deprecated("Use `Observables.combineLatest() factory")
-fun <T : Any, R : Any> Observable<T>.combineLatest(observable: Observable<R>): Observable<Pair<T, R>>
-        = Observable.combineLatest(this, observable, BiFunction(::Pair))
-
-
-@Deprecated("Use `Observables.combineLatest() factory")
-fun <T : Any, R : Any, U : Any> Observable<T>.combineLatest(observable1: Observable<R>, observable2: Observable<U>): Observable<Triple<T, R, U>>
-        = Observable.combineLatest(this, observable1, observable2, Function3(::Triple))
-
 // EXTENSION FUNCTION OPERATORS
 
 /**

@@ -154,7 +154,7 @@ inline fun <T, U, R> Observable<T>.withLatestFrom(other: ObservableSource<U>, cr
 /**
  * Emits a `Pair`
  */
-inline fun <T, U> Observable<T>.withLatestFrom(other: ObservableSource<U>): Observable<Pair<T,U>>
+fun <T, U> Observable<T>.withLatestFrom(other: ObservableSource<U>): Observable<Pair<T,U>>
         = withLatestFrom(other, BiFunction{ t, u -> Pair(t,u)  })
 
 /**
@@ -163,7 +163,7 @@ inline fun <T, U> Observable<T>.withLatestFrom(other: ObservableSource<U>): Obse
 inline fun <T, T1, T2, R> Observable<T>.withLatestFrom(o1: ObservableSource<T1>, o2: ObservableSource<T2>, crossinline combiner: (T, T1, T2) -> R): Observable<R>
         = withLatestFrom(o1, o2, Function3<T, T1, T2, R> { t, t1, t2 -> combiner.invoke(t, t1, t2) })
 
-inline fun <T, T1, T2> Observable<T>.withLatestFrom(o1: ObservableSource<T1>, o2: ObservableSource<T2>): Observable<Triple<T,T1,T2>>
+fun <T, T1, T2> Observable<T>.withLatestFrom(o1: ObservableSource<T1>, o2: ObservableSource<T2>): Observable<Triple<T,T1,T2>>
         = withLatestFrom(o1, o2, Function3 { t, t1, t2 -> Triple(t, t1, t2) })
 
 /**
@@ -187,5 +187,5 @@ inline fun <T, U, R> Observable<T>.zipWith(other: ObservableSource<U>, crossinli
 /**
  * Emits a zipped `Pair`
  */
-inline fun <T, U> Observable<T>.zipWith(other: ObservableSource<U>): Observable<Pair<T,U>>
+fun <T, U> Observable<T>.zipWith(other: ObservableSource<U>): Observable<Pair<T,U>>
         = zipWith(other, BiFunction { t, u -> Pair(t,u) })
