@@ -26,11 +26,18 @@ fun main(args: Array<String>) {
 
 ## Resources
 
+### _Reactive Programming in Kotlin_ Packt Book
+
+The book [_Reactive Programming in Kotlin_](https://www.packtpub.com/application-development/reactive-programming-kotlin) has mainfocus on RxKotlin. It helps you learn Reactive Programming with Kotlin and RxKotlin. 
+
+[![](https://i.imgur.com/0GjGMn5.png)](https://www.packtpub.com/application-development/reactive-programming-kotlin) 
+
 ### _Learning RxJava_ Packt Book
 
 Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-development/learning-rxjava) covers RxKotlin and Kotlin idioms with RxJava. 
 
 [![](https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B06263_cover.png)](https://www.packtpub.com/application-development/learning-rxjava) 
+
 
 ### Kotlin Slack Channel
 
