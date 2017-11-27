@@ -4,37 +4,6 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleSource
-import java.util.concurrent.Callable
-import java.util.concurrent.Future
-
-@Deprecated(
-        message = "Use Single.just instead",
-        level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith(
-                expression = "let { Single.just(it) }",
-                imports = "io.reactivex.Single"))
-fun <T : Any> T.toSingle(): Single<T> = error("Deprecated")
-@Deprecated(
-        message = "Use Single.fromFuture instead",
-        level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith(
-                expression = "let { Single.fromFuture(it) }",
-                imports = "io.reactivex.Single"))
-fun <T : Any> Future<T>.toSingle(): Single<T> = error("Deprecated")
-@Deprecated(
-        message = "Use Single.fromCallable instead",
-        level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith(
-                expression = "let { Single.fromCallable(it) }",
-                imports = "io.reactivex.Single"))
-fun <T : Any> Callable<T>.toSingle(): Single<T> = error("Deprecated")
-@Deprecated(
-        message = "Use Single.fromCallable instead",
-        level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith(
-                expression = "let { Single.fromCallable(it) }",
-                imports = "io.reactivex.Single"))
-fun <T : Any> (() -> T).toSingle(): Single<T> = error("Deprecated")
 
 inline fun <reified R : Any> Single<Any>.cast(): Single<R> = cast(R::class.java)
 

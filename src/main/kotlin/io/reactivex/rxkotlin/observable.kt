@@ -2,8 +2,6 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
 
 
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
