@@ -187,8 +187,8 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Callable<T>|toSingle()|Single<T>|Turns a `Callable<T>` into a `Single<T>`|
 |() -> T|toSingle()|Single<T>|Turns a `() -> T` into a `Single<T>`|
 |Single<Any>|cast()|Single<R>|Casts all emissions to the reified type|
-|Observable<Single<T>>|mergeAllSingles()|Observable<R>|Mergaes all Singles emitted from an Observable|
-|Flowable<Single<T>>|mergeAllSingles()|Flowable<R>|Mergaes all Singles emitted from a Flowable|
+|Observable<Single<T>>|mergeAllSingles()|Observable<R>|Merges all Singles emitted from an Observable|
+|Flowable<Single<T>>|mergeAllSingles()|Flowable<R>|Merges all Singles emitted from a Flowable|
 |T?.toMaybe()|toMaybe()|Maybe<T>|Turns a nullable `T` value into a `Maybe<T>` that will only emit if not null|
 |Future<T>|toMaybe()|Maybe<T>|Turns a `Future<T>` into a `Maybe<T>`|
 |Callable<T>|toMaybe()|Maybe<T>|Turns a `Callable<T>` into a `Maybe<T>`|
