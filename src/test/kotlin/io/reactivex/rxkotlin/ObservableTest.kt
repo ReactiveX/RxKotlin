@@ -1,6 +1,7 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
+import io.reactivex.observers.LambdaConsumerIntrospection
 import io.reactivex.observers.TestObserver
 import org.junit.Assert
 import org.junit.Assert.*
@@ -184,6 +185,28 @@ class ObservableTest {
                     first.set(it)
                 }
         assertTrue(first.get() == "Alpha")
+    }
+
+    @Test
+    fun testSubscribeByErrorIntrospection() {
+        val disposable = Observable.just(Unit)
+                .subscribeBy() as LambdaConsumerIntrospection
+        assertFalse(disposable.hasCustomOnError())
+    }
+
+    @Test
+    fun testSubscribeByErrorIntrospectionCustom() {
+        val disposable = Observable.just(Unit)
+                .subscribeBy(onError = {}) as LambdaConsumerIntrospection
+        assertTrue(disposable.hasCustomOnError())
+    }
+
+    @Test
+    @Ignore("Fix with adding support for LambdaConsumerIntrospection - #151")
+    fun testSubscribeByErrorIntrospectionDefaultWithOnComplete() {
+        val disposable = Observable.just(Unit)
+                .subscribeBy(onComplete = {}) as LambdaConsumerIntrospection
+        assertFalse(disposable.hasCustomOnError())
     }
 
     @Test
