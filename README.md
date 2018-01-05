@@ -182,17 +182,9 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Flowable<Any>|ofType()|Flowable<R>|Filters all emissions to only the reified type|
 |Iterable<Flowable<out T>>|merge()|Merges an Iterable of Flowables into a single Flowable|
 |Iterable<Flowable<out T>>|mergeDelayError()|Merges an Iterable of Flowables into a single Flowable, but delays any error|
-|T|toSingle()|Single<T>|Turns any `T` item into a `Single<T>`|
-|Future<T>|toSingle()|Single<T>|Turns a `Future<T>` into a `Single<T>`|
-|Callable<T>|toSingle()|Single<T>|Turns a `Callable<T>` into a `Single<T>`|
-|() -> T|toSingle()|Single<T>|Turns a `() -> T` into a `Single<T>`|
 |Single<Any>|cast()|Single<R>|Casts all emissions to the reified type|
 |Observable<Single<T>>|mergeAllSingles()|Observable<R>|Merges all Singles emitted from an Observable|
 |Flowable<Single<T>>|mergeAllSingles()|Flowable<R>|Merges all Singles emitted from a Flowable|
-|T?.toMaybe()|toMaybe()|Maybe<T>|Turns a nullable `T` value into a `Maybe<T>` that will only emit if not null|
-|Future<T>|toMaybe()|Maybe<T>|Turns a `Future<T>` into a `Maybe<T>`|
-|Callable<T>|toMaybe()|Maybe<T>|Turns a `Callable<T>` into a `Maybe<T>`|
-|() -> T|toMaybe()|Maybe<T>|Turns a `() -> T` into a `Maybe<T>`|
 |Maybe<Any>|cast()|Maybe<R>|Casts any emissions to the reified type|
 |Maybe<Any>|ofType()|Maybe<R>|Filters any emission that is the reified type|
 |Observable<Maybe<T>>|mergeAllMaybes()|Observable<T>|Merges all emitted Maybes|
