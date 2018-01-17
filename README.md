@@ -145,8 +145,8 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |ShortArray|toObservable()|Observable<Short>|Turns a Short array into an Observable|
 |IntArray|toObservable()|Observable<Int>|Turns an Int array into an Observable|
 |LongArray|toObservable()|Observable<Long>|Turns a Long array into an Observable|
-|FloatArray|toObservable()|Observable<Float>|Turns an Float array into an Observable|
-|DoubleArray|toObservable()|Observable<Double>|Turns an Double array into an Observable|
+|FloatArray|toObservable()|Observable<Float>|Turns a Float array into an Observable|
+|DoubleArray|toObservable()|Observable<Double>|Turns a Double array into an Observable|
 |Array<T>|toObservable()|Observable<Double>|Turns a `T` array into an Observable|
 |IntProgression|toObservable()|Observable<Int>|Turns an `IntProgression` into an Observable|
 |Iterable<T>|toObservable()|Observable<T>|Turns an `Iterable<T>` into an Observable|
@@ -166,8 +166,8 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |ShortArray|toFlowable()|Flowable<Short>|Turns a Short array into an Flowable|
 |IntArray|toFlowable()|Flowable<Int>|Turns an Int array into an Flowable|
 |LongArray|toFlowable()|Flowable<Long>|Turns a Long array into an Flowable|
-|FloatArray|toFlowable()|Flowable<Float>|Turns an Float array into an Flowable|
-|DoubleArray|toFlowable()|Flowable<Double>|Turns an Double array into an Flowable|
+|FloatArray|toFlowable()|Flowable<Float>|Turns a Float array into an Flowable|
+|DoubleArray|toFlowable()|Flowable<Double>|Turns a Double array into an Flowable|
 |Array<T>|toFlowable()|Flowable<Double>|Turns a `T` array into an Flowable|
 |IntProgression|toFlowable()|Flowable<Int>|Turns an `IntProgression` into an Flowable|
 |Iterable<T>|toFlowable()|Flowable<T>|Turns an `Iterable<T>` into an Flowable|
@@ -176,7 +176,7 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Flowable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
 |Flowable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Flowable<Flowable<T>>|mergeAll()|Flowable<T>|Merges all Flowables emitted from an Flowable|
-|Flowable<Flowable<T>>|concatAll()|Flowable<T>|Cocnatenates all Flowables emitted from an Flowable|
+|Flowable<Flowable<T>>|concatAll()|Flowable<T>|Concatenates all Flowables emitted from an Flowable|
 |Flowable<Flowable<T>>|switchLatest()|Flowable<T>|Emits from the last emitted Flowable|
 |Flowable<Any>|cast()|Flowable<R>|Casts all emissions to the reified type|
 |Flowable<Any>|ofType()|Flowable<R>|Filters all emissions to only the reified type|
