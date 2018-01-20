@@ -4,6 +4,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.create
 import io.reactivex.FlowableEmitter
+import io.reactivex.observers.LambdaConsumerIntrospection
 import io.reactivex.subscribers.TestSubscriber
 import org.junit.Assert
 import org.junit.Assert.assertEquals
@@ -161,6 +162,27 @@ class FlowableTest {
                     first.set(it)
                 }
         Assert.assertTrue(first.get() == "Alpha")
+    }
+
+    @Test
+    fun testSubscribeByErrorIntrospection() {
+        val disposable = Flowable.just(Unit)
+                .subscribeBy() as LambdaConsumerIntrospection
+        Assert.assertFalse(disposable.hasCustomOnError())
+    }
+
+    @Test
+    fun testSubscribeByErrorIntrospectionCustom() {
+        val disposable = Flowable.just(Unit)
+                .subscribeBy(onError = {}) as LambdaConsumerIntrospection
+        Assert.assertTrue(disposable.hasCustomOnError())
+    }
+
+    @Test
+    fun testSubscribeByErrorIntrospectionDefaultWithOnComplete() {
+        val disposable = Flowable.just(Unit)
+                .subscribeBy(onComplete = {}) as LambdaConsumerIntrospection
+        Assert.assertFalse(disposable.hasCustomOnError())
     }
 
     @Test
