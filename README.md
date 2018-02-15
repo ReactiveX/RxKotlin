@@ -151,7 +151,7 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |IntProgression|toObservable()|Observable<Int>|Turns an `IntProgression` into an Observable|
 |Iterable<T>|toObservable()|Observable<T>|Turns an `Iterable<T>` into an Observable|
 |Iterator<T>|toObservable()|Observable<T>|Turns an `Iterator<T>` into an Observable|
-|Observable<T>|flatMapSequence()|Observable<R>|Flat maps each `T` emission to a `Sequenece<R>`|
+|Observable<T>|flatMapSequence()|Observable<R>|Flat maps each `T` emission to a `Sequence<R>`|
 |Observable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
 |Observable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Observable<Observable<T>>|mergeAll()|Observable<T>|Merges all Observables emitted from an Observable|
@@ -172,7 +172,7 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |IntProgression|toFlowable()|Flowable<Int>|Turns an `IntProgression` into an Flowable|
 |Iterable<T>|toFlowable()|Flowable<T>|Turns an `Iterable<T>` into an Flowable|
 |Iterator<T>|toFlowable()|Flowable<T>|Turns an `Iterator<T>` into an Flowable|
-|Flowable<T>|flatMapSequence()|Flowable<R>|Flat maps each `T` emission to a `Sequenece<R>`|
+|Flowable<T>|flatMapSequence()|Flowable<R>|Flat maps each `T` emission to a `Sequence<R>`|
 |Flowable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
 |Flowable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Flowable<Flowable<T>>|mergeAll()|Flowable<T>|Merges all Flowables emitted from an Flowable|
