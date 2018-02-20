@@ -74,6 +74,9 @@ object Observables {
             Observable.combineLatest(source1, source2,source3, source4, source5, source6, source7, source8, source9,
                     Function9 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1,t2, t3, t4, t5, t6, t7, t8, t9) })!!
 
+    @Suppress("UNCHECKED_CAST")
+    inline fun <T, R> combineLatest(source: Iterable<Observable<T>>, crossinline combineFunction: (List<T>) -> R) =
+            Observable.combineLatest(source, { t -> combineFunction(t.map { it as T }) })!!
 
     
     
