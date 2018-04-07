@@ -81,7 +81,7 @@ and for Gradle:
 compile 'io.reactivex:rxkotlin:x.y.z'
 ```
 
-### RxKotlin 2.x 
+### RxKotlin 2.x [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin)
 
 Example for Maven:
 
