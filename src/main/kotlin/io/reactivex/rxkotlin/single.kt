@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleSource
 
-inline fun <reified R : Any> Single<Any>.cast(): Single<R> = cast(R::class.java)
+inline fun <reified R : Any> Single<*>.cast(): Single<R> = cast(R::class.java)
 
 
 // EXTENSION FUNCTION OPERATORS

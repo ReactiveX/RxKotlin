@@ -6,8 +6,8 @@ import io.reactivex.MaybeSource
 import io.reactivex.Observable
 
 
-inline fun <reified R : Any> Maybe<Any>.cast(): Maybe<R> = cast(R::class.java)
-inline fun <reified R : Any> Maybe<Any>.ofType(): Maybe<R> = ofType(R::class.java)
+inline fun <reified R : Any> Maybe<*>.cast(): Maybe<R> = cast(R::class.java)
+inline fun <reified R : Any> Maybe<*>.ofType(): Maybe<R> = ofType(R::class.java)
 
 
 
