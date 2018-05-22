@@ -1,3 +1,5 @@
+@file:Suppress("HasPlatformType", "unused")
+
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
@@ -7,20 +9,28 @@ import io.reactivex.annotations.SchedulerSupport
 
 
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun ByteArray.toObservable(): Observable<Byte> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun CharArray.toObservable(): Observable<Char> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun ShortArray.toObservable(): Observable<Short> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun IntArray.toObservable(): Observable<Int> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun LongArray.toObservable(): Observable<Long> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun FloatArray.toObservable(): Observable<Float> = asIterable().toObservable()
 @CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun DoubleArray.toObservable(): Observable<Double> = asIterable().toObservable()
 
 @CheckReturnValue
@@ -33,10 +43,14 @@ fun IntProgression.toObservable(): Observable<Int> =
         if (step == 1 && last.toLong() - first < Integer.MAX_VALUE) Observable.range(first, Math.max(0, last - first + 1))
         else Observable.fromIterable(this)
 
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterator<T>.toObservable(): Observable<T> = toIterable().toObservable()
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<T>.toObservable(): Observable<T> = Observable.fromIterable(this)
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Sequence<T>.toObservable(): Observable<T> = asIterable().toObservable()
 
 @CheckReturnValue
@@ -46,7 +60,11 @@ fun <T : Any> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.me
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
 
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<out Iterable<T>>.flatMapIterable(): Observable<T> = flatMapIterable { it }
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<out Iterable<T>>.concatMapIterable(): Observable<T> = concatMapIterable { it }
 
 /**

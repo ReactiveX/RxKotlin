@@ -1,3 +1,5 @@
+@file:Suppress("HasPlatformType", "unused")
+
 package io.reactivex.rxkotlin
 
 import io.reactivex.Completable
