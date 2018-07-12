@@ -1,6 +1,10 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.*
+import io.reactivex.annotations.BackpressureKind
+import io.reactivex.annotations.BackpressureSupport
+import io.reactivex.annotations.CheckReturnValue
+import io.reactivex.annotations.SchedulerSupport
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Action
 import io.reactivex.functions.Consumer
@@ -25,6 +29,8 @@ private fun (() -> Unit).asOnCompleteAction(): Action {
 /**
  * Overloaded subscribe function that allows passing named parameters
  */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
@@ -34,6 +40,9 @@ fun <T : Any> Observable<T>.subscribeBy(
 /**
  * Overloaded subscribe function that allows passing named parameters
  */
+@CheckReturnValue
+@BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Flowable<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
@@ -43,6 +52,8 @@ fun <T : Any> Flowable<T>.subscribeBy(
 /**
  * Overloaded subscribe function that allows passing named parameters
  */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Single<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onSuccess: (T) -> Unit = onNextStub
@@ -51,6 +62,8 @@ fun <T : Any> Single<T>.subscribeBy(
 /**
  * Overloaded subscribe function that allows passing named parameters
  */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Maybe<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
@@ -60,6 +73,8 @@ fun <T : Any> Maybe<T>.subscribeBy(
 /**
  * Overloaded subscribe function that allows passing named parameters
  */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
 fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
@@ -74,6 +89,7 @@ fun Completable.subscribeBy(
 /**
  * Overloaded blockingSubscribe function that allows passing named parameters
  */
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<T>.blockingSubscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
@@ -83,6 +99,8 @@ fun <T : Any> Observable<T>.blockingSubscribeBy(
 /**
  * Overloaded blockingSubscribe function that allows passing named parameters
  */
+@BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
+@SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Flowable<T>.blockingSubscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
