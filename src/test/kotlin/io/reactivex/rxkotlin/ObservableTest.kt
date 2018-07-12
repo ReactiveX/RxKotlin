@@ -117,6 +117,20 @@ class ObservableTest {
         )
     }
 
+    @Test fun testFlatMapIterable() {
+        assertEquals(
+                listOf(1, 2, 3),
+                Observable.just(listOf(1, 2, 3)).flatMapIterable().toList().blockingGet()
+        )
+    }
+
+    @Test fun testConcatMapIterable() {
+        assertEquals(
+                listOf(1, 2, 3, 4),
+                Observable.just(listOf(1, 2, 3) , listOf(4)).concatMapIterable().toList().blockingGet()
+        )
+    }
+
     @Test fun testCombineLatest() {
         val list = listOf(1, 2, 3, 2, 3, 4, 3, 4, 5)
         assertEquals(list, list.map { Observable.just(it) }.combineLatest { it }.blockingFirst())

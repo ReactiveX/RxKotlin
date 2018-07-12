@@ -46,6 +46,9 @@ fun <T : Any> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.me
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
 
+fun <T : Any> Observable<out Iterable<T>>.flatMapIterable(): Observable<T> = flatMapIterable { it }
+fun <T : Any> Observable<out Iterable<T>>.concatMapIterable(): Observable<T> = concatMapIterable { it }
+
 /**
  * Returns Observable that emits objects from kotlin [Sequence] returned by function you provided by parameter [body] for
  * each input object and merges all produced elements into one observable.
