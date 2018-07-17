@@ -26,8 +26,6 @@ fun main(args: Array<String>) {
 
 ## Contributing
 
-We welcome contributions and discussion for new features. It is recommended to file an issue first to prevent unnecessary efforts, but feel free to put in pull requests. The vision is to keep this library lightweight, with a tight and focused scope applicable to all platforms (including Android, server, and desktop).
-
 Since Kotlin makes it easy to implement extensions for anything and everything, this project has to be conservative in what features are in scope. Intentions to create syntactic sugar can quickly regress into [syntactic saccharin](https://en.wikipedia.org/wiki/Syntactic_sugar#Syntactic_saccharin), and such personal preferences belong in one's internal domain rather than an OSS library. 
 
 Here are some basic guidelines to determine whether your contribution might be in scope for RxKotlin: 
