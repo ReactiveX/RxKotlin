@@ -14,10 +14,10 @@ import io.reactivex.annotations.SchedulerSupport
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <reified R : Any> Maybe<Any>.cast(): Maybe<R> = cast(R::class.java)
+inline fun <reified R : Any> Maybe<*>.cast(): Maybe<R> = cast(R::class.java)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <reified R : Any> Maybe<Any>.ofType(): Maybe<R> = ofType(R::class.java)
+inline fun <reified R : Any> Maybe<*>.ofType(): Maybe<R> = ofType(R::class.java)
 
 
 

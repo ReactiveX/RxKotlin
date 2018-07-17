@@ -11,7 +11,7 @@ import io.reactivex.annotations.BackpressureSupport
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.annotations.SchedulerSupport
 
-inline fun <reified R : Any> Single<Any>.cast(): Single<R> = cast(R::class.java)
+inline fun <reified R : Any> Single<*>.cast(): Single<R> = cast(R::class.java)
 
 
 // EXTENSION FUNCTION OPERATORS
