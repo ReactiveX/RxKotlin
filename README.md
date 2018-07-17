@@ -152,15 +152,15 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Iterable<T>|toObservable()|Observable<T>|Turns an `Iterable<T>` into an Observable|
 |Iterator<T>|toObservable()|Observable<T>|Turns an `Iterator<T>` into an Observable|
 |Observable<T>|flatMapSequence()|Observable<R>|Flat maps each `T` emission to a `Sequence<R>`|
-|Observable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
-|Observable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
+|Observable<Pair<A,B>>|toMap()|Single<Map<A,B>>|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
+|Observable<Pair<A,B>>|toMultimap()|`Single<Map<A, List<B>>`|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Observable<Observable<T>>|mergeAll()|Observable<T>|Merges all Observables emitted from an Observable|
 |Observable<Observable<T>>|concatAll()|Observable<T>|Cocnatenates all Observables emitted from an Observable|
 |Observable<Observable<T>>|switchLatest()|Observable<T>|Emits from the last emitted Observable|
 |Observable<*>|cast()|Observable<R>|Casts all emissions to the reified type|
 |Observable<*>|ofType()|Observable<R>|Filters all emissions to only the reified type|
-|Iterable<Observable<out T>>|merge()|Merges an Iterable of Observables into a single Observable|
-|Iterable<Observable<out T>>|mergeDelayError()|Merges an Iterable of Observables into a single Observable, but delays any error|
+|Iterable<Observable<out T>>|merge()|Observable<T>|Merges an Iterable of Observables into a single Observable|
+|Iterable<Observable<out T>>|mergeDelayError()|Observable<T>|Merges an Iterable of Observables into a single Observable, but delays any error|
 |BooleanArray|toFlowable()|Flowable<Boolean>|Turns a Boolean array into an Flowable|
 |ByteArray|toFlowable()|Flowable<Byte>|Turns a Byte array into an Flowable|
 |ShortArray|toFlowable()|Flowable<Short>|Turns a Short array into an Flowable|
@@ -173,15 +173,15 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Iterable<T>|toFlowable()|Flowable<T>|Turns an `Iterable<T>` into an Flowable|
 |Iterator<T>|toFlowable()|Flowable<T>|Turns an `Iterator<T>` into an Flowable|
 |Flowable<T>|flatMapSequence()|Flowable<R>|Flat maps each `T` emission to a `Sequence<R>`|
-|Flowable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
-|Flowable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
+|Flowable<Pair<A,B>>|toMap()|Single<Map<A,B>>|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
+|Flowable<Pair<A,B>>|toMultimap()|`Single<Map<A, List<B>>>`|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Flowable<Flowable<T>>|mergeAll()|Flowable<T>|Merges all Flowables emitted from an Flowable|
 |Flowable<Flowable<T>>|concatAll()|Flowable<T>|Concatenates all Flowables emitted from an Flowable|
 |Flowable<Flowable<T>>|switchLatest()|Flowable<T>|Emits from the last emitted Flowable|
 |Flowable<Any>|cast()|Flowable<R>|Casts all emissions to the reified type|
 |Flowable<Any>|ofType()|Flowable<R>|Filters all emissions to only the reified type|
-|Iterable<Flowable<out T>>|merge()|Merges an Iterable of Flowables into a single Flowable|
-|Iterable<Flowable<out T>>|mergeDelayError()|Merges an Iterable of Flowables into a single Flowable, but delays any error|
+|Iterable<Flowable<out T>>|merge()|Flowable<T>|Merges an Iterable of Flowables into a single Flowable|
+|Iterable<Flowable<out T>>|mergeDelayError()|Flowable<T>|Merges an Iterable of Flowables into a single Flowable, but delays any error|
 |Single<Any>|cast()|Single<R>|Casts all emissions to the reified type|
 |Observable<Single<T>>|mergeAllSingles()|Observable<R>|Merges all Singles emitted from an Observable|
 |Flowable<Single<T>>|mergeAllSingles()|Flowable<R>|Merges all Singles emitted from a Flowable|
