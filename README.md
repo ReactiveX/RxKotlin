@@ -24,19 +24,23 @@ fun main(args: Array<String>) {
 }
 ```
 
-## Resources
+## Contributing
 
-### _Learning RxJava_ Packt Book
+We welcome contributions and discussion for new features. It is recommended to file an issue first to prevent unnecessary efforts, but feel free to put in pull requests. The vision is to keep this library lightweight, with a tight and focused scope applicable to all platforms (including Android, server, and desktop).
 
-Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-development/learning-rxjava) covers RxKotlin and Kotlin idioms with RxJava. 
+Since Kotlin makes it easy to implement extensions for anything and everything, this project has to be conservative in what features are in scope. Intentions to create syntactic sugar can quickly regress into [syntactic saccharin](https://en.wikipedia.org/wiki/Syntactic_sugar#Syntactic_saccharin), and such personal preferences belong in one's internal domain rather than an OSS library. 
 
-[![](https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B06263_cover.png)](https://www.packtpub.com/application-development/learning-rxjava) 
+Here are some basic guidelines to determine whether your contribution might be in scope for RxKotlin: 
 
-### _Reactive Programming in Kotlin_ Packt Book
+* Is there a universal need for this utility?
+* Does this substantially reduce the amount of boilerplate code?
+* Does this make operators easier to find?
 
-The book [_Reactive Programming in Kotlin_](https://www.packtpub.com/application-development/reactive-programming-kotlin) mainly focuses on RxKotlin, as well as learning reactive programming with Kotlin. 
-
-[![](https://i.imgur.com/0GjGMn5.png)](https://www.packtpub.com/application-development/reactive-programming-kotlin) 
+* Is this intended feature already in RxJava?
+	- If no, propose the operator in RxJava. 
+	- If yes, can Kotlin streamline the operator further? 
+	
+* Does RxJava not contain this feature due to Java language limitations, or because of a deliberate decision to not include it?
 
 ### Kotlin Slack Channel
 
@@ -63,23 +67,6 @@ The maintainers do not update the RxJava dependency version for every RxJava rel
 
 Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
 
-### RxKotlin 1.x 
-
-Example for Maven:
-
-```xml
-<dependency>
-    <groupId>io.reactivex</groupId>
-    <artifactId>rxkotlin</artifactId>
-    <version>1.x.y</version>
-</dependency>
-```
-
-and for Gradle:
-
-```groovy
-compile 'io.reactivex:rxkotlin:x.y.z'
-```
 
 ### RxKotlin 2.x [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin)
 
@@ -97,6 +84,24 @@ and for Gradle:
 
 ```groovy
 compile 'io.reactivex.rxjava2:rxkotlin:x.y.z'
+```
+
+### RxKotlin 1.x 
+
+Example for Maven:
+
+```xml
+<dependency>
+    <groupId>io.reactivex</groupId>
+    <artifactId>rxkotlin</artifactId>
+    <version>1.x.y</version>
+</dependency>
+```
+
+and for Gradle:
+
+```groovy
+compile 'io.reactivex:rxkotlin:x.y.z'
 ```
 
 ### Building with JitPack
@@ -152,15 +157,15 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Iterable<T>|toObservable()|Observable<T>|Turns an `Iterable<T>` into an Observable|
 |Iterator<T>|toObservable()|Observable<T>|Turns an `Iterator<T>` into an Observable|
 |Observable<T>|flatMapSequence()|Observable<R>|Flat maps each `T` emission to a `Sequence<R>`|
-|Observable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
-|Observable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
+|Observable<Pair<A,B>>|toMap()|Single<Map<A,B>>|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
+|Observable<Pair<A,B>>|toMultimap()|`Single<Map<A, List<B>>`|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Observable<Observable<T>>|mergeAll()|Observable<T>|Merges all Observables emitted from an Observable|
 |Observable<Observable<T>>|concatAll()|Observable<T>|Cocnatenates all Observables emitted from an Observable|
 |Observable<Observable<T>>|switchLatest()|Observable<T>|Emits from the last emitted Observable|
 |Observable<*>|cast()|Observable<R>|Casts all emissions to the reified type|
 |Observable<*>|ofType()|Observable<R>|Filters all emissions to only the reified type|
-|Iterable<Observable<out T>>|merge()|Merges an Iterable of Observables into a single Observable|
-|Iterable<Observable<out T>>|mergeDelayError()|Merges an Iterable of Observables into a single Observable, but delays any error|
+|Iterable<Observable<out T>>|merge()|Observable<T>|Merges an Iterable of Observables into a single Observable|
+|Iterable<Observable<out T>>|mergeDelayError()|Observable<T>|Merges an Iterable of Observables into a single Observable, but delays any error|
 |BooleanArray|toFlowable()|Flowable<Boolean>|Turns a Boolean array into an Flowable|
 |ByteArray|toFlowable()|Flowable<Byte>|Turns a Byte array into an Flowable|
 |ShortArray|toFlowable()|Flowable<Short>|Turns a Short array into an Flowable|
@@ -173,15 +178,15 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Iterable<T>|toFlowable()|Flowable<T>|Turns an `Iterable<T>` into an Flowable|
 |Iterator<T>|toFlowable()|Flowable<T>|Turns an `Iterator<T>` into an Flowable|
 |Flowable<T>|flatMapSequence()|Flowable<R>|Flat maps each `T` emission to a `Sequence<R>`|
-|Flowable<Pair<A,B>>|toMap()|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
-|Flowable<Pair<A,B>>|toMultimap()|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
+|Flowable<Pair<A,B>>|toMap()|Single<Map<A,B>>|Collects `Pair<A,B>` emissions into a `Map<A,B>`|
+|Flowable<Pair<A,B>>|toMultimap()|`Single<Map<A, List<B>>>`|Collects `Pair<A,B>` emissions into a `Map<A,List<B>>`|
 |Flowable<Flowable<T>>|mergeAll()|Flowable<T>|Merges all Flowables emitted from an Flowable|
 |Flowable<Flowable<T>>|concatAll()|Flowable<T>|Concatenates all Flowables emitted from an Flowable|
 |Flowable<Flowable<T>>|switchLatest()|Flowable<T>|Emits from the last emitted Flowable|
 |Flowable<Any>|cast()|Flowable<R>|Casts all emissions to the reified type|
 |Flowable<Any>|ofType()|Flowable<R>|Filters all emissions to only the reified type|
-|Iterable<Flowable<out T>>|merge()|Merges an Iterable of Flowables into a single Flowable|
-|Iterable<Flowable<out T>>|mergeDelayError()|Merges an Iterable of Flowables into a single Flowable, but delays any error|
+|Iterable<Flowable<out T>>|merge()|Flowable<T>|Merges an Iterable of Flowables into a single Flowable|
+|Iterable<Flowable<out T>>|mergeDelayError()|Flowable<T>|Merges an Iterable of Flowables into a single Flowable, but delays any error|
 |Single<Any>|cast()|Single<R>|Casts all emissions to the reified type|
 |Observable<Single<T>>|mergeAllSingles()|Observable<R>|Merges all Singles emitted from an Observable|
 |Flowable<Single<T>>|mergeAllSingles()|Flowable<R>|Merges all Singles emitted from a Flowable|
@@ -230,9 +235,17 @@ Maybes.zip()
 RxKotlin can be used in conjunction with other Rx and Kotlin libraries, such as [RxAndroid](https://github.com/ReactiveX/RxAndroid), [RxBinding](https://github.com/JakeWharton/RxBinding), and [TornadoFX](https://github.com/edvin/tornadofx)/[RxKotlinFX](https://github.com/thomasnield/RxKotlinFX). These libraries and RxKotlin are modular, and RxKotlin is merely a set of extension functions to RxJava that can be used with these other libraries. There should be no overlap or dependency issues. 
 
 
-## Contributing
+## Other Resources
 
-We welcome contributions and discussion for new features. It is recommended to file an issue first to prevent unnecessary efforts, but feel free to put in pull requests. The vision is to keep this library lightweight, with a tight and focused scope applicable to all platforms (including Android, server, and desktop). Anything specific to a particular domain (for example, [JavaFX](https://github.com/thomasnield/RxKotlinFX) or [JDBC](https://github.com/thomasnield/rxkotlin-jdbc)), might be better suited as a separate project. Feel free to open discussion and we will help figure out where your functionality may belong.
+### _Learning RxJava_ Packt Book
 
+Chapter 12 of [_Learning RxJava_](https://www.packtpub.com/application-development/learning-rxjava) covers RxKotlin and Kotlin idioms with RxJava. 
 
+[![](https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B06263_cover.png)](https://www.packtpub.com/application-development/learning-rxjava) 
+
+### _Reactive Programming in Kotlin_ Packt Book
+
+The book [_Reactive Programming in Kotlin_](https://www.packtpub.com/application-development/reactive-programming-kotlin) mainly focuses on RxKotlin, as well as learning reactive programming with Kotlin. 
+
+[![](https://i.imgur.com/0GjGMn5.png)](https://www.packtpub.com/application-development/reactive-programming-kotlin) 
 
