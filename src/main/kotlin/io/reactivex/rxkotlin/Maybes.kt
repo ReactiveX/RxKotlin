@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.reactivex.rxkotlin
 
 import io.reactivex.Maybe
