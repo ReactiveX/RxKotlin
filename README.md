@@ -32,7 +32,7 @@ Here are some basic guidelines to determine whether your contribution might be i
 
 * Is there a universal need for this utility?
 * Does this substantially reduce the amount of boilerplate code?
-* Does this make operators easier to find and use?
+* Does this make existing operators easier to use?
 
 * Is this intended feature already in RxJava?
 	- If no, propose the operator in RxJava. 
