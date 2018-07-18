@@ -30,14 +30,12 @@ Since Kotlin makes it easy to implement extensions for anything and everything, 
 
 Here are some basic guidelines to determine whether your contribution might be in scope for RxKotlin: 
 
-* Is there a universal need for this utility?
-* Does this substantially reduce the amount of boilerplate code?
-* Does this make existing operators easier to use?
-
 * Is this intended feature already in RxJava?
 	- If no, propose the operator in RxJava. 
 	- If yes, can Kotlin streamline the operator further? 
 	
+* Does this substantially reduce the amount of boilerplate code?
+* Does this make an existing operator easier to use?
 * Does RxJava not contain this feature due to Java language limitations, or because of a deliberate decision to not include it?
 
 ### Kotlin Slack Channel
