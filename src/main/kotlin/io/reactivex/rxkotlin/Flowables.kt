@@ -249,7 +249,7 @@ inline fun <T, T1, T2, R> Flowable<T>.withLatestFrom(o1: Publisher<T1>, o2: Publ
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.PASS_THROUGH)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T, T1, T2> Flowable<T>.withLatestFrom(o1: Publisher<T1>, o2: Publisher<T2>): Publisher<Triple<T,T1,T2>>
+fun <T, T1, T2> Flowable<T>.withLatestFrom(o1: Publisher<T1>, o2: Publisher<T2>): Flowable<Triple<T,T1,T2>>
         = withLatestFrom(o1, o2, Function3 { t, t1, t2 -> Triple(t, t1, t2) })
 
 /**
