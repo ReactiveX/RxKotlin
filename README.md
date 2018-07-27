@@ -104,7 +104,7 @@ compile 'io.reactivex:rxkotlin:x.y.z'
 
 You can also use Gradle or Maven with [JitPack](https://jitpack.io/) to build directly off a snapshot, branch, or commit of this repository.
 
-For example, to build off the 1.x branch, use this setup for Gradle:
+For example, to build off the 2.x branch, use this setup for Gradle:
 
 ```groovy
 repositories {
@@ -112,7 +112,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ReactiveX:RxKotlin:1.x-SNAPSHOT'
+    compile 'com.github.ReactiveX:RxKotlin:2.x-SNAPSHOT'
 }
 ```
 
@@ -129,7 +129,7 @@ Use this setup for Maven:
         <dependency>
 	    <groupId>com.github.ReactiveX</groupId>
 	    <artifactId>RxKotlin</artifactId>
-	    <version>1.x-SNAPSHOT</version>
+	    <version>2.x-SNAPSHOT</version>
 	</dependency>
 ```
 
