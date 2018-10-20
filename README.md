@@ -79,7 +79,7 @@ Example for Maven:
 and for Gradle:
 
 ```groovy
-compile 'io.reactivex.rxjava2:rxkotlin:x.y.z'
+implementation 'io.reactivex.rxjava2:rxkotlin:x.y.z'
 ```
 
 ### RxKotlin 1.x 
@@ -97,7 +97,7 @@ Example for Maven:
 and for Gradle:
 
 ```groovy
-compile 'io.reactivex:rxkotlin:x.y.z'
+implementation 'io.reactivex:rxkotlin:x.y.z'
 ```
 
 ### Building with JitPack
@@ -112,7 +112,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ReactiveX:RxKotlin:2.x-SNAPSHOT'
+    implementation 'com.github.ReactiveX:RxKotlin:2.x-SNAPSHOT'
 }
 ```
 
