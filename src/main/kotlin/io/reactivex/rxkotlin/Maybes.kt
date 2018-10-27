@@ -11,31 +11,31 @@ import io.reactivex.functions.*
 object Maybes {
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T, U, R> zip(s1: MaybeSource<T>, s2: MaybeSource<U>, crossinline zipper: (T, U) -> R): Maybe<R>
+    inline fun <T : Any, U : Any, R : Any> zip(s1: MaybeSource<T>, s2: MaybeSource<U>, crossinline zipper: (T, U) -> R): Maybe<R>
             = Maybe.zip(s1, s2, BiFunction { t, u -> zipper.invoke(t, u) })
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    fun <T, U> zip(s1: MaybeSource<T>, s2: MaybeSource<U>): Maybe<Pair<T,U>>
+    fun <T : Any, U : Any> zip(s1: MaybeSource<T>, s2: MaybeSource<U>): Maybe<Pair<T,U>>
             = Maybe.zip(s1, s2, BiFunction { t, u -> Pair(t,u) })
 
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>, s3: MaybeSource<T3>,
                 crossinline zipper: (T1, T2, T3) -> R): Maybe<R>
             = Maybe.zip(s1, s2, s3, Function3 { t1, t2, t3 -> zipper.invoke(t1, t2, t3) })
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    fun <T1, T2, T3>
+    fun <T1 : Any, T2 : Any, T3 : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>, s3: MaybeSource<T3>): Maybe<Triple<T1,T2,T3>>
             = Maybe.zip(s1, s2, s3, Function3 { t1, t2, t3 -> Triple(t1,t2,t3) })
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, T4, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>,
                 s3: MaybeSource<T3>, s4: MaybeSource<T4>,
                 crossinline zipper: (T1, T2, T3, T4) -> R): Maybe<R>
@@ -43,7 +43,7 @@ object Maybes {
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, T4, T5, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>,
                 s3: MaybeSource<T3>, s4: MaybeSource<T4>,
                 s5: MaybeSource<T5>,
@@ -52,7 +52,7 @@ object Maybes {
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, T4, T5, T6, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>,
                 s3: MaybeSource<T3>, s4: MaybeSource<T4>,
                 s5: MaybeSource<T5>, s6: MaybeSource<T6>,
@@ -61,7 +61,7 @@ object Maybes {
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, T4, T5, T6, T7, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>,
                 s3: MaybeSource<T3>, s4: MaybeSource<T4>,
                 s5: MaybeSource<T5>, s6: MaybeSource<T6>,
@@ -71,7 +71,7 @@ object Maybes {
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, T4, T5, T6, T7, T8, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>,
                 s3: MaybeSource<T3>, s4: MaybeSource<T4>,
                 s5: MaybeSource<T5>, s6: MaybeSource<T6>,
@@ -81,7 +81,7 @@ object Maybes {
 
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
-    inline fun <T1, T2, T3, T4, T5, T6, T7, T8, T9, R>
+    inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, T9 : Any, R : Any>
             zip(s1: MaybeSource<T1>, s2: MaybeSource<T2>,
                 s3: MaybeSource<T3>, s4: MaybeSource<T4>,
                 s5: MaybeSource<T5>, s6: MaybeSource<T6>,
@@ -96,10 +96,10 @@ object Maybes {
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <T, U, R> Maybe<T>.zipWith(other: MaybeSource<U>, crossinline zipper: (T, U) -> R): Maybe<R>
+inline fun <T : Any, U : Any, R : Any> Maybe<T>.zipWith(other: MaybeSource<U>, crossinline zipper: (T, U) -> R): Maybe<R>
         = zipWith(other, BiFunction { t, u -> zipper.invoke(t, u) })
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T, U> Maybe<T>.zipWith(other: MaybeSource<U>): Maybe<Pair<T, U>>
+fun <T : Any, U : Any> Maybe<T>.zipWith(other: MaybeSource<U>): Maybe<Pair<T, U>>
         = zipWith(other, BiFunction { t, u -> Pair(t,u) })
