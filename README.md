@@ -64,7 +64,7 @@ The maintainers do not update the RxJava dependency version for every RxJava rel
 Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
 
 
-### RxKotlin 2.x [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin)
+### RxKotlin 2.x [![Maven Central](https://img.shields.io/maven-central/v/io.reactivex.rxjava2/rxkotlin.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.reactivex.rxjava2%22%20AND%20a:%22rxkotlin%22)
 
 Example for Maven:
 
