@@ -15,11 +15,11 @@ apply plugin: 'kotlin'
 apply plugin: 'java'
 
 dependencies {
-    compile 'io.reactivex.rxjava2:rxjava:2.2.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile 'org.funktionale:funktionale-partials:1.0.0-final'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation 'org.funktionale:funktionale-partials:1.0.0-final'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
     examplesCompile 'com.squareup.retrofit2:retrofit:2.3.0'
     examplesCompile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     examplesCompile 'com.squareup.retrofit2:converter-moshi:2.3.0'
