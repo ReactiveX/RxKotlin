@@ -26,7 +26,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+    gradleVersion = '4.2'
 }
 
 // support for snapshot/final releases with the various branches RxJava uses
