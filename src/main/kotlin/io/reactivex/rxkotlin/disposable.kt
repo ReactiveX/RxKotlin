@@ -11,6 +11,15 @@ operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
 }
 
 /**
+ * replacement for CompositeDisposable.addAll -> disposable += arrayOf(observable.subscribe())
+ */
+operator fun CompositeDisposable.plusAssign(disposables: Array<Disposable>) {
+    disposables.forEach { disposable ->
+        add(disposable)
+    }
+}
+
+/**
  * Add the disposable to a CompositeDisposable.
  * @param compositeDisposable CompositeDisposable to add this disposable to
  * @return this instance
