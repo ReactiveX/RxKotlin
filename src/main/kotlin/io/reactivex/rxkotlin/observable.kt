@@ -1,6 +1,7 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
+import io.reactivex.functions.Function
 
 
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
@@ -31,23 +32,29 @@ fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Obs
  * @param body is a function that applied for each item emitted by source observable that returns [Sequence]
  * @returns Observable that merges all [Sequence]s produced by [body] functions
  */
-inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Observable<R>
-        = flatMap { body(it).toObservable() }
+inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Observable<R> = flatMap { body(it).toObservable() }
 
 
 /**
  * Observable.combineLatest(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T : Any, R : Any> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R>
-        = Observable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
+inline fun <T : Any, R : Any> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R> = Observable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Observable.zip(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
  */
 @Suppress("UNCHECKED_CAST")
-inline fun <T : Any, R : Any> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
-        = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
+inline fun <T : Any, R : Any> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R> = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
+
+/**
+ * Returns an Observable that emits items by provided Observable if source Observable onError has called
+ */
+@Suppress("UNCHECKED_CAST")
+inline fun <T : Any> Observable<T>.onErrorResumeNext(crossinline onErrorResumeFunction: (args: Throwable) -> Observable<T>): Observable<T> =
+        onErrorResumeNext(Function<Throwable, Observable<T>> {
+            onErrorResumeFunction(it)
+        })
 
 /**
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
