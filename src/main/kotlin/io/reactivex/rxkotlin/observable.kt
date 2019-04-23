@@ -161,3 +161,21 @@ fun <A: Any, B: Any> Observable<Pair<A,B>>.toMultimap() = toMultimap({it.first},
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun  <T : Any> Iterable<ObservableSource<T>>.concatAll() = Observable.concat(this)
+
+/**
+ * Sort observable ascending with specified comparable key
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+inline fun <T : Any, K : Comparable<K>> Observable<T>.sortedBy(crossinline keySelector: (T) -> K): Observable<T> {
+    return sorted { left, right -> keySelector(left).compareTo(keySelector(right)) }
+}
+
+/**
+ * Sort observable descending with specified comparable key
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+inline fun <T : Any, K : Comparable<K>> Observable<T>.sortedByDescending(crossinline keySelector: (T) -> K): Observable<T> {
+    return sorted { left, right -> keySelector(right).compareTo(keySelector(left)) }
+}
