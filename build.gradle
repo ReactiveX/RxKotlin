@@ -1,40 +1,53 @@
 buildscript {
-    ext.kotlin_version = '1.2.60'
-    repositories { jcenter() }
-    dependencies {
-        classpath 'com.netflix.nebula:gradle-rxjava-project-plugin:4.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    repositories {
+        jcenter()
     }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.3.40"
+}
+
+repositories {
+    jcenter()
 }
 
 group = 'io.reactivex.rxjava2'
 
-
-apply plugin: 'nebula.rxjava-project'
-apply plugin: 'kotlin'
-apply plugin: 'java'
-
-dependencies {
-    compile 'io.reactivex.rxjava2:rxjava:2.2.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile 'org.funktionale:funktionale-partials:1.0.0-final'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    examplesCompile 'com.squareup.retrofit2:retrofit:2.3.0'
-    examplesCompile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    examplesCompile 'com.squareup.retrofit2:converter-moshi:2.3.0'
+sourceSets {
+    examples {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+        }
+    }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+configurations{
+    examplesImplementation{
+        extendsFrom(configurations.implementation)
+    }
+}
+
+dependencies {
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    testImplementation 'org.funktionale:funktionale-partials:1.0.0-final'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+
+    examplesImplementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    examplesImplementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    examplesImplementation 'com.squareup.retrofit2:converter-moshi:2.6.0'
 }
 
 // support for snapshot/final releases with the various branches RxJava uses
-nebulaRelease {
-    addReleaseBranchPattern(/\d+\.\d+\.\d+/)
-    addReleaseBranchPattern('HEAD')
-}
+//nebulaRelease {
+//    addReleaseBranchPattern(/\d+\.\d+\.\d+/)
+//    addReleaseBranchPattern('HEAD')
+//}
 
-if (project.hasProperty('release.useLastTag')) {
-    tasks.prepare.enabled = false
-}
+//if (project.hasProperty('release.useLastTag')) {
+//    tasks.prepare.enabled = false
+//}
