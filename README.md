@@ -51,7 +51,7 @@ Use RxKotlin 1.x versions to target RxJava 1.x.
 
 Use RxKotlin 2.x versions to target RxJava 2.x.
 
-The maintainers do not update the RxJava dependency version for every RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle`.
+The maintainers do not update the RxJava dependency version for every RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle(.kts)`.
 
 ## Build
 
@@ -78,8 +78,8 @@ Example for Maven:
 
 and for Gradle:
 
-```groovy
-implementation 'io.reactivex.rxjava2:rxkotlin:x.y.z'
+```kotlin
+implementation("io.reactivex.rxjava2:rxkotlin:x.y.z")
 ```
 
 ### RxKotlin 1.x 
@@ -96,8 +96,8 @@ Example for Maven:
 
 and for Gradle:
 
-```groovy
-implementation 'io.reactivex:rxkotlin:x.y.z'
+```kotlin
+implementation("io.reactivex:rxkotlin:x.y.z")
 ```
 
 ### Building with JitPack
