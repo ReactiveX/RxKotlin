@@ -134,7 +134,7 @@ bintray {
 //    dryRun = true
 
     with(pkg) {
-        userOrg = "ReactiveX"
+        userOrg = "reactivex"
         repo = "RxJava"
         name = "RxKotlin"
         setLicenses("Apache-2.0")
