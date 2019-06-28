@@ -97,6 +97,20 @@ publishing {
         scm {
             url.set("https://github.com/ReactiveX/RxKotlin.git")
         }
+        developers {
+            developer {
+                id.set("thomasnield")
+                name.set("Thomas Nield")
+                email.set("thomasnield@live.com")
+                organization.set("ReactiveX")
+                organizationUrl.set("http://reactivex.io/")
+            }
+            developer {
+                id.set("vpriscan")
+                name.set("Vedran Prišćan")
+                email.set("priscan.vedran@gmail.com")
+            }
+        }
     }
 
     publications {
