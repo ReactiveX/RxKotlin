@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_VARIABLE", "HasPlatformType")
 
+import org.gradle.api.publish.maven.MavenPom
+import org.jetbrains.dokka.gradle.DokkaTask
+
 buildscript {
     repositories {
         jcenter()
@@ -7,8 +10,11 @@ buildscript {
 }
 
 plugins {
+    id("java-library")
     kotlin("jvm") version "1.3.40"
+    id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
+    id("com.jfrog.bintray") version "1.8.4"
 }
 
 repositories {
@@ -16,8 +22,8 @@ repositories {
 }
 
 group = "io.reactivex.rxjava2"
-version = "2.4.0-SNAPSHOT"
 
+//additional source sets
 sourceSets {
     val examples by creating {
         java {
@@ -27,13 +33,14 @@ sourceSets {
     }
 }
 
+//examples configuration
 val examplesImplementation by configurations.getting {
     extendsFrom(configurations.implementation.get())
 }
 
 dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.10")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation(kotlin("stdlib"))
 
     testImplementation("org.funktionale:funktionale-partials:1.0.0-final")
     testImplementation("junit:junit:4.12")
@@ -44,50 +51,98 @@ dependencies {
     examplesImplementation("com.squareup.retrofit2:converter-moshi:2.6.0")
 }
 
+//sources
 val sourcesJar by tasks.creating(Jar::class) {
     from(sourceSets.main.get().allSource)
     archiveClassifier.set("sources")
 }
 
+//documentation
+val dokka by tasks.getting(DokkaTask::class) {
+    outputFormat = "html"
+    outputDirectory = "$buildDir/javadoc"
+
+}
+
+//documentation
+val dokkaJavadoc by tasks.creating(DokkaTask::class) {
+    outputFormat = "javadoc"
+    outputDirectory = "$buildDir/javadoc"
+}
+
+//documentation
+val javadocJar by tasks.creating(Jar::class) {
+    dependsOn(dokkaJavadoc)
+    archiveClassifier.set("javadoc")
+    from("$buildDir/javadoc")
+}
+
+//publications
+val snapshot = "snapshot"
+val release = "release"
+
 publishing {
-    publications {
-        create<MavenPublication>("full") {
-            artifactId = "rxkotlin"
 
-            from(components["java"])
-            artifact(sourcesJar)
+    fun MavenPom.initPom() {
+        name.set("RxKotlin")
+        description.set("RxJava bindings for Kotlin")
+        url.set("https://github.com/ReactiveX/RxKotlin")
 
-            pom {
-                name.set("RxKotlin")
-                description.set("RxJava bindings for Kotlin")
-                url.set("https://github.com/ReactiveX/RxKotlin")
-
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
     }
-    repositories {
-        //todo
-        /*maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
-            val releasesRepoUrl = uri("...")
-            val snapshotsRepoUrl = uri("...")
-            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
-        }*/
+
+    publications {
+        create<MavenPublication>(snapshot) {
+            artifactId = "rxkotlin"
+            version = "${project.version}-SNAPSHOT"
+
+            from(components["java"])
+            artifact(sourcesJar)
+            artifact(javadocJar)
+
+            pom.initPom()
+        }
+        create<MavenPublication>(release) {
+            artifactId = "rxkotlin"
+            version = "${project.version}"
+
+            from(components["java"])
+            artifact(sourcesJar)
+            artifact(javadocJar)
+
+            pom.initPom()
+        }
     }
 }
 
-// support for snapshot/final releases with the various branches RxJava uses
-//nebulaRelease {
-//    addReleaseBranchPattern(/\d+\.\d+\.\d+/)
-//    addReleaseBranchPattern('HEAD')
-//}
+bintray {
+    user = project.findProperty("bintray.user") as? String
+    key = project.findProperty("bintray.key") as? String
 
-//if (project.hasProperty('release.useLastTag')) {
-//    tasks.prepare.enabled = false
-//}
+    val isRelease = project.findProperty("release") == "true"
+
+    publish = isRelease
+    override = false
+
+    setPublications(if (isRelease) release else snapshot)
+
+//    dryRun = true
+
+    with(pkg) {
+        userOrg = "ReactiveX"
+        repo = "RxJava"
+        name = "RxKotlin"
+        setLicenses("Apache-2.0")
+        vcsUrl = "https://github.com/ReactiveX/RxKotlin.git"
+
+        with(version) {
+            name = project.version.toString()
+            vcsTag = project.version.toString()
+        }
+    }
+}
