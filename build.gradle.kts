@@ -94,6 +94,9 @@ publishing {
                 url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
+        scm {
+            url.set("https://github.com/ReactiveX/RxKotlin.git")
+        }
     }
 
     publications {
@@ -102,8 +105,6 @@ publishing {
             version = "${project.version}-SNAPSHOT"
 
             from(components["java"])
-            artifact(sourcesJar)
-            artifact(javadocJar)
 
             pom.initPom()
         }
@@ -121,8 +122,8 @@ publishing {
 }
 
 bintray {
-    user = project.findProperty("bintray.user") as? String
-    key = project.findProperty("bintray.key") as? String
+    user = project.findProperty("bintrayUser") as? String
+    key = project.findProperty("bintrayKey") as? String
 
     val isRelease = project.findProperty("release") == "true"
 
@@ -138,11 +139,25 @@ bintray {
         repo = "RxJava"
         name = "RxKotlin"
         setLicenses("Apache-2.0")
+        setLabels("reactivex", "rxjava", "rxkotlin")
+        websiteUrl = "https://github.com/ReactiveX/RxKotlin"
+        issueTrackerUrl = "https://github.com/ReactiveX/RxKotlin/issues"
         vcsUrl = "https://github.com/ReactiveX/RxKotlin.git"
 
         with(version) {
             name = project.version.toString()
             vcsTag = project.version.toString()
+
+            with(gpg){
+                sign = true
+            }
+
+            with(mavenCentralSync) {
+                sync = true
+                user = project.findProperty("sonatypeUsername") as? String
+                password = project.findProperty("sonatypePassword") as? String
+                close = "1"
+            }
         }
     }
 }
