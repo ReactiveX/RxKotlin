@@ -27,7 +27,7 @@ fun (() -> Any).toCompletable(): Completable = Completable.fromCallable(this)
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun Observable<Completable>.mergeAllCompletables() = flatMapCompletable { it }
+fun Observable<Completable>.mergeAllCompletables(): Completable = flatMapCompletable { it }
 
 /**
  * Merges the emissions of a Flowable<Completable>. Same as calling `flatMap { it }`.
@@ -35,11 +35,11 @@ fun Observable<Completable>.mergeAllCompletables() = flatMapCompletable { it }
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun Flowable<Completable>.mergeAllCompletables() = flatMapCompletable { it }
+fun Flowable<Completable>.mergeAllCompletables(): Completable = flatMapCompletable { it }
 
 /**
  * Concats an Iterable of completables into flowable. Same as calling `Completable.concat(this)`
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun Iterable<CompletableSource>.concatAll() = Completable.concat(this)
+fun Iterable<CompletableSource>.concatAll(): Completable = Completable.concat(this)

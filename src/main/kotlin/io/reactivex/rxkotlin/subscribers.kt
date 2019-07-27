@@ -35,7 +35,7 @@ fun <T : Any> Observable<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
-        ): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -47,7 +47,7 @@ fun <T : Any> Flowable<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
-        ): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -57,7 +57,7 @@ fun <T : Any> Flowable<T>.subscribeBy(
 fun <T : Any> Single<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onSuccess: (T) -> Unit = onNextStub
-        ): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
+): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -68,7 +68,7 @@ fun <T : Any> Maybe<T>.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onSuccess: (T) -> Unit = onNextStub
-        ): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
  * Overloaded subscribe function that allows passing named parameters
@@ -78,7 +78,7 @@ fun <T : Any> Maybe<T>.subscribeBy(
 fun Completable.subscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
-        ): Disposable = when {
+): Disposable = when {
     // There are optimized versions of the completable Consumers, so we need to use the subscribe overloads
     // here.
     onError === onErrorStub && onComplete === onCompleteStub -> subscribe()
@@ -94,7 +94,7 @@ fun <T : Any> Observable<T>.blockingSubscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
-        ) = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+): Unit = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
  * Overloaded blockingSubscribe function that allows passing named parameters
@@ -105,4 +105,4 @@ fun <T : Any> Flowable<T>.blockingSubscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
-        ) = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+): Unit = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())

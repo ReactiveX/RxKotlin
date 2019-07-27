@@ -15,5 +15,5 @@ operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
  * @param compositeDisposable CompositeDisposable to add this disposable to
  * @return this instance
  */
-fun Disposable.addTo(compositeDisposable: CompositeDisposable): Disposable
-        = apply { compositeDisposable.add(this) }
+fun Disposable.addTo(compositeDisposable: CompositeDisposable): Disposable =
+        apply { compositeDisposable.add(this) }

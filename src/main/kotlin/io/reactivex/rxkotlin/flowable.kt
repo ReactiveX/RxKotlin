@@ -3,6 +3,7 @@
 package io.reactivex.rxkotlin
 
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.annotations.BackpressureKind
 import io.reactivex.annotations.BackpressureSupport
 import io.reactivex.annotations.CheckReturnValue
@@ -14,20 +15,28 @@ import org.reactivestreams.Publisher
 
 @CheckReturnValue
 fun BooleanArray.toFlowable(): Flowable<Boolean> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun ByteArray.toFlowable(): Flowable<Byte> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun CharArray.toFlowable(): Flowable<Char> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun ShortArray.toFlowable(): Flowable<Short> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun IntArray.toFlowable(): Flowable<Int> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun LongArray.toFlowable(): Flowable<Long> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun FloatArray.toFlowable(): Flowable<Float> = asIterable().toFlowable()
+
 @CheckReturnValue
 fun DoubleArray.toFlowable(): Flowable<Double> = asIterable().toFlowable()
+
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
@@ -45,12 +54,14 @@ fun <T : Any> Iterator<T>.toFlowable(): Flowable<T> = toIterable().toFlowable()
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<T>.toFlowable(): Flowable<T> = Flowable.fromIterable(this)
+
 fun <T : Any> Sequence<T>.toFlowable(): Flowable<T> = asIterable().toFlowable()
 
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Flowable<out T>>.merge(): Flowable<T> = Flowable.merge(this.toFlowable())
+
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
@@ -67,8 +78,8 @@ fun <T : Any> Iterable<Flowable<out T>>.mergeDelayError(): Flowable<T> = Flowabl
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <T : Any, R : Any> Flowable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Flowable<R>
-        = flatMap { body(it).toFlowable() }
+inline fun <T : Any, R : Any> Flowable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Flowable<R> =
+        flatMap { body(it).toFlowable() }
 
 
 /**
@@ -78,8 +89,8 @@ inline fun <T : Any, R : Any> Flowable<T>.flatMapSequence(crossinline body: (T) 
 @SchedulerSupport(SchedulerSupport.NONE)
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
-inline fun <T : Any, R : Any> Iterable<Flowable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Flowable<R>
-        = Flowable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
+inline fun <T : Any, R : Any> Iterable<Flowable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Flowable<R> =
+        Flowable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Flowable.zip(List<? extends Flowable<? extends T>> sources, FuncN<? extends R> combineFunction)
@@ -88,8 +99,8 @@ inline fun <T : Any, R : Any> Iterable<Flowable<T>>.combineLatest(crossinline co
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <T : Any, R : Any> Iterable<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Flowable<R>
-        = Flowable.zip(this) { zipFunction(it.asList().map { it as T }) }
+inline fun <T : Any, R : Any> Iterable<Flowable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Flowable<R> =
+        Flowable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
  * Returns an Flowable that emits the items emitted by the source Flowable, converted to the specified type.
@@ -107,7 +118,7 @@ inline fun <reified R : Any> Flowable<*>.cast(): Flowable<R> = cast(R::class.jav
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <reified R : Any> Flowable<*>.ofType(): Flowable<R> = ofType(R::class.java)
 
-private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
+private fun <T : Any> Iterator<T>.toIterable(): Iterable<T> = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
 
@@ -117,8 +128,8 @@ private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any, R : Any> Flowable<T>.combineLatest(flowable: Flowable<R>): Flowable<Pair<T, R>>
-        = Flowable.combineLatest(this, flowable, BiFunction(::Pair))
+fun <T : Any, R : Any> Flowable<T>.combineLatest(flowable: Flowable<R>): Flowable<Pair<T, R>> =
+        Flowable.combineLatest(this, flowable, BiFunction(::Pair))
 
 /**
  * Combine latest operator that produces [Triple]
@@ -126,8 +137,10 @@ fun <T : Any, R : Any> Flowable<T>.combineLatest(flowable: Flowable<R>): Flowabl
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any, R : Any, U : Any> Flowable<T>.combineLatest(flowable1: Flowable<R>, flowable2: Flowable<U>): Flowable<Triple<T, R, U>>
-        = Flowable.combineLatest(this, flowable1, flowable2, Function3(::Triple))
+fun <T : Any, R : Any, U : Any> Flowable<T>.combineLatest(
+        flowable1: Flowable<R>,
+        flowable2: Flowable<U>
+): Flowable<Triple<T, R, U>> = Flowable.combineLatest(this, flowable1, flowable2, Function3(::Triple))
 
 //EXTENSION FUNCTION OPERATORS
 
@@ -137,7 +150,7 @@ fun <T : Any, R : Any, U : Any> Flowable<T>.combineLatest(flowable1: Flowable<R>
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Flowable<Flowable<T>>.mergeAll() = flatMap { it }
+fun <T : Any> Flowable<Flowable<T>>.mergeAll(): Flowable<T> = flatMap { it }
 
 
 /**
@@ -146,7 +159,7 @@ fun <T : Any> Flowable<Flowable<T>>.mergeAll() = flatMap { it }
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Flowable<Flowable<T>>.concatAll() = concatMap { it }
+fun <T : Any> Flowable<Flowable<T>>.concatAll(): Flowable<T> = concatMap { it }
 
 
 /**
@@ -155,7 +168,7 @@ fun <T : Any> Flowable<Flowable<T>>.concatAll() = concatMap { it }
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Flowable<Flowable<T>>.switchLatest() = switchMap { it }
+fun <T : Any> Flowable<Flowable<T>>.switchLatest(): Flowable<T> = switchMap { it }
 
 
 @CheckReturnValue
@@ -170,7 +183,8 @@ fun <T : Any> Flowable<Flowable<T>>.switchOnNext(): Flowable<T> = Flowable.switc
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMap() = toMap({it.first},{it.second})
+fun <A : Any, B : Any> Flowable<Pair<A, B>>.toMap(): Single<MutableMap<A, B>> =
+        toMap({ it.first }, { it.second })
 
 /**
  * Collects `Pair` emission into a multimap
@@ -178,7 +192,8 @@ fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMap() = toMap({it.first},{it.second}
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMultimap() = toMultimap({it.first},{it.second})
+fun <A : Any, B : Any> Flowable<Pair<A, B>>.toMultimap(): Single<MutableMap<A, MutableCollection<B>>> =
+        toMultimap({ it.first }, { it.second })
 
 /**
  * Concats an Iterable of flowables into flowable. Same as calling `Flowable.concat(this)`
@@ -186,4 +201,4 @@ fun <A: Any, B: Any> Flowable<Pair<A, B>>.toMultimap() = toMultimap({it.first},{
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Iterable<Publisher<T>>.concatAll() = Flowable.concat(this)
+fun <T : Any> Iterable<Publisher<T>>.concatAll(): Flowable<T> = Flowable.concat(this)

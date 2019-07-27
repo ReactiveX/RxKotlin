@@ -4,6 +4,7 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
+import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.annotations.SchedulerSupport
 
@@ -11,24 +12,31 @@ import io.reactivex.annotations.SchedulerSupport
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun BooleanArray.toObservable(): Observable<Boolean> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun ByteArray.toObservable(): Observable<Byte> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun CharArray.toObservable(): Observable<Char> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun ShortArray.toObservable(): Observable<Short> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun IntArray.toObservable(): Observable<Int> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun LongArray.toObservable(): Observable<Long> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun FloatArray.toObservable(): Observable<Float> = asIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun DoubleArray.toObservable(): Observable<Double> = asIterable().toObservable()
@@ -46,9 +54,11 @@ fun IntProgression.toObservable(): Observable<Int> =
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterator<T>.toObservable(): Observable<T> = toIterable().toObservable()
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<T>.toObservable(): Observable<T> = Observable.fromIterable(this)
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Sequence<T>.toObservable(): Observable<T> = asIterable().toObservable()
@@ -56,6 +66,7 @@ fun <T : Any> Sequence<T>.toObservable(): Observable<T> = asIterable().toObserva
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Observable<out T>>.merge(): Observable<T> = Observable.merge(this.toObservable())
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Observable.mergeDelayError(this.toObservable())
@@ -63,6 +74,7 @@ fun <T : Any> Iterable<Observable<out T>>.mergeDelayError(): Observable<T> = Obs
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<out Iterable<T>>.flatMapIterable(): Observable<T> = flatMapIterable { it }
+
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<out Iterable<T>>.concatMapIterable(): Observable<T> = concatMapIterable { it }
@@ -77,8 +89,8 @@ fun <T : Any> Observable<out Iterable<T>>.concatMapIterable(): Observable<T> = c
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Observable<R>
-        = flatMap { body(it).toObservable() }
+inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T) -> Sequence<R>): Observable<R> =
+        flatMap { body(it).toObservable() }
 
 
 /**
@@ -87,8 +99,8 @@ inline fun <T : Any, R : Any> Observable<T>.flatMapSequence(crossinline body: (T
 @Suppress("UNCHECKED_CAST")
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <T : Any, R : Any> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R>
-        = Observable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
+inline fun <T : Any, R : Any> Iterable<Observable<T>>.combineLatest(crossinline combineFunction: (args: List<T>) -> R): Observable<R> =
+        Observable.combineLatest(this) { combineFunction(it.asList().map { it as T }) }
 
 /**
  * Observable.zip(List<? extends Observable<? extends T>> sources, FuncN<? extends R> combineFunction)
@@ -96,8 +108,8 @@ inline fun <T : Any, R : Any> Iterable<Observable<T>>.combineLatest(crossinline 
 @Suppress("UNCHECKED_CAST")
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-inline fun <T : Any, R : Any> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R>
-        = Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
+inline fun <T : Any, R : Any> Iterable<Observable<T>>.zip(crossinline zipFunction: (args: List<T>) -> R): Observable<R> =
+        Observable.zip(this) { zipFunction(it.asList().map { it as T }) }
 
 /**
  * Returns an Observable that emits the items emitted by the source Observable, converted to the specified type.
@@ -113,7 +125,7 @@ inline fun <reified R : Any> Observable<*>.cast(): Observable<R> = cast(R::class
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <reified R : Any> Observable<*>.ofType(): Observable<R> = ofType(R::class.java)
 
-private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
+private fun <T : Any> Iterator<T>.toIterable(): Iterable<T> = object : Iterable<T> {
     override fun iterator(): Iterator<T> = this@toIterable
 }
 
@@ -124,40 +136,44 @@ private fun <T : Any> Iterator<T>.toIterable() = object : Iterable<T> {
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Observable<Observable<T>>.mergeAll() = flatMap { it }
+fun <T : Any> Observable<Observable<T>>.mergeAll(): Observable<T> = flatMap { it }
 
 /**
  * Concatenates the emissions of an Observable<Observable<T>>. Same as calling `concatMap { it }`.
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Observable<Observable<T>>.concatAll() = concatMap { it }
+fun <T : Any> Observable<Observable<T>>.concatAll(): Observable<T> = concatMap { it }
 
 /**
  * Emits the latest `Observable<T>` emitted through an `Observable<Observable<T>>`. Same as calling `switchMap { it }`.
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Observable<Observable<T>>.switchLatest() = switchMap { it }
+fun <T : Any> Observable<Observable<T>>.switchLatest(): Observable<T> = switchMap { it }
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> = Observable.switchOnNext(this)
+fun <T : Any> Observable<Observable<T>>.switchOnNext(): Observable<T> =
+        Observable.switchOnNext(this)
 
 /**
  * Collects `Pair` emission into a `Map`
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <A: Any, B: Any> Observable<Pair<A,B>>.toMap() = toMap({it.first},{it.second})
+fun <A : Any, B : Any> Observable<Pair<A, B>>.toMap(): Single<MutableMap<A, B>> =
+        toMap({ it.first }, { it.second })
 
 /**
  * Collects `Pair` emission into a multimap
  */
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun <A: Any, B: Any> Observable<Pair<A,B>>.toMultimap() = toMultimap({it.first},{it.second})
+fun <A : Any, B : Any> Observable<Pair<A, B>>.toMultimap(): Single<MutableMap<A, MutableCollection<B>>> =
+        toMultimap({ it.first }, { it.second })
 
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
-fun  <T : Any> Iterable<ObservableSource<T>>.concatAll() = Observable.concat(this)
+fun <T : Any> Iterable<ObservableSource<T>>.concatAll(): Observable<T> =
+        Observable.concat(this)
