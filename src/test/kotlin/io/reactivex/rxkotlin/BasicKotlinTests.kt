@@ -186,7 +186,7 @@ class BasicKotlinTests : KotlinTests() {
     @Test fun testTakeWhileWithIndex() {
         Observable.fromIterable(listOf(1, 2, 3))
                 .takeWhile { x -> x < 3 }
-                .zipWith(Observable.range(0, Integer.MAX_VALUE), BiFunction<Int, Int, Int> { x, i -> x })
+                .zipWith(Observable.range(0, Integer.MAX_VALUE), BiFunction<Int, Int, Int> { x, _ -> x })
                 .subscribe(received())
         verify(a, times(1)).received(1)
         verify(a, times(1)).received(2)

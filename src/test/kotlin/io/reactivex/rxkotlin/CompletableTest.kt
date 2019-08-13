@@ -39,13 +39,13 @@ class CompletableTest : KotlinTests() {
     }
 
     @Test(expected = NoSuchElementException::class) fun testCreateFromSingle() {
-        val c1 = Single.just("Hello World!").toCompletable()
+        val c1 = Single.just("Hello World!").ignoreElement()
         assertNotNull(c1)
         c1.toObservable<String>().blockingFirst()
     }
 
     @Test fun testConcatAll() {
-        var list = emptyList<Int>()
+        val list = emptyList<Int>().toMutableList()
         (0 until 10)
                 .map { v -> Completable.create { list += v } }
                 .concatAll()
