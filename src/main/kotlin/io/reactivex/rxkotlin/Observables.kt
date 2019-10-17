@@ -301,3 +301,17 @@ inline fun <T : Any, U : Any, R : Any> Observable<T>.zipWith(
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, U : Any> Observable<T>.zipWith(other: ObservableSource<U>): Observable<Pair<T, U>> =
         zipWith(other, BiFunction { t, u -> Pair(t, u) })
+
+/**
+ * Converts a list of observables to an observable list
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T: Any> List<Observable<T>>.zipObservables(): Observable<List<T>> {
+    if (isEmpty()) return Observable.just(emptyList())
+
+    return Observable.zip(this) {
+        @Suppress("UNCHECKED_CAST")
+        return@zip (it as Array<T>).toList()
+    }
+}
