@@ -107,6 +107,29 @@ class SinglesTest : KotlinTests() {
                     assert(nine == 9, { -> "Should equal nine"})
                 }).blockingGet()
     }
+
+    @Test fun zipSinglesWithEmptyListReturnsEmptyList() {
+        val singles = emptyList<Single<Int>>()
+
+        val zippedSingles = singles.zipSingles().blockingGet()
+
+        assert(zippedSingles.isEmpty())
+    }
+
+    @Test fun zipSinglesWithNonEmptyListReturnsNonEmptyListWithCorrectElements() {
+        val singles = listOf(
+            Single.just(1),
+            Single.just(2),
+            Single.just(3)
+        )
+
+        val zippedSingles = singles.zipSingles().blockingGet()
+
+        assert(zippedSingles.size == 3)
+        assert(zippedSingles[0] == 1)
+        assert(zippedSingles[1] == 2)
+        assert(zippedSingles[2] == 3)
+    }
 }
 
 fun SingleSourceInt(i: Int): SingleSource<Int> {

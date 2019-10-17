@@ -123,3 +123,14 @@ inline fun <T : Any, U : Any, R : Any> Single<T>.zipWith(
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, U : Any> Single<T>.zipWith(other: SingleSource<U>): Single<Pair<T, U>> =
         zipWith(other, BiFunction { t, u -> Pair(t, u) })
+
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T: Any> List<Single<T>>.zipSingles(): Single<List<T>> {
+    if (isEmpty()) return Single.just(emptyList())
+
+    return Single.zip(this) {
+        @Suppress("UNCHECKED_CAST")
+        return@zip (it as Array<T>).toList()
+    }
+}
