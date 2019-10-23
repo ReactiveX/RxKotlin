@@ -2,6 +2,8 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Single
 import io.reactivex.SingleSource
+import io.reactivex.functions.BiFunction
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class SinglesTest : KotlinTests() {
@@ -106,6 +108,26 @@ class SinglesTest : KotlinTests() {
                     assert(eight == 8, { -> "Should equal eight"})
                     assert(nine == 9, { -> "Should equal nine"})
                 }).blockingGet()
+    }
+
+    @Test fun zipWith() {
+        val first = Single.just(1)
+        val second = Single.just(2)
+
+        val expected = first.zipWith(second, BiFunction<Int, Int, Pair<Int, Int>> { f, s -> Pair(f, s)}).blockingGet()
+        val actual = first.zipWith(second).blockingGet()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test fun zipWithExplicitZipper() {
+        val first = Single.just(1)
+        val second = Single.just(2)
+
+        val expected = first.zipWith(second, BiFunction<Int, Int, Pair<Int, Int>> { f, s -> Pair(s, f)}).blockingGet()
+        val actual = first.zipWith(second) { f, s -> Pair(s, f) }.blockingGet()
+
+        assertEquals(expected, actual)
     }
 }
 
