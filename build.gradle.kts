@@ -33,6 +33,16 @@ sourceSets {
     }
 }
 
+kotlin {
+    sourceSets {
+        all {
+            languageSettings.apply {
+                enableLanguageFeature("NewInference")
+            }
+        }
+    }
+}
+
 //examples configuration
 val examplesImplementation by configurations.getting {
     extendsFrom(configurations.implementation.get())
