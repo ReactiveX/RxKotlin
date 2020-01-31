@@ -39,7 +39,7 @@ val examplesImplementation by configurations.getting {
 }
 
 dependencies {
-    api("io.reactivex.rxjava2:rxjava:2.2.10")
+    api("io.reactivex.rxjava3:rxjava:3.0.0-RC9")
     implementation(kotlin("stdlib"))
 
     testImplementation("org.funktionale:funktionale-partials:1.0.0-final")

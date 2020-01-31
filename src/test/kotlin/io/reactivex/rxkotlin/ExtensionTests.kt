@@ -16,11 +16,11 @@
 
 package io.reactivex.rxkotlin
 
-import io.reactivex.Notification
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.functions.Function3
-import io.reactivex.schedulers.TestScheduler
+import io.reactivex.rxjava3.core.Notification
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableEmitter
+import io.reactivex.rxjava3.schedulers.TestScheduler
+import io.reactivex.rxjava3.functions.*
 import org.funktionale.partials.invoke
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
@@ -111,8 +111,8 @@ class ExtensionTests : KotlinTests() {
     @Test fun testStartWith() {
         val list = listOf(10, 11, 12, 13, 14)
         val startList = listOf(1, 2, 3, 4, 5)
-        assertEquals(6, list.toObservable().startWith(0).count().blockingGet())
-        assertEquals(10, list.toObservable().startWith(startList).count().blockingGet())
+        assertEquals(6, list.toObservable().startWithItem(0).count().blockingGet())
+        assertEquals(10, list.toObservable().startWithIterable(startList).count().blockingGet())
     }
 
     @Test fun testScriptWithOnNext() {

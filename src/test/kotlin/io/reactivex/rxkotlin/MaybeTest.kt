@@ -1,8 +1,8 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.Maybe
-import io.reactivex.Single
-import io.reactivex.observers.LambdaConsumerIntrospection
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicReference

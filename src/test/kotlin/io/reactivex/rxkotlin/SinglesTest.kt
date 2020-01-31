@@ -1,7 +1,7 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.Single
-import io.reactivex.SingleSource
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleSource
 import org.junit.Test
 
 class SinglesTest : KotlinTests() {

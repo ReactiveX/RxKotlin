@@ -1,11 +1,10 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.Flowable.create
-import io.reactivex.FlowableEmitter
-import io.reactivex.observers.LambdaConsumerIntrospection
-import io.reactivex.subscribers.TestSubscriber
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.FlowableEmitter
+import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
+import io.reactivex.rxjava3.subscribers.TestSubscriber
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -17,7 +16,7 @@ import java.util.concurrent.atomic.AtomicReference
 class FlowableTest {
 
     private fun <T : Any> bufferedFlowable(source: (FlowableEmitter<T>) -> Unit) =
-            create(source, BackpressureStrategy.BUFFER)
+            Flowable.create(source, BackpressureStrategy.BUFFER)
 
     @org.junit.Test fun testCreation() {
         val o0: Flowable<Int> = Flowable.empty()

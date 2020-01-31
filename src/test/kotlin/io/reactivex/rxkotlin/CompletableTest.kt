@@ -1,9 +1,9 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.functions.Action
-import io.reactivex.observers.LambdaConsumerIntrospection
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.functions.Action
+import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

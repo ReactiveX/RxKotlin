@@ -1,7 +1,7 @@
 package io.reactivex.rxkotlin
 
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 /**
  * disposable += observable.subscribe()

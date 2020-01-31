@@ -2,15 +2,15 @@
 
 package io.reactivex.rxkotlin
 
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.annotations.BackpressureKind
-import io.reactivex.annotations.BackpressureSupport
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
-import io.reactivex.functions.Action
+import io.reactivex.rxjava3.annotations.BackpressureKind
+import io.reactivex.rxjava3.annotations.BackpressureSupport
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.SchedulerSupport
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.CompletableSource
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.functions.Action
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 
