@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package io.reactivex.rxkotlin
+package io.reactivex.rxkotlin3
 
 import io.reactivex.rxjava3.annotations.BackpressureKind
 import io.reactivex.rxjava3.annotations.BackpressureSupport

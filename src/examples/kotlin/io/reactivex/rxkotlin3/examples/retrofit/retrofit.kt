@@ -1,8 +1,8 @@
-package io.reactivex.rxkotlin.examples.retrofit
+package io.reactivex.rxkotlin3.examples.retrofit
 
-import io.reactivex.Observable
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -19,7 +19,7 @@ interface MavenSearchService {
 fun main(args: Array<String>) {
     val service = Retrofit.Builder().
             baseUrl("http://search.maven.org").
-            addCallAdapterFactory(RxJava2CallAdapterFactory.create()).
+            addCallAdapterFactory(RxJava3CallAdapterFactory.create()).
             addConverterFactory(MoshiConverterFactory.create()).
             build().
             create(MavenSearchService::class.java)

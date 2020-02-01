@@ -1,22 +1,30 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxkotlin3
 
-import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
 import org.junit.Assert
 import org.junit.Test
-import java.util.concurrent.atomic.AtomicReference
+import org.mockito.Mockito
+import org.mockito.Mockito.verify
 
-class MaybeTest {
+class SingleTest : KotlinTests() {
+    @Test fun testCreate() {
+        Single.create<String> { s ->
+            s.onSuccess("Hello World!")
+        }.subscribe { result ->
+            a.received(result)
+        }
+        verify(a, Mockito.times(1)).received("Hello World!")
+    }
+
     @Test
     fun testSubscribeBy() {
-        val first = AtomicReference<String>()
-
-        Maybe.just("Alpha")
+        Single.just("Alpha")
                 .subscribeBy {
-                    first.set(it)
+                    a.received(it)
                 }
-        Assert.assertTrue(first.get() == "Alpha")
+        verify(a, Mockito.times(1))
+                .received("Alpha")
     }
 
     @Test
@@ -35,7 +43,7 @@ class MaybeTest {
 
     @Test fun testConcatAll() {
         (0 until 10)
-                .map { Maybe.just(it) }
+                .map { Single.just(it) }
                 .concatAll()
                 .toList()
                 .subscribe { result ->

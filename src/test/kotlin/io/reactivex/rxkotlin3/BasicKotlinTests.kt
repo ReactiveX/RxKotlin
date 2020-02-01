@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.reactivex.rxkotlin
+package io.reactivex.rxkotlin3
 
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.exceptions.OnErrorNotImplementedException

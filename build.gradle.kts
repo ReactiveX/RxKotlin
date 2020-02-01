@@ -21,7 +21,7 @@ repositories {
     jcenter()
 }
 
-group = "io.reactivex.rxjava2"
+group = "io.reactivex.rxjava3"
 
 //additional source sets
 sourceSets {
@@ -46,9 +46,9 @@ dependencies {
     testImplementation("junit:junit:4.12")
     testImplementation("org.mockito:mockito-core:1.10.19")
 
-    examplesImplementation("com.squareup.retrofit2:retrofit:2.6.0")
-    examplesImplementation("com.squareup.retrofit2:adapter-rxjava2:2.6.0")
-    examplesImplementation("com.squareup.retrofit2:converter-moshi:2.6.0")
+    examplesImplementation("com.squareup.retrofit2:retrofit:2.7.1")
+    examplesImplementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0-RC8")
+    examplesImplementation("com.squareup.retrofit2:converter-moshi:2.7.1")
 }
 
 //sources
