@@ -107,3 +107,37 @@ fun <T : Any> Flowable<T>.blockingSubscribeBy(
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
 ): Unit = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+
+/**
+ * Overloaded blockingSubscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Maybe<T>.blockingSubscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub,
+        onSuccess: (T) -> Unit = onNextStub
+) : Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+
+/**
+ * Overloaded blockingSubscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Single<T>.blockingSubscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onSuccess: (T) -> Unit = onNextStub
+) : Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
+
+/**
+ * Overloaded blockingSubscribe function that allows passing named parameters
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun Completable.blockingSubscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Disposable = when {
+    // There are optimized versions of the completable Consumers, so we need to use the subscribe overloads here.
+    onError === onErrorStub && onComplete === onCompleteStub -> subscribe()
+    onError === onErrorStub -> subscribe(onComplete)
+    else -> subscribe(onComplete.asOnCompleteAction(), Consumer(onError))
+}
