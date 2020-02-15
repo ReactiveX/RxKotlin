@@ -135,9 +135,4 @@ fun <T : Any> Single<T>.blockingSubscribeBy(
 fun Completable.blockingSubscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
         onComplete: () -> Unit = onCompleteStub
-): Disposable = when {
-    // There are optimized versions of the completable Consumers, so we need to use the subscribe overloads here.
-    onError === onErrorStub && onComplete === onCompleteStub -> subscribe()
-    onError === onErrorStub -> subscribe(onComplete)
-    else -> subscribe(onComplete.asOnCompleteAction(), Consumer(onError))
-}
+): Unit = blockingSubscribe(onComplete.asOnCompleteAction(), onError.asOnErrorConsumer())
