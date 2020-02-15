@@ -225,6 +225,9 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Completable|subscribeBy()|Disposable|Allows named arguments to construct a CompletableObserver|
 |Observable<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking Observer|
 |Flowable<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking Subscriber|
+|Single<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking SingleObserver|
+|Maybe<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking MaybeObserver|
+|Completable<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking CompletableObserver|
 |Disposable|addTo()|Disposable|Adds a `Disposable` to the specified `CompositeDisposable`|
 |CompositeDisposable|plusAssign()|Disposable|Operator function to add a `Disposable` to this`CompositeDisposable`|
 
