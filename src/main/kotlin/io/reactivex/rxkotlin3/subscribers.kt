@@ -130,7 +130,6 @@ fun <T : Any> Single<T>.blockingSubscribeBy(
 /**
  * Overloaded blockingSubscribe function that allows passing named parameters
  */
-@CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun Completable.blockingSubscribeBy(
         onError: (Throwable) -> Unit = onErrorStub,
