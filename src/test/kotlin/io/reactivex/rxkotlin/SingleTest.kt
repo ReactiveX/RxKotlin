@@ -8,7 +8,8 @@ import org.mockito.Mockito
 import org.mockito.Mockito.verify
 
 class SingleTest : KotlinTests() {
-    @Test fun testCreate() {
+    @Test
+    fun testCreate() {
         Single.create<String> { s ->
             s.onSuccess("Hello World!")
         }.subscribe { result ->
@@ -41,7 +42,8 @@ class SingleTest : KotlinTests() {
         Assert.assertTrue(disposable.hasCustomOnError())
     }
 
-    @Test fun testConcatAll() {
+    @Test
+    fun testConcatAll() {
         (0 until 10)
                 .map { Single.just(it) }
                 .concatAll()
@@ -49,5 +51,16 @@ class SingleTest : KotlinTests() {
                 .subscribe { result ->
                     Assert.assertEquals((0 until 10).toList(), result)
                 }
+    }
+
+    @Test
+    fun testSingleJust() {
+        val data = "Beta"
+
+        data.toSingle()
+                .subscribeBy(onSuccess = a::received)
+
+        verify(a, Mockito.times(1))
+                .received(data)
     }
 }
