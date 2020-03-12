@@ -123,3 +123,7 @@ inline fun <T : Any, U : Any, R : Any> Single<T>.zipWith(
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, U : Any> Single<T>.zipWith(other: SingleSource<U>): Single<Pair<T, U>> =
         zipWith(other, BiFunction { t, u -> Pair(t, u) })
+
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> T.toSingle(): Single<T> = Single.just(this)
