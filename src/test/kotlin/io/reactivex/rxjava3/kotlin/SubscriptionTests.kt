@@ -1,4 +1,4 @@
-package io.reactivex.rxkotlin3
+package io.reactivex.rxjava3.kotlin
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable

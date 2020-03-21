@@ -1,4 +1,4 @@
-package io.reactivex.rxkotlin3.examples.retrofit
+package io.reactivex.rxjava3.kotlin.examples.retrofit
 
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import io.reactivex.rxjava3.core.Observable
