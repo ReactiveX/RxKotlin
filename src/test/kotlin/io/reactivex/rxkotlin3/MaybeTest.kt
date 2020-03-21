@@ -33,6 +33,17 @@ class MaybeTest {
         Assert.assertTrue(disposable.hasCustomOnError())
     }
 
+    @Test
+    fun testBlockingSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Maybe.just("Alpha")
+                .blockingSubscribeBy {
+                    first.set(it)
+                }
+        Assert.assertTrue(first.get() == "Alpha")
+    }
+
     @Test fun testConcatAll() {
         (0 until 10)
                 .map { Maybe.just(it) }

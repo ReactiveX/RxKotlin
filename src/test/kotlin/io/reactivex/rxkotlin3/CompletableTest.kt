@@ -77,4 +77,14 @@ class CompletableTest : KotlinTests() {
                 .subscribeBy(onError = {}) as LambdaConsumerIntrospection
         Assert.assertTrue(disposable.hasCustomOnError())
     }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        Completable.complete()
+                .blockingSubscribeBy {
+                    a.received(Unit)
+                }
+        Mockito.verify(a, Mockito.times(1))
+                .received(Unit)
+    }
 }

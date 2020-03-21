@@ -41,6 +41,16 @@ class SingleTest : KotlinTests() {
         Assert.assertTrue(disposable.hasCustomOnError())
     }
 
+    @Test
+    fun testBlockingSubscribeBy() {
+        Single.just("Alpha")
+                .blockingSubscribeBy {
+                   a.received(it)
+                }
+        verify(a, Mockito.times(1))
+                .received("Alpha")
+    }
+
     @Test fun testConcatAll() {
         (0 until 10)
                 .map { Single.just(it) }
