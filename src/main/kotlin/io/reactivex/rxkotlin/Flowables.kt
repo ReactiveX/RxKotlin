@@ -367,3 +367,17 @@ inline fun <T : Any, U : Any, R : Any> Flowable<T>.zipWith(
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, U : Any> Flowable<T>.zipWith(other: Publisher<U>): Flowable<Pair<T, U>> =
         zipWith(other, BiFunction { t, u -> Pair(t, u) })
+
+/**
+ * Converts a list of flowables to a flowable list
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T: Any> List<Flowable<T>>.zipFlowables(): Flowable<List<T>> {
+    if (isEmpty()) return Flowable.just(emptyList())
+
+    return Flowable.zip(this) {
+        @Suppress("UNCHECKED_CAST")
+        return@zip (it as Array<T>).toList()
+    }
+}

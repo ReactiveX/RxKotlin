@@ -44,4 +44,27 @@ class ObservablesTest {
 
         assertEquals(triple, result)
     }
+
+    @Test fun zipObservablesWithEmptyListReturnsEmptyList() {
+        val observables = emptyList<Observable<Int>>()
+
+        val zippedObservables = observables.zipObservables().blockingFirst()
+
+        assert(zippedObservables.isEmpty())
+    }
+
+    @Test fun zipObservablesWithNonEmptyListReturnsNonEmptyListWithCorrectElements() {
+        val observables = listOf(
+            Observable.just(1),
+            Observable.just(2),
+            Observable.just(3)
+        )
+
+        val zippedObservables = observables.zipObservables().blockingFirst()
+
+        assert(zippedObservables.size == 3)
+        assert(zippedObservables[0] == 1)
+        assert(zippedObservables[1] == 2)
+        assert(zippedObservables[2] == 3)
+    }
 }

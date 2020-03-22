@@ -4,6 +4,7 @@ package io.reactivex.rxkotlin
 
 import io.reactivex.Maybe
 import io.reactivex.MaybeSource
+import io.reactivex.Single
 import io.reactivex.annotations.CheckReturnValue
 import io.reactivex.annotations.SchedulerSupport
 import io.reactivex.functions.*
@@ -130,3 +131,14 @@ inline fun <T : Any, U : Any, R : Any> Maybe<T>.zipWith(
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, U : Any> Maybe<T>.zipWith(other: MaybeSource<U>): Maybe<Pair<T, U>> =
         zipWith(other, BiFunction { t, u -> Pair(t, u) })
+
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T: Any> List<Maybe<T>>.zipMaybes(): Maybe<List<T>> {
+    if (isEmpty()) return Maybe.just(emptyList())
+
+    return Maybe.zip(this) {
+        @Suppress("UNCHECKED_CAST")
+        return@zip (it as Array<T>).toList()
+    }
+}
