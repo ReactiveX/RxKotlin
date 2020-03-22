@@ -1,8 +1,11 @@
 package io.reactivex.rxkotlin
 
+import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.observers.LambdaConsumerIntrospection
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.Mockito.verify
@@ -47,7 +50,43 @@ class SingleTest : KotlinTests() {
                 .concatAll()
                 .toList()
                 .subscribe { result ->
-                    Assert.assertEquals((0 until 10).toList(), result)
+                    assertEquals((0 until 10).toList(), result)
                 }
+    }
+
+    @Test fun testMergeAllSinglesForObservable() {
+        val initialData = Observable.just(
+            Single.just(1),
+            Single.just(2),
+            Single.just(3),
+            Single.just(4)
+        )
+
+        val expected = mutableListOf<Int>().let { list ->
+            initialData.flatMapSingle { it }.blockingIterable().forEach { list.add(it) }
+        }
+        val actual = mutableListOf<Int>().let {list ->
+            initialData.mergeAllSingles().blockingIterable().forEach { list.add(it) }
+        }
+
+        assertEquals(expected, actual)
+    }
+
+    @Test fun testMergeAllSinglesForFlowable() {
+        val initialData = Flowable.just(
+            Single.just(1),
+            Single.just(2),
+            Single.just(3),
+            Single.just(4)
+        )
+
+        val expected = mutableListOf<Int>().let { list ->
+            initialData.flatMapSingle { it }.blockingIterable().forEach { list.add(it) }
+        }
+        val actual = mutableListOf<Int>().let {list ->
+            initialData.mergeAllSingles().blockingIterable().forEach { list.add(it) }
+        }
+
+        assertEquals(expected, actual)
     }
 }
