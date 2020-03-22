@@ -1,6 +1,6 @@
 # RxKotlin
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava3/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava3/rxkotlin)
 
 ## Kotlin Extensions for RxJava
 
@@ -8,8 +8,8 @@ RxKotlin is a lightweight library that adds convenient extension functions to [R
 
 
 ```kotlin
-import io.reactivex.rxkotlin3.subscribeBy
-import io.reactivex.rxkotlin3.toObservable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.kotlin.toObservable
 
 fun main(args: Array<String>) {
 
@@ -47,13 +47,13 @@ Join us on the #rx channel in Kotlin Slack!
 https://kotlinlang.slack.com/messages/rx
 
 
-## Support for RxJava 1.x, RxJava 2.x and RxJava 3.x
+## Support for RxJava 3.x, RxJava 2.x and RxJava 1.x
 
-Use RxKotlin 1.x versions to target RxJava 1.x.
+Use RxKotlin 3.x versions to target RxJava 3.x.
 
 Use RxKotlin 2.x versions to target RxJava 2.x.
 
-Use RxKotlin 3.x versions to target RxJava 3.x.
+Use RxKotlin 1.x versions to target RxJava 1.x.
 
 The maintainers do not update the RxJava dependency version for every RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle(.kts)`.
 
@@ -83,7 +83,7 @@ Example for Maven:
 Example for Gradle:
 
 ```kotlin
-implementation("io.reactivex.rxjava3:rxkotlin:3.y.z")
+implementation("io.reactivex.rxjava3:rxkotlin:3.x.y")
 ```
 
 ### RxKotlin 2.x
@@ -101,7 +101,7 @@ Example for Maven:
 Example for Gradle:
 
 ```kotlin
-implementation("io.reactivex.rxjava2:rxkotlin:2.y.z")
+implementation("io.reactivex.rxjava2:rxkotlin:2.x.y")
 ```
 
 ### RxKotlin 1.x 
@@ -119,7 +119,7 @@ Example for Maven:
 Example for Gradle:
 
 ```kotlin
-implementation("io.reactivex:rxkotlin:1.y.z")
+implementation("io.reactivex:rxkotlin:1.x.y")
 ```
 
 ### Building with JitPack
