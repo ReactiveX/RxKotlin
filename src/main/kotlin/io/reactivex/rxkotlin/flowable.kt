@@ -202,3 +202,21 @@ fun <A : Any, B : Any> Flowable<Pair<A, B>>.toMultimap(): Single<MutableMap<A, M
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Publisher<T>>.concatAll(): Flowable<T> = Flowable.concat(this)
+
+/**
+ * Sort flowable ascending with specified comparable key
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+inline fun <T : Any, K : Comparable<K>> Flowable<T>.sortedBy(crossinline keySelector: (T) -> K): Flowable<T> {
+    return sorted { left, right -> keySelector(left).compareTo(keySelector(right)) }
+}
+
+/**
+ * Sort flowable descending with specified comparable key
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+inline fun <T : Any, K : Comparable<K>> Flowable<T>.sortedByDescending(crossinline keySelector: (T) -> K): Flowable<T> {
+    return sorted { left, right -> keySelector(right).compareTo(keySelector(left)) }
+}
