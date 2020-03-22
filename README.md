@@ -49,26 +49,22 @@ https://kotlinlang.slack.com/messages/rx
 
 ## Support for RxJava 3.x, RxJava 2.x and RxJava 1.x
 
-Use RxKotlin 3.x versions to target RxJava 3.x.
+**Use RxKotlin 3.x versions to target RxJava 3.x.**
+- The 3.x version is active.
 
 Use RxKotlin 2.x versions to target RxJava 2.x.
+- The 2.x version of RxJava and RxKotlin is in maintenance mode and will be supported only through bugfixes. No new features or behavior changes will be accepted or applied.
 
 Use RxKotlin 1.x versions to target RxJava 1.x.
+- The 1.x version of RxJava and RxKotlin reached end-of-life. No further development, support, maintenance, PRs or updates will happen.
 
-The maintainers do not update the RxJava dependency version for every RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle(.kts)`.
-
-## Build
-
-RxKotlin 3.x [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=3.x)](https://travis-ci.org/ReactiveX/RxKotlin)
-
-RxKotlin 2.x [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=2.x)](https://travis-ci.org/ReactiveX/RxKotlin)
-
+The maintainers do not update the RxJava dependency version for every minor or patch RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle(.kts)`.
 
 ## Binaries
 
 Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
 
-### RxKotlin 3.x
+### RxKotlin 3.x [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=3.x)](https://travis-ci.org/ReactiveX/RxKotlin)
 
 Example for Maven:
 
@@ -86,7 +82,7 @@ Example for Gradle:
 implementation("io.reactivex.rxjava3:rxkotlin:3.x.y")
 ```
 
-### RxKotlin 2.x
+### RxKotlin 2.x [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=2.x)](https://travis-ci.org/ReactiveX/RxKotlin)
 
 Example for Maven:
 
