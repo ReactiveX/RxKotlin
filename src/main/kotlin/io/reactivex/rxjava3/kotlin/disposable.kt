@@ -10,10 +10,18 @@ operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
     add(disposable)
 }
 
+
+/**
+ * disposable -= observable.subscribe()
+ */
+operator fun CompositeDisposable.minusAssign(disposable: Disposable) {
+    delete(disposable)
+}
+
 /**
  * Add the disposable to a CompositeDisposable.
  * @param compositeDisposable CompositeDisposable to add this disposable to
  * @return this instance
  */
 fun Disposable.addTo(compositeDisposable: CompositeDisposable): Disposable =
-        apply { compositeDisposable.add(this) }
+        apply { compositeDisposable += this }
