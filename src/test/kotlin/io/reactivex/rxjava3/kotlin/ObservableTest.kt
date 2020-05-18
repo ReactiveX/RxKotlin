@@ -274,8 +274,8 @@ class ObservableTest {
 
     @Test fun testMergeWithPlus() {
         val output =
-            Observable.just(1,2) +
-            Observable.just(3,4) +
+            Observable.just(1, 2) +
+            Observable.just(3, 4) +
             Observable.just(5, 6) +
             Observable.just(7, 8) +
             Observable.just(9, 10)
