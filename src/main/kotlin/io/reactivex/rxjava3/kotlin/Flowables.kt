@@ -15,6 +15,9 @@ import org.reactivestreams.Publisher
 
 object Flowables {
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -38,6 +41,9 @@ object Flowables {
             BiFunction<T1, T2, Pair<T1, T2>> { t1, t2 -> t1 to t2 })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -63,6 +69,9 @@ object Flowables {
             Function3<T1, T2, T3, Triple<T1, T2, T3>> { t1, t2, t3 -> Triple(t1, t2, t3) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -76,6 +85,9 @@ object Flowables {
             Function4 { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1, t2, t3, t4) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -90,6 +102,9 @@ object Flowables {
             Function5 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1, t2, t3, t4, t5) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -104,6 +119,9 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6,
             Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -120,6 +138,9 @@ object Flowables {
             Function7 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -136,6 +157,9 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8,
             Function8 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -162,7 +186,9 @@ object Flowables {
             crossinline source: (FlowableEmitter<T>) -> Unit
     ): Flowable<T> = Flowable.create({ source(it) }, mode)
 
-
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -183,6 +209,9 @@ object Flowables {
             Flowable.zip(source1, source2, BiFunction<T1, T2, Pair<T1, T2>> { t1, t2 -> t1 to t2 })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -207,6 +236,9 @@ object Flowables {
     ): Flowable<Triple<T1, T2, T3>> = Flowable.zip(source1, source2, source3,
             Function3<T1, T2, T3, Triple<T1, T2, T3>> { t1, t2, t3 -> Triple(t1, t2, t3) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -219,6 +251,9 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4,
             Function4 { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1, t2, t3, t4) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -230,6 +265,9 @@ object Flowables {
             Function5 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1, t2, t3, t4, t5) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -240,6 +278,9 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6,
             Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -252,6 +293,9 @@ object Flowables {
             Function7 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -264,6 +308,9 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8,
             Function8 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Flowable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -286,6 +333,9 @@ object Flowables {
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(other, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.PASS_THROUGH)
 @SchedulerSupport(SchedulerSupport.NONE)
@@ -304,6 +354,9 @@ fun <T : Any, U : Any> Flowable<T>.withLatestFrom(other: Publisher<U>): Flowable
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(o1, o2, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.PASS_THROUGH)
 @SchedulerSupport(SchedulerSupport.NONE)
@@ -324,6 +377,9 @@ fun <T : Any, T1 : Any, T2 : Any> Flowable<T>.withLatestFrom(
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(o1, o2, o3, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.PASS_THROUGH)
 @SchedulerSupport(SchedulerSupport.NONE)
@@ -337,6 +393,9 @@ inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, R : Any> Flowable<T>.withLate
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(o1, o2, o3, o4, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
@@ -351,6 +410,9 @@ inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> Flowable<T
 /**
  * An alias to [Flowable.zipWith], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("zipWith(other, zipper)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @BackpressureSupport(BackpressureKind.PASS_THROUGH)
 @SchedulerSupport(SchedulerSupport.NONE)

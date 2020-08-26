@@ -229,7 +229,10 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 
 
 
-## SAM Helpers
+## SAM Helpers (made obsolete since Kotlin 1.4)
+
+_These methods have been made obsolete with new type inference algorithm in Kotlin 1.4.
+They will be removed in some future RxKotlin version._
 
 To help cope with the [SAM ambiguity issue](https://youtrack.jetbrains.com/issue/KT-14984) when using RxJava with Kotlin, there are a number of helper factories and extension functions to workaround the affected operators. 
 
