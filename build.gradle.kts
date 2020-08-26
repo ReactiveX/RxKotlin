@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id("java-library")
-    kotlin("jvm") version "1.3.40"
+    kotlin("jvm") version "1.4.0"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
@@ -29,16 +29,6 @@ sourceSets {
         java {
             compileClasspath += sourceSets.main.get().output
             runtimeClasspath += sourceSets.main.get().output
-        }
-    }
-}
-
-kotlin {
-    sourceSets {
-        all {
-            languageSettings.apply {
-                enableLanguageFeature("NewInference")
-            }
         }
     }
 }
