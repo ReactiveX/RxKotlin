@@ -15,7 +15,7 @@ import org.reactivestreams.Publisher
 
 object Flowables {
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -41,7 +41,7 @@ object Flowables {
             { t1, t2 -> t1 to t2 })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -69,7 +69,7 @@ object Flowables {
             { t1, t2, t3 -> Triple(t1, t2, t3) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -85,7 +85,7 @@ object Flowables {
             { t1, t2, t3, t4 -> combineFunction(t1, t2, t3, t4) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -102,7 +102,7 @@ object Flowables {
             { t1, t2, t3, t4, t5 -> combineFunction(t1, t2, t3, t4, t5) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -119,7 +119,7 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6,
             { t1, t2, t3, t4, t5, t6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -138,7 +138,7 @@ object Flowables {
             { t1, t2, t3, t4, t5, t6, t7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -157,7 +157,7 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8,
             { t1, t2, t3, t4, t5, t6, t7, t8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -186,7 +186,7 @@ object Flowables {
             crossinline source: (FlowableEmitter<T>) -> Unit
     ): Flowable<T> = Flowable.create({ source(it) }, mode)
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -209,7 +209,7 @@ object Flowables {
             Flowable.zip(source1, source2, { t1, t2 -> t1 to t2 })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -236,7 +236,7 @@ object Flowables {
     ): Flowable<Triple<T1, T2, T3>> = Flowable.zip(source1, source2, source3,
             { t1, t2, t3 -> Triple(t1, t2, t3) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -251,7 +251,7 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4,
             { t1, t2, t3, t4 -> combineFunction(t1, t2, t3, t4) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -265,7 +265,7 @@ object Flowables {
             { t1, t2, t3, t4, t5 -> combineFunction(t1, t2, t3, t4, t5) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -278,7 +278,7 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6,
             { t1, t2, t3, t4, t5, t6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -293,7 +293,7 @@ object Flowables {
             { t1, t2, t3, t4, t5, t6, t7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -308,7 +308,7 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8,
             { t1, t2, t3, t4, t5, t6, t7, t8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -333,7 +333,7 @@ object Flowables {
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
-@Deprecated("New type inference makes this method obsolete. Will be removed.",
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
         replaceWith = ReplaceWith("withLatestFrom(other, combiner)"),
         level = DeprecationLevel.WARNING)
 @CheckReturnValue
@@ -354,7 +354,7 @@ fun <T : Any, U : Any> Flowable<T>.withLatestFrom(other: Publisher<U>): Flowable
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
-@Deprecated("New type inference makes this method obsolete. Will be removed.",
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
         replaceWith = ReplaceWith("withLatestFrom(o1, o2, combiner)"),
         level = DeprecationLevel.WARNING)
 @CheckReturnValue
@@ -377,7 +377,7 @@ fun <T : Any, T1 : Any, T2 : Any> Flowable<T>.withLatestFrom(
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
-@Deprecated("New type inference makes this method obsolete. Will be removed.",
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
         replaceWith = ReplaceWith("withLatestFrom(o1, o2, o3, combiner)"),
         level = DeprecationLevel.WARNING)
 @CheckReturnValue
@@ -393,7 +393,7 @@ inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, R : Any> Flowable<T>.withLate
 /**
  * An alias to [Flowable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
-@Deprecated("New type inference makes this method obsolete. Will be removed.",
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
         replaceWith = ReplaceWith("withLatestFrom(o1, o2, o3, o4, combiner)"),
         level = DeprecationLevel.WARNING)
 @CheckReturnValue
@@ -410,7 +410,7 @@ inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> Flowable<T
 /**
  * An alias to [Flowable.zipWith], but allowing for cleaner lambda syntax.
  */
-@Deprecated("New type inference makes this method obsolete. Will be removed.",
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
         replaceWith = ReplaceWith("zipWith(other, zipper)"),
         level = DeprecationLevel.WARNING)
 @CheckReturnValue

@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.functions.*
 
 object Maybes {
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -29,7 +29,7 @@ object Maybes {
     ): Maybe<Pair<T, U>> = Maybe.zip(s1, s2, { t, u -> Pair(t, u) })
 
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -51,7 +51,7 @@ object Maybes {
     ): Maybe<Triple<T1, T2, T3>> = Maybe.zip(s1, s2, s3,
             { t1, t2, t3 -> Triple(t1, t2, t3) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -64,7 +64,7 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4,
             { t1, t2, t3, t4 -> zipper(t1, t2, t3, t4) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -78,7 +78,7 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5,
             { t1, t2, t3, t4, t5 -> zipper(t1, t2, t3, t4, t5) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -92,7 +92,7 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5, s6,
             { t1, t2, t3, t4, t5, t6 -> zipper(t1, t2, t3, t4, t5, t6) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, s7, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -107,7 +107,7 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5, s6, s7,
             { t1, t2, t3, t4, t5, t6, t7 -> zipper(t1, t2, t3, t4, t5, t6, t7) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, s7, s8, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -122,7 +122,7 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5, s6, s7, s8,
             { t1, t2, t3, t4, t5, t6, t7, t8 -> zipper(t1, t2, t3, t4, t5, t6, t7, t8) })
 
-    @Deprecated("New type inference makes this method obsolete. Will be removed.",
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, zipper)", "io.reactivex.Maybe"),
             level = DeprecationLevel.WARNING)
     @CheckReturnValue
@@ -142,7 +142,7 @@ object Maybes {
 /**
  * An alias to [Maybe.zipWith], but allowing for cleaner lambda syntax.
  */
-@Deprecated("New type inference makes this method obsolete. Will be removed.",
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
         replaceWith = ReplaceWith("zipWith(other, zipper)"),
         level = DeprecationLevel.WARNING)
 @CheckReturnValue
