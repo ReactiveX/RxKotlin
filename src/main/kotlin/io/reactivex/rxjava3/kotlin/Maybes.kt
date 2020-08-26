@@ -1,11 +1,12 @@
 @file:Suppress("unused")
 
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Maybe
-import io.reactivex.MaybeSource
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.SchedulerSupport
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.MaybeSource
+import io.reactivex.rxjava3.functions.*
 
 object Maybes {
 

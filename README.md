@@ -1,13 +1,15 @@
 # RxKotlin
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava3/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava3/rxkotlin)
+
 ## Kotlin Extensions for RxJava
 
 RxKotlin is a lightweight library that adds convenient extension functions to [RxJava](https://github.com/ReactiveX/RxJava). You can use RxJava with Kotlin out-of-the-box, but Kotlin has language features (such as [extension functions](https://kotlinlang.org/docs/reference/extensions.html)) that can streamline usage of RxJava even more. RxKotlin aims to conservatively collect these conveniences in one centralized library, and standardize conventions for using RxJava with Kotlin. 
 
 
 ```kotlin
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.rxkotlin.toObservable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.kotlin.toObservable
 
 fun main(args: Array<String>) {
 
@@ -45,26 +47,42 @@ Join us on the #rx channel in Kotlin Slack!
 https://kotlinlang.slack.com/messages/rx
 
 
-## Support for RxJava 1.x and RxJava 2.x
+## Support for RxJava 3.x, RxJava 2.x and RxJava 1.x
 
-Use RxKotlin 1.x versions to target RxJava 1.x.
+**Use RxKotlin 3.x versions to target RxJava 3.x.**
+- The 3.x version is active.
 
 Use RxKotlin 2.x versions to target RxJava 2.x.
+- The 2.x version of RxJava and RxKotlin is in maintenance mode and will be supported only through bugfixes. No new features or behavior changes will be accepted or applied.
 
-The maintainers do not update the RxJava dependency version for every RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle(.kts)`.
+Use RxKotlin 1.x versions to target RxJava 1.x.
+- The 1.x version of RxJava and RxKotlin reached end-of-life. No further development, support, maintenance, PRs or updates will happen.
 
-## Build
-
-[![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=2.x)](https://travis-ci.org/ReactiveX/RxKotlin)
-
+The maintainers do not update the RxJava dependency version for every minor or patch RxJava release, so you should explicitly add the desired RxJava dependency version to your `pom.xml` or `build.gradle(.kts)`.
 
 ## Binaries
 
-
 Binaries and dependency information for Maven, Ivy, Gradle and others can be found at [http://search.maven.org](http://search.maven.org/#search%7Cga%7C1%7Crxkotlin).
 
+### RxKotlin 3.x [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=3.x)](https://travis-ci.org/ReactiveX/RxKotlin)
 
-### RxKotlin 2.x [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.reactivex.rxjava2/rxkotlin)
+Example for Maven:
+
+```xml
+<dependency>
+    <groupId>io.reactivex.rxjava3</groupId>
+    <artifactId>rxkotlin</artifactId>
+    <version>3.x.y</version>
+</dependency>
+```
+
+Example for Gradle:
+
+```kotlin
+implementation("io.reactivex.rxjava3:rxkotlin:3.x.y")
+```
+
+### RxKotlin 2.x [![Build Status](https://travis-ci.org/ReactiveX/RxKotlin.svg?branch=2.x)](https://travis-ci.org/ReactiveX/RxKotlin)
 
 Example for Maven:
 
@@ -76,10 +94,10 @@ Example for Maven:
 </dependency>
 ```
 
-and for Gradle:
+Example for Gradle:
 
 ```kotlin
-implementation("io.reactivex.rxjava2:rxkotlin:x.y.z")
+implementation("io.reactivex.rxjava2:rxkotlin:2.x.y")
 ```
 
 ### RxKotlin 1.x 
@@ -94,17 +112,17 @@ Example for Maven:
 </dependency>
 ```
 
-and for Gradle:
+Example for Gradle:
 
 ```kotlin
-implementation("io.reactivex:rxkotlin:x.y.z")
+implementation("io.reactivex:rxkotlin:1.x.y")
 ```
 
 ### Building with JitPack
 
 You can also use Gradle or Maven with [JitPack](https://jitpack.io/) to build directly off a snapshot, branch, or commit of this repository.
 
-For example, to build off the 2.x branch, use this setup for Gradle:
+For example, to build off the 3.x branch, use this setup for Gradle:
 
 ```groovy
 repositories {
@@ -112,7 +130,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.ReactiveX:RxKotlin:2.x-SNAPSHOT'
+    implementation 'com.github.ReactiveX:RxKotlin:3.x-SNAPSHOT'
 }
 ```
 
@@ -126,10 +144,10 @@ Use this setup for Maven:
 		</repository>
 	</repositories>
 
-        <dependency>
+    <dependency>
 	    <groupId>com.github.ReactiveX</groupId>
 	    <artifactId>RxKotlin</artifactId>
-	    <version>2.x-SNAPSHOT</version>
+	    <version>3.x-SNAPSHOT</version>
 	</dependency>
 ```
 
@@ -203,6 +221,9 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 |Completable|subscribeBy()|Disposable|Allows named arguments to construct a CompletableObserver|
 |Observable<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking Observer|
 |Flowable<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking Subscriber|
+|Single<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking SingleObserver|
+|Maybe<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking MaybeObserver|
+|Completable<T>|blockingSubscribeBy()|Unit|Allows named arguments to construct a blocking CompletableObserver|
 |Disposable|addTo()|Disposable|Adds a `Disposable` to the specified `CompositeDisposable`|
 |CompositeDisposable|plusAssign()|Disposable|Operator function to add a `Disposable` to this`CompositeDisposable`|
 
@@ -210,7 +231,7 @@ Learn more about building this project with JitPack [here](https://jitpack.io/#R
 
 ## SAM Helpers
 
-To help cope with the [SAM ambiguity issue](https://youtrack.jetbrains.com/issue/KT-14984) when using RxJava 2.x with Kotlin, there are a number of helper factories and extension functions to workaround the affected operators. 
+To help cope with the [SAM ambiguity issue](https://youtrack.jetbrains.com/issue/KT-14984) when using RxJava with Kotlin, there are a number of helper factories and extension functions to workaround the affected operators. 
 
 ```
 Observables.zip()

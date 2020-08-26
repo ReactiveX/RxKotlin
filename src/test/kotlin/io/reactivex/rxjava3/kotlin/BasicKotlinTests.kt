@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.*
-import io.reactivex.exceptions.OnErrorNotImplementedException
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
-import io.reactivex.plugins.RxJavaPlugins
+import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.exceptions.OnErrorNotImplementedException
+import io.reactivex.rxjava3.functions.*
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.junit.Assert.*
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -141,8 +140,8 @@ class BasicKotlinTests : KotlinTests() {
     @Test fun testStartWith() {
         val list = listOf(10, 11, 12, 13, 14)
         val startList = listOf(1, 2, 3, 4, 5)
-        assertEquals(6, Observable.fromIterable(list).startWith(0).count().blockingGet())
-        assertEquals(10, Observable.fromIterable(list).startWith(startList).count().blockingGet())
+        assertEquals(6, Observable.fromIterable(list).startWithItem(0).count().blockingGet())
+        assertEquals(10, Observable.fromIterable(list).startWithIterable(startList).count().blockingGet())
     }
 
     @Test fun testScriptWithOnNext() {

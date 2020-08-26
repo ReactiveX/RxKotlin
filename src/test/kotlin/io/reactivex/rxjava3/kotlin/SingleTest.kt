@@ -1,7 +1,7 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Single
-import io.reactivex.observers.LambdaConsumerIntrospection
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
 import org.junit.Assert
 import org.junit.Test
 import org.mockito.Mockito
@@ -39,6 +39,16 @@ class SingleTest : KotlinTests() {
         val disposable = Single.just(Unit)
                 .subscribeBy(onError = {}) as LambdaConsumerIntrospection
         Assert.assertTrue(disposable.hasCustomOnError())
+    }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        Single.just("Alpha")
+                .blockingSubscribeBy {
+                   a.received(it)
+                }
+        verify(a, Mockito.times(1))
+                .received("Alpha")
     }
 
     @Test fun testConcatAll() {

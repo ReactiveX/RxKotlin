@@ -1,8 +1,8 @@
-package io.reactivex.rxkotlin.examples
+package io.reactivex.rxjava3.kotlin.examples
 
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.*
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.*
 import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit

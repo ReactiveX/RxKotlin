@@ -1,9 +1,9 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.functions.Action
-import io.reactivex.observers.LambdaConsumerIntrospection
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.functions.Action
+import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -76,5 +76,15 @@ class CompletableTest : KotlinTests() {
         val disposable = Completable.complete()
                 .subscribeBy(onError = {}) as LambdaConsumerIntrospection
         Assert.assertTrue(disposable.hasCustomOnError())
+    }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        Completable.complete()
+                .blockingSubscribeBy {
+                    a.received(Unit)
+                }
+        Mockito.verify(a, Mockito.times(1))
+                .received(Unit)
     }
 }

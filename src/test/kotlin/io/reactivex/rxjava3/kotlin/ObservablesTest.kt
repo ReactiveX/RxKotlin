@@ -1,6 +1,6 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -1,14 +1,15 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.*
-import io.reactivex.annotations.BackpressureKind
-import io.reactivex.annotations.BackpressureSupport
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
-import io.reactivex.internal.functions.Functions
+import io.reactivex.rxjava3.annotations.BackpressureKind
+import io.reactivex.rxjava3.annotations.BackpressureSupport
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.SchedulerSupport
+import io.reactivex.rxjava3.core.*
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.functions.Action
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.internal.functions.Functions
+
 
 private val onNextStub: (Any) -> Unit = {}
 private val onErrorStub: (Throwable) -> Unit = {}
@@ -106,3 +107,31 @@ fun <T : Any> Flowable<T>.blockingSubscribeBy(
         onComplete: () -> Unit = onCompleteStub,
         onNext: (T) -> Unit = onNextStub
 ): Unit = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+
+/**
+ * Overloaded blockingSubscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Maybe<T>.blockingSubscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub,
+        onSuccess: (T) -> Unit = onNextStub
+) : Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+
+/**
+ * Overloaded blockingSubscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Single<T>.blockingSubscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onSuccess: (T) -> Unit = onNextStub
+) : Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
+
+/**
+ * Overloaded blockingSubscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun Completable.blockingSubscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onComplete: () -> Unit = onCompleteStub
+): Unit = blockingSubscribe(onComplete.asOnCompleteAction(), onError.asOnErrorConsumer())

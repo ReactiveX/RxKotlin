@@ -1,8 +1,8 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Maybe
-import io.reactivex.Single
-import io.reactivex.observers.LambdaConsumerIntrospection
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.observers.LambdaConsumerIntrospection
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicReference
@@ -31,6 +31,17 @@ class MaybeTest {
         val disposable = Single.just(Unit)
                 .subscribeBy(onError = {}) as LambdaConsumerIntrospection
         Assert.assertTrue(disposable.hasCustomOnError())
+    }
+
+    @Test
+    fun testBlockingSubscribeBy() {
+        val first = AtomicReference<String>()
+
+        Maybe.just("Alpha")
+                .blockingSubscribeBy {
+                    first.set(it)
+                }
+        Assert.assertTrue(first.get() == "Alpha")
     }
 
     @Test fun testConcatAll() {

@@ -1,9 +1,11 @@
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Single
-import io.reactivex.SingleSource
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.SchedulerSupport
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleSource
+import io.reactivex.rxjava3.functions.*
+
 
 object Singles {
 

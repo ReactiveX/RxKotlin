@@ -1,14 +1,15 @@
 @file:Suppress("unused")
 
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
-import io.reactivex.FlowableEmitter
-import io.reactivex.annotations.BackpressureKind
-import io.reactivex.annotations.BackpressureSupport
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
+import io.reactivex.rxjava3.annotations.BackpressureKind
+import io.reactivex.rxjava3.annotations.BackpressureSupport
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.SchedulerSupport
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.FlowableEmitter
+import io.reactivex.rxjava3.functions.*
 import org.reactivestreams.Publisher
 
 

@@ -1,15 +1,14 @@
 @file:Suppress("HasPlatformType", "unused")
 
-package io.reactivex.rxkotlin
+package io.reactivex.rxjava3.kotlin
 
-import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.annotations.BackpressureKind
-import io.reactivex.annotations.BackpressureSupport
-import io.reactivex.annotations.CheckReturnValue
-import io.reactivex.annotations.SchedulerSupport
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
+import io.reactivex.rxjava3.annotations.BackpressureKind
+import io.reactivex.rxjava3.annotations.BackpressureSupport
+import io.reactivex.rxjava3.annotations.CheckReturnValue
+import io.reactivex.rxjava3.annotations.SchedulerSupport
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.functions.*
 import org.reactivestreams.Publisher
 
 
