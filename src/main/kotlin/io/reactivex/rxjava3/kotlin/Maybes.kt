@@ -9,6 +9,10 @@ import io.reactivex.rxjava3.core.MaybeSource
 import io.reactivex.rxjava3.functions.*
 
 object Maybes {
+
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T : Any, U : Any, R : Any> zip(
@@ -27,6 +31,9 @@ object Maybes {
             BiFunction { t, u -> Pair(t, u) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any>
@@ -46,6 +53,9 @@ object Maybes {
     ): Maybe<Triple<T1, T2, T3>> = Maybe.zip(s1, s2, s3,
             Function3 { t1, t2, t3 -> Triple(t1, t2, t3) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any>
@@ -56,6 +66,9 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4,
             Function4 { t1, t2, t3, t4 -> zipper.invoke(t1, t2, t3, t4) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R : Any>
@@ -67,6 +80,9 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5,
             Function5 { t1, t2, t3, t4, t5 -> zipper.invoke(t1, t2, t3, t4, t5) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R : Any>
@@ -78,6 +94,9 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5, s6,
             Function6 { t1, t2, t3, t4, t5, t6 -> zipper.invoke(t1, t2, t3, t4, t5, t6) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, s7, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, R : Any>
@@ -90,6 +109,9 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5, s6, s7,
             Function7 { t1, t2, t3, t4, t5, t6, t7 -> zipper.invoke(t1, t2, t3, t4, t5, t6, t7) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, s7, s8, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, R : Any>
@@ -102,6 +124,9 @@ object Maybes {
     ): Maybe<R> = Maybe.zip(s1, s2, s3, s4, s5, s6, s7, s8,
             Function8 { t1, t2, t3, t4, t5, t6, t7, t8 -> zipper.invoke(t1, t2, t3, t4, t5, t6, t7, t8) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Maybe.zip(s1, s2, s3, s4, s5, s6, s7, s8, s9, zipper)", "io.reactivex.Maybe"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, T9 : Any, R : Any>
@@ -119,6 +144,9 @@ object Maybes {
 /**
  * An alias to [Maybe.zipWith], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("zipWith(other, zipper)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <T : Any, U : Any, R : Any> Maybe<T>.zipWith(

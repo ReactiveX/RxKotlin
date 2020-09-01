@@ -13,6 +13,9 @@ import io.reactivex.rxjava3.functions.*
  */
 object Observables {
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, R : Any> combineLatest(
@@ -31,6 +34,9 @@ object Observables {
             Observable.combineLatest(source1, source2,
                     BiFunction<T1, T2, Pair<T1, T2>> { t1, t2 -> t1 to t2 })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any> combineLatest(
@@ -53,6 +59,9 @@ object Observables {
     ): Observable<Triple<T1, T2, T3>> = Observable.combineLatest(source1, source2, source3,
             Function3<T1, T2, T3, Triple<T1, T2, T3>> { t1, t2, t3 -> Triple(t1, t2, t3) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, source4, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> combineLatest(
@@ -62,6 +71,9 @@ object Observables {
             Function4 { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1, t2, t3, t4) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R : Any> combineLatest(
@@ -72,6 +84,9 @@ object Observables {
             Function5 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1, t2, t3, t4, t5) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, source4, source5, source6, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R : Any> combineLatest(
@@ -81,6 +96,9 @@ object Observables {
     ): Observable<R> = Observable.combineLatest(source1, source2, source3, source4, source5, source6,
             Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, R : Any> combineLatest(
@@ -92,6 +110,9 @@ object Observables {
             Function7 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, R : Any> combineLatest(
@@ -103,6 +124,9 @@ object Observables {
     ): Observable<R> = Observable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8,
             Function8 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, T9 : Any, R : Any> combineLatest(
@@ -115,6 +139,9 @@ object Observables {
             Function9 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8, t9) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, R : Any> zip(
@@ -134,6 +161,9 @@ object Observables {
             Observable.zip(source1, source2,
                     BiFunction<T1, T2, Pair<T1, T2>> { t1, t2 -> t1 to t2 })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, R : Any> zip(
@@ -156,6 +186,9 @@ object Observables {
     ): Observable<Triple<T1, T2, T3>> = Observable.zip(source1, source2, source3,
             Function3<T1, T2, T3, Triple<T1, T2, T3>> { t1, t2, t3 -> Triple(t1, t2, t3) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, source4, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> zip(
@@ -167,6 +200,9 @@ object Observables {
     ): Observable<R> = Observable.zip(source1, source2, source3, source4,
             Function4 { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1, t2, t3, t4) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R : Any> zip(
@@ -177,6 +213,9 @@ object Observables {
             Function5 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1, t2, t3, t4, t5) })
 
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, source4, source5, source6, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R : Any> zip(
@@ -186,6 +225,9 @@ object Observables {
     ): Observable<R> = Observable.zip(source1, source2, source3, source4, source5, source6,
             Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, R : Any> zip(
@@ -196,7 +238,9 @@ object Observables {
     ): Observable<R> = Observable.zip(source1, source2, source3, source4, source5, source6, source7,
             Function7 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
 
-
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, source4, source5, source6, source7, source8, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, R : Any> zip(
@@ -208,6 +252,9 @@ object Observables {
     ): Observable<R> = Observable.zip(source1, source2, source3, source4, source5, source6, source7, source8,
             Function8 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
+    @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+            replaceWith = ReplaceWith("Observable.zip(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Observable"),
+            level = DeprecationLevel.WARNING)
     @CheckReturnValue
     @SchedulerSupport(SchedulerSupport.NONE)
     inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, T9 : Any, R : Any> zip(
@@ -225,6 +272,9 @@ object Observables {
 /**
  * An alias to [Observable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(other, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <T : Any, U : Any, R : Any> Observable<T>.withLatestFrom(
@@ -243,6 +293,9 @@ fun <T : Any, U : Any> Observable<T>.withLatestFrom(other: ObservableSource<U>):
 /**
  * An alias to [Observable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(o1, o2, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <T : Any, T1 : Any, T2 : Any, R : Any> Observable<T>.withLatestFrom(
@@ -261,6 +314,9 @@ fun <T : Any, T1 : Any, T2 : Any> Observable<T>.withLatestFrom(
 /**
  * An alias to [Observable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(o1, o2, o3, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, R : Any> Observable<T>.withLatestFrom(
@@ -273,6 +329,9 @@ inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, R : Any> Observable<T>.withLa
 /**
  * An alias to [Observable.withLatestFrom], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("withLatestFrom(o1, o2, o3, o4, combiner)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> Observable<T>.withLatestFrom(
@@ -287,6 +346,9 @@ inline fun <T : Any, T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> Observable
 /**
  * An alias to [Observable.zipWith], but allowing for cleaner lambda syntax.
  */
+@Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
+        replaceWith = ReplaceWith("zipWith(other, zipper)"),
+        level = DeprecationLevel.WARNING)
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 inline fun <T : Any, U : Any, R : Any> Observable<T>.zipWith(
