@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id("java-library")
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.10"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
@@ -39,16 +39,16 @@ val examplesImplementation by configurations.getting {
 }
 
 dependencies {
-    api("io.reactivex.rxjava3:rxjava:3.0.0")
+    api("io.reactivex.rxjava3:rxjava:3.0.6")
     implementation(kotlin("stdlib"))
 
     testImplementation("org.funktionale:funktionale-partials:1.0.0-final")
     testImplementation("junit:junit:4.12")
     testImplementation("org.mockito:mockito-core:1.10.19")
 
-    examplesImplementation("com.squareup.retrofit2:retrofit:2.7.1")
-    examplesImplementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0-RC8")
-    examplesImplementation("com.squareup.retrofit2:converter-moshi:2.7.1")
+    examplesImplementation("com.squareup.retrofit2:retrofit:2.9.0")
+    examplesImplementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
+    examplesImplementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 }
 
 //sources
