@@ -11,7 +11,7 @@ RxKotlin is a lightweight library that adds convenient extension functions to [R
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.kotlin.toObservable
 
-fun main(args: Array<String>) {
+fun main() {
 
     val list = listOf("Alpha", "Beta", "Gamma", "Delta", "Epsilon")
 
