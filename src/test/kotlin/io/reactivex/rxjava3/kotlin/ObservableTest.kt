@@ -268,7 +268,19 @@ class ObservableTest {
                 .concatAll()
                 .toList()
                 .subscribe { result ->
-                    Assert.assertEquals((0 until 30).toList(), result)
+                    assertEquals((0 until 30).toList(), result)
                 }
+    }
+
+    @Test fun testMergeWithPlus() {
+        val output =
+            Observable.just(1, 2) +
+            Observable.just(3, 4) +
+            Observable.just(5, 6) +
+            Observable.just(7, 8) +
+            Observable.just(9, 10)
+        val result = mutableListOf<Int>()
+        output.subscribe { data -> result.add(data) }
+        assertEquals(result, (1..10).toMutableList())
     }
 }
