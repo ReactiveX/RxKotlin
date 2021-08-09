@@ -1,11 +1,10 @@
 @file:Suppress("UNUSED_VARIABLE", "HasPlatformType")
 
-import org.gradle.api.publish.maven.MavenPom
 import org.jetbrains.dokka.gradle.DokkaTask
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -18,7 +17,7 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 group = "io.reactivex.rxjava3"
@@ -162,7 +161,7 @@ bintray {
             name = project.version.toString()
             vcsTag = project.version.toString()
 
-            with(gpg){
+            with(gpg) {
                 sign = true
             }
 
