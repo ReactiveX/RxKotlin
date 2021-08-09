@@ -10,7 +10,7 @@ buildscript {
 
 plugins {
     id("java-library")
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.5.21"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
