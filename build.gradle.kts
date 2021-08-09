@@ -38,7 +38,7 @@ val examplesImplementation by configurations.getting {
 }
 
 dependencies {
-    api("io.reactivex.rxjava3:rxjava:3.0.6")
+    api("io.reactivex.rxjava3:rxjava:3.1.0")
     implementation(kotlin("stdlib"))
 
     testImplementation("org.funktionale:funktionale-partials:1.0.0-final")
