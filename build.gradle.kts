@@ -41,7 +41,6 @@ dependencies {
     api("io.reactivex.rxjava3:rxjava:3.1.0")
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.funktionale:funktionale-partials:1.0.0-final")
     testImplementation("junit:junit:4.12")
     testImplementation("org.mockito:mockito-core:1.10.19")
 
@@ -60,7 +59,6 @@ val sourcesJar by tasks.creating(Jar::class) {
 val dokka by tasks.getting(DokkaTask::class) {
     outputFormat = "html"
     outputDirectory = "$buildDir/javadoc"
-
 }
 
 //documentation
@@ -145,7 +143,7 @@ bintray {
 
     setPublications(if (isRelease) release else snapshot)
 
-//    dryRun = true
+    // dryRun = true
 
     with(pkg) {
         userOrg = "reactivex"
