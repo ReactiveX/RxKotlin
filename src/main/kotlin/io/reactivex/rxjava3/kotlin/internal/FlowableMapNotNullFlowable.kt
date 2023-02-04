@@ -7,8 +7,10 @@ import io.reactivex.rxjava3.operators.ConditionalSubscriber
 import org.reactivestreams.Subscriber
 
 internal class FlowableMapNotNullFlowable<T : Any, R : Any>(
-        private val source: Flowable<T>,
-        private val transform: (T) -> R?,
+        @JvmField
+        internal val source: Flowable<T>,
+        @JvmField
+        internal val transform: (T) -> R?,
 ) : Flowable<R>() {
     override fun subscribeActual(subscriber: Subscriber<in R>) {
         if (subscriber is ConditionalSubscriber<*>) {
@@ -25,6 +27,7 @@ internal class FlowableMapNotNullFlowable<T : Any, R : Any>(
 
     internal class MapNotNullSubscriber<T : Any, R : Any>(
             downstream: Subscriber<in R>,
+            @JvmField
             internal val transform: (T) -> R?
     ) : BasicFuseableSubscriber<T, R>(downstream),
             ConditionalSubscriber<T> {
@@ -77,6 +80,7 @@ internal class FlowableMapNotNullFlowable<T : Any, R : Any>(
 
     internal class MapNotNullConditionalSubscriber<T : Any, R : Any>(
             downstream: ConditionalSubscriber<in R>,
+            @JvmField
             internal val transform: (T) -> R?,
     ) : BasicFuseableConditionalSubscriber<T, R>(downstream) {
         override fun onNext(t: T) {

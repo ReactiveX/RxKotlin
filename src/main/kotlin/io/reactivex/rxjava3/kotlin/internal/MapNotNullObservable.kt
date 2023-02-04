@@ -5,8 +5,10 @@ import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.internal.observers.BasicFuseableObserver
 
 internal class MapNotNullObservable<T : Any, R : Any>(
-        private val source: Observable<T>,
-        private val transform: (T) -> R?
+        @JvmField
+        internal val source: Observable<T>,
+        @JvmField
+        internal val transform: (T) -> R?
 ) : Observable<R>() {
     override fun subscribeActual(observer: Observer<in R>) {
         source.subscribe(MapOptionalObserver(observer, transform))
@@ -14,6 +16,7 @@ internal class MapNotNullObservable<T : Any, R : Any>(
 
     internal class MapOptionalObserver<T : Any, R : Any>(
             downstream: Observer<in R>,
+            @JvmField
             internal val transform: (T) -> R?
     ) : BasicFuseableObserver<T, R>(downstream) {
         override fun onNext(t: T) {
