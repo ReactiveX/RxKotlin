@@ -1,9 +1,9 @@
 package io.reactivex.rxjava3.kotlin.internal
 
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.internal.fuseable.ConditionalSubscriber
 import io.reactivex.rxjava3.internal.subscribers.BasicFuseableConditionalSubscriber
 import io.reactivex.rxjava3.internal.subscribers.BasicFuseableSubscriber
+import io.reactivex.rxjava3.operators.ConditionalSubscriber
 import org.reactivestreams.Subscriber
 
 internal class FlowableMapNotNullFlowable<T : Any, R : Any>(
