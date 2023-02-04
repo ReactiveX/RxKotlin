@@ -275,10 +275,40 @@ class ObservableTest {
 
     @Test
     fun testMapNotNull() {
+        // map many items
         Observable.just(1, 2, 3, 4, 5)
                 .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
                 .test()
                 .assertValues(2, 4)
                 .assertComplete()
+
+        // map an error Observable
+        Observable.error<Int>(RuntimeException())
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertError(RuntimeException::class.java)
+
+        // map many items, concat with an error Observable
+        Observable.just(1, 2, 3, 4, 5)
+                .concatWith(Observable.error(RuntimeException()))
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertValues(2, 4)
+                .assertError(RuntimeException::class.java)
+
+        // test Fuseable
+        Observable.just(1)
+                .map { it * 2 }
+                .mapNotNull<Int, String> { null }
+                .filter { true }
+                .test()
+                .assertNoValues()
+                .assertComplete()
+
+        // transform throws
+        Observable.just(1)
+                .mapNotNull { throw RuntimeException() }
+                .test()
+                .assertError(RuntimeException::class.java)
     }
 }

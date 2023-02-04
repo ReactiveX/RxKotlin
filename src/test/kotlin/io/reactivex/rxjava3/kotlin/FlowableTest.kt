@@ -215,14 +215,15 @@ class FlowableTest {
 
         Flowables.zip(
                 Flowable.just("Alpha", "Beta", "Gamma"),
-                Flowable.range(1,4),
-                Flowable.just(100,200,300)
+                Flowable.range(1, 4),
+                Flowable.just(100, 200, 300)
         ).subscribe(testSubscriber)
 
-        testSubscriber.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
+        testSubscriber.assertValues(Triple("Alpha", 1, 100), Triple("Beta", 2, 200), Triple("Gamma", 3, 300))
     }
 
-    @Test fun testConcatAll() {
+    @Test
+    fun testConcatAll() {
         (0 until 10)
                 .map { Flowable.just(it) }
                 .concatAll()
@@ -230,5 +231,44 @@ class FlowableTest {
                 .subscribe { result ->
                     Assert.assertEquals((0 until 10).toList(), result)
                 }
+    }
+
+    @Test
+    fun testMapNotNull() {
+        // map many items
+        Flowable.just(1, 2, 3, 4, 5)
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertValues(2, 4)
+                .assertComplete()
+
+        // map an error Flowable
+        Flowable.error<Int>(RuntimeException())
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertError(RuntimeException::class.java)
+
+        // map many items, concat with an error Flowable
+        Flowable.just(1, 2, 3, 4, 5)
+                .concatWith(Flowable.error(RuntimeException()))
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertValues(2, 4)
+                .assertError(RuntimeException::class.java)
+
+        // test Fuseable
+        Flowable.just(1)
+                .map { it * 2 }
+                .mapNotNull<Int, String> { null }
+                .filter { true }
+                .test()
+                .assertNoValues()
+                .assertComplete()
+
+        // transform throws
+        Flowable.just(1)
+                .mapNotNull { throw RuntimeException() }
+                .test()
+                .assertError(RuntimeException::class.java)
     }
 }

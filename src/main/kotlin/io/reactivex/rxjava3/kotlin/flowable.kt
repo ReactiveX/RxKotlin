@@ -9,6 +9,7 @@ import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.functions.*
+import io.reactivex.rxjava3.kotlin.internal.FlowableMapNotNullFlowable
 import org.reactivestreams.Publisher
 
 
@@ -201,3 +202,14 @@ fun <A : Any, B : Any> Flowable<Pair<A, B>>.toMultimap(): Single<MutableMap<A, M
 @BackpressureSupport(BackpressureKind.FULL)
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<Publisher<T>>.concatAll(): Flowable<T> = Flowable.concat(this)
+
+/**
+ * Returns an [Flowable] that emits the non-`null` results
+ * of applying the given [transform] function to each element of the original Observable.
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+@BackpressureSupport(BackpressureKind.PASS_THROUGH)
+fun <T : Any, R : Any> Flowable<T>.mapNotNull(transform: (T) -> R?): Flowable<R> =
+        FlowableMapNotNullFlowable(this, transform)
+

@@ -2,6 +2,7 @@ package io.reactivex.rxjava3.kotlin.internal
 
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.exceptions.Exceptions
 import io.reactivex.rxjava3.internal.disposables.DisposableHelper
 
 internal class MapNotNullObserver<T : Any, R : Any>(
@@ -18,7 +19,15 @@ internal class MapNotNullObserver<T : Any, R : Any>(
     }
 
     override fun onNext(t: T) {
-        transform(t)?.let(downstream::onNext)
+        val v = try {
+            transform(t)
+        } catch (e: Throwable) {
+            Exceptions.throwIfFatal(e)
+            upstream!!.dispose()
+            onError(e)
+            return
+        }
+        v?.let(downstream::onNext)
     }
 
     override fun onError(e: Throwable): Unit = downstream.onError(e)
