@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableSource
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.internal.MapNotNullObserver
 
 
 @CheckReturnValue
@@ -177,3 +178,13 @@ fun <A : Any, B : Any> Observable<Pair<A, B>>.toMultimap(): Single<MutableMap<A,
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<ObservableSource<T>>.concatAll(): Observable<T> =
         Observable.concat(this)
+
+/**
+ * Returns an [Observable] that emits the non-`null` results
+ * of applying the given [transform] function to each element of the original Observable.
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any, R : Any> Observable<T>.mapNotNull(transform: (T) -> R?): Observable<R> =
+        lift { MapNotNullObserver(it, transform) }
+
