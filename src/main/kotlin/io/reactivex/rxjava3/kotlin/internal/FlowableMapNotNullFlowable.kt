@@ -25,7 +25,7 @@ internal class FlowableMapNotNullFlowable<T : Any, R : Any>(
 
     internal class MapNotNullSubscriber<T : Any, R : Any>(
             downstream: Subscriber<in R>,
-            val transform: (T) -> R?
+            internal val transform: (T) -> R?
     ) : BasicFuseableSubscriber<T, R>(downstream),
             ConditionalSubscriber<T> {
         override fun onNext(t: T) {
@@ -77,7 +77,7 @@ internal class FlowableMapNotNullFlowable<T : Any, R : Any>(
 
     internal class MapNotNullConditionalSubscriber<T : Any, R : Any>(
             downstream: ConditionalSubscriber<in R>,
-            val transform: (T) -> R?,
+            internal val transform: (T) -> R?,
     ) : BasicFuseableConditionalSubscriber<T, R>(downstream) {
         override fun onNext(t: T) {
             if (!tryOnNext(t)) {

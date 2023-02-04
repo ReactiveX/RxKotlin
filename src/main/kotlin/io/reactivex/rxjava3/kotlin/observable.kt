@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableSource
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.kotlin.internal.MapNotNullObserver
+import io.reactivex.rxjava3.kotlin.internal.MapNotNullObservable
 
 
 @CheckReturnValue
@@ -186,5 +186,5 @@ fun <T : Any> Iterable<ObservableSource<T>>.concatAll(): Observable<T> =
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, R : Any> Observable<T>.mapNotNull(transform: (T) -> R?): Observable<R> =
-        lift { MapNotNullObserver(it, transform) }
+        MapNotNullObservable(this, transform)
 
