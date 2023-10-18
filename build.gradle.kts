@@ -1,24 +1,23 @@
 @file:Suppress("UNUSED_VARIABLE", "HasPlatformType")
 
-import org.gradle.api.publish.maven.MavenPom
 import org.jetbrains.dokka.gradle.DokkaTask
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
 plugins {
     id("java-library")
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.5.21"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("com.jfrog.bintray") version "1.8.4"
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 group = "io.reactivex.rxjava3"
@@ -39,10 +38,9 @@ val examplesImplementation by configurations.getting {
 }
 
 dependencies {
-    api("io.reactivex.rxjava3:rxjava:3.0.6")
+    api("io.reactivex.rxjava3:rxjava:3.1.0")
     implementation(kotlin("stdlib"))
 
-    testImplementation("org.funktionale:funktionale-partials:1.0.0-final")
     testImplementation("junit:junit:4.12")
     testImplementation("org.mockito:mockito-core:1.10.19")
 
@@ -61,7 +59,6 @@ val sourcesJar by tasks.creating(Jar::class) {
 val dokka by tasks.getting(DokkaTask::class) {
     outputFormat = "html"
     outputDirectory = "$buildDir/javadoc"
-
 }
 
 //documentation
@@ -146,7 +143,7 @@ bintray {
 
     setPublications(if (isRelease) release else snapshot)
 
-//    dryRun = true
+    // dryRun = true
 
     with(pkg) {
         userOrg = "reactivex"
@@ -162,7 +159,7 @@ bintray {
             name = project.version.toString()
             vcsTag = project.version.toString()
 
-            with(gpg){
+            with(gpg) {
                 sign = true
             }
 

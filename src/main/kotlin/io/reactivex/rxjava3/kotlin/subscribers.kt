@@ -6,10 +6,10 @@ import io.reactivex.rxjava3.annotations.CheckReturnValue
 import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.*
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.DisposableContainer
 import io.reactivex.rxjava3.functions.Action
 import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.internal.functions.Functions
-
 
 private val onNextStub: (Any) -> Unit = {}
 private val onErrorStub: (Throwable) -> Unit = {}
@@ -33,9 +33,9 @@ private fun (() -> Unit).asOnCompleteAction(): Action {
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<T>.subscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onNext: (T) -> Unit = onNextStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onNext: (T) -> Unit = onNextStub
 ): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
@@ -45,9 +45,9 @@ fun <T : Any> Observable<T>.subscribeBy(
 @BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Flowable<T>.subscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onNext: (T) -> Unit = onNextStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onNext: (T) -> Unit = onNextStub
 ): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
@@ -56,8 +56,8 @@ fun <T : Any> Flowable<T>.subscribeBy(
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Single<T>.subscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onSuccess: (T) -> Unit = onNextStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onSuccess: (T) -> Unit = onNextStub
 ): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
 
 /**
@@ -66,9 +66,9 @@ fun <T : Any> Single<T>.subscribeBy(
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Maybe<T>.subscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onSuccess: (T) -> Unit = onNextStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onSuccess: (T) -> Unit = onNextStub
 ): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
@@ -77,8 +77,8 @@ fun <T : Any> Maybe<T>.subscribeBy(
 @CheckReturnValue
 @SchedulerSupport(SchedulerSupport.NONE)
 fun Completable.subscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub
 ): Disposable = when {
     // There are optimized versions of the completable Consumers, so we need to use the subscribe overloads
     // here.
@@ -88,13 +88,68 @@ fun Completable.subscribeBy(
 }
 
 /**
+ * Overloaded subscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Observable<T>.subscribeBy(
+    container: DisposableContainer,
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onNext: (T) -> Unit = onNextStub
+): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction(), container)
+
+/**
+ * Overloaded subscribe function that allows passing named parameters
+ */
+@BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Flowable<T>.subscribeBy(
+    container: DisposableContainer,
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onNext: (T) -> Unit = onNextStub
+): Disposable = subscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction(), container)
+
+/**
+ * Overloaded subscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Single<T>.subscribeBy(
+    container: DisposableContainer,
+    onError: (Throwable) -> Unit = onErrorStub,
+    onSuccess: (T) -> Unit = onNextStub
+): Disposable = subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), container)
+
+/**
+ * Overloaded subscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun <T : Any> Maybe<T>.subscribeBy(
+    container: DisposableContainer,
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onSuccess: (T) -> Unit = onNextStub
+): Disposable =
+    subscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction(), container)
+
+/**
+ * Overloaded subscribe function that allows passing named parameters
+ */
+@SchedulerSupport(SchedulerSupport.NONE)
+fun Completable.subscribeBy(
+    container: DisposableContainer,
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub
+): Disposable = subscribe(onComplete.asOnCompleteAction(), onError.asOnErrorConsumer(), container)
+
+/**
  * Overloaded blockingSubscribe function that allows passing named parameters
  */
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Observable<T>.blockingSubscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onNext: (T) -> Unit = onNextStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onNext: (T) -> Unit = onNextStub
 ): Unit = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
@@ -103,9 +158,9 @@ fun <T : Any> Observable<T>.blockingSubscribeBy(
 @BackpressureSupport(BackpressureKind.UNBOUNDED_IN)
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Flowable<T>.blockingSubscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onNext: (T) -> Unit = onNextStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onNext: (T) -> Unit = onNextStub
 ): Unit = blockingSubscribe(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
@@ -113,25 +168,25 @@ fun <T : Any> Flowable<T>.blockingSubscribeBy(
  */
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Maybe<T>.blockingSubscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub,
-        onSuccess: (T) -> Unit = onNextStub
-) : Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub,
+    onSuccess: (T) -> Unit = onNextStub
+): Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction())
 
 /**
  * Overloaded blockingSubscribe function that allows passing named parameters
  */
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Single<T>.blockingSubscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onSuccess: (T) -> Unit = onNextStub
-) : Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
+    onError: (Throwable) -> Unit = onErrorStub,
+    onSuccess: (T) -> Unit = onNextStub
+): Unit = blockingSubscribe(onSuccess.asConsumer(), onError.asOnErrorConsumer())
 
 /**
  * Overloaded blockingSubscribe function that allows passing named parameters
  */
 @SchedulerSupport(SchedulerSupport.NONE)
 fun Completable.blockingSubscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onComplete: () -> Unit = onCompleteStub
+    onError: (Throwable) -> Unit = onErrorStub,
+    onComplete: () -> Unit = onCompleteStub
 ): Unit = blockingSubscribe(onComplete.asOnCompleteAction(), onError.asOnErrorConsumer())

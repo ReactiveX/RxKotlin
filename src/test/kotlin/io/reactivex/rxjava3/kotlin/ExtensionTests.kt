@@ -21,7 +21,6 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.ObservableEmitter
 import io.reactivex.rxjava3.schedulers.TestScheduler
 import io.reactivex.rxjava3.functions.*
-import org.funktionale.partials.invoke
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
@@ -248,11 +247,6 @@ class ExtensionTests : KotlinTests() {
         inOrder.verifyNoMoreInteractions()
     }
 
-    val funOnSubscribe: (Int, ObservableEmitter<in String>) -> Unit = { counter, subscriber ->
-        subscriber.onNext("hello_$counter")
-        subscriber.onComplete()
-    }
-
     val asyncObservable: (ObservableEmitter<in Int>) -> Unit = { subscriber ->
         thread {
             Thread.sleep(50)
@@ -270,7 +264,11 @@ class ExtensionTests : KotlinTests() {
             get() = listOf(1, 3, 2, 5, 4).toObservable()
 
         val onSubscribe: (ObservableEmitter<in String>) -> Unit
-            get() = funOnSubscribe(p1 = counter++) // partial applied function
+            get() = {
+                it.onNext("hello_$counter")
+                it.onComplete()
+                counter ++
+            }
 
         val observable: Observable<String>
             get() = Observable.create(onSubscribe)
