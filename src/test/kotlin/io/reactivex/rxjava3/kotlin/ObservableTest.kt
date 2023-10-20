@@ -254,14 +254,15 @@ class ObservableTest {
 
         Observables.zip(
                 Observable.just("Alpha", "Beta", "Gamma"),
-                Observable.range(1,4),
-                Observable.just(100,200,300)
+                Observable.range(1, 4),
+                Observable.just(100, 200, 300)
         ).subscribe(testObserver)
 
-        testObserver.assertValues(Triple("Alpha",1, 100), Triple("Beta",2, 200), Triple("Gamma",3, 300))
+        testObserver.assertValues(Triple("Alpha", 1, 100), Triple("Beta", 2, 200), Triple("Gamma", 3, 300))
     }
 
-    @Test fun testConcatAll() {
+    @Test
+    fun testConcatAll() {
         var counter = 0
         (0 until 10)
                 .map { Observable.just(counter++, counter++, counter++) }
@@ -270,5 +271,44 @@ class ObservableTest {
                 .subscribe { result ->
                     Assert.assertEquals((0 until 30).toList(), result)
                 }
+    }
+
+    @Test
+    fun testMapNotNull() {
+        // map many items
+        Observable.just(1, 2, 3, 4, 5)
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertValues(2, 4)
+                .assertComplete()
+
+        // map an error Observable
+        Observable.error<Int>(RuntimeException())
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertError(RuntimeException::class.java)
+
+        // map many items, concat with an error Observable
+        Observable.just(1, 2, 3, 4, 5)
+                .concatWith(Observable.error(RuntimeException()))
+                .mapNotNull { v -> v.takeIf { it % 2 == 0 } }
+                .test()
+                .assertValues(2, 4)
+                .assertError(RuntimeException::class.java)
+
+        // test Fuseable
+        Observable.just(1)
+                .map { it * 2 }
+                .mapNotNull<Int, String> { null }
+                .filter { true }
+                .test()
+                .assertNoValues()
+                .assertComplete()
+
+        // transform throws
+        Observable.just(1)
+                .mapNotNull { throw RuntimeException() }
+                .test()
+                .assertError(RuntimeException::class.java)
     }
 }
