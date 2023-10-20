@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.FlowableEmitter
 import io.reactivex.rxjava3.functions.*
+import io.reactivex.rxjava3.internal.functions.Functions
 import org.reactivestreams.Publisher
 
 
@@ -28,6 +29,18 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2,
             BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1, t2) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            bufferSize: Int,
+            combineFunction: (T1, T2) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2),
+            Functions.toFunction(combineFunction), bufferSize)
+
+
     /**
      * Emits `Pair<T1,T2>`
      */
@@ -39,6 +52,18 @@ object Flowables {
             source2: Flowable<T2>
     ): Flowable<Pair<T1, T2>> = Flowable.combineLatest(source1, source2,
             BiFunction<T1, T2, Pair<T1, T2>> { t1, t2 -> t1 to t2 })
+
+    /**
+     * Emits `Pair<T1,T2>`
+     */
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            bufferSize: Int
+    ): Flowable<Pair<T1, T2>> = combineLatest(source1, source2, bufferSize, ::Pair)
 
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
@@ -55,6 +80,19 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3,
             Function3 { t1: T1, t2: T2, t3: T3 -> combineFunction(t1, t2, t3) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3),
+            Functions.toFunction(combineFunction), bufferSize)
+
+
     /**
      * Emits `Triple<T1,T2,T3>`
      */
@@ -67,6 +105,20 @@ object Flowables {
             source3: Flowable<T3>
     ): Flowable<Triple<T1, T2, T3>> = Flowable.combineLatest(source1, source2, source3,
             Function3<T1, T2, T3, Triple<T1, T2, T3>> { t1, t2, t3 -> Triple(t1, t2, t3) })
+
+    /**
+     * Emits `Triple<T1,T2,T3>`
+     */
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            bufferSize: Int
+    ): Flowable<Triple<T1, T2, T3>> =
+            combineLatest(source1, source2, source3, bufferSize, ::Triple)
 
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
@@ -84,6 +136,19 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4,
             Function4 { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1, t2, t3, t4) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3, T4) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3, source4),
+            Functions.toFunction(combineFunction), bufferSize)
+
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Flowable"),
@@ -100,6 +165,20 @@ object Flowables {
             crossinline combineFunction: (T1, T2, T3, T4, T5) -> R
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5,
             Function5 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1, t2, t3, t4, t5) })
+
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3, T4, T5) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3, source4, source5),
+            Functions.toFunction(combineFunction), bufferSize)
 
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
@@ -119,9 +198,41 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6,
             Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            source6: Flowable<T6>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3, T4, T5, T6) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3, source4, source5, source6),
+            Functions.toFunction(combineFunction), bufferSize)
+
+
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            source6: Flowable<T6>,
+            source7: Flowable<T7>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3, T4, T5, T6, T7) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3, source4, source5, source6, source7),
+            Functions.toFunction(combineFunction), bufferSize)
+
     @CheckReturnValue
     @BackpressureSupport(BackpressureKind.FULL)
     @SchedulerSupport(SchedulerSupport.NONE)
@@ -157,6 +268,24 @@ object Flowables {
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8,
             Function8 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            source6: Flowable<T6>,
+            source7: Flowable<T7>,
+            source8: Flowable<T8>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3, source4, source5, source6, source7, source8),
+            Functions.toFunction(combineFunction), bufferSize)
+
+
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
@@ -176,6 +305,24 @@ object Flowables {
             crossinline combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
     ): Flowable<R> = Flowable.combineLatest(source1, source2, source3, source4, source5, source6, source7, source8, source9,
             Function9 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8, t9) })
+
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, T9 : Any, R : Any> combineLatest(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            source6: Flowable<T6>,
+            source7: Flowable<T7>,
+            source8: Flowable<T8>,
+            source9: Flowable<T9>,
+            bufferSize: Int,
+            combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+    ): Flowable<R> = Flowable.combineLatest(listOf(source1, source2, source3, source4, source5, source6, source7, source8, source9),
+            Functions.toFunction(combineFunction), bufferSize)
 
 
     @CheckReturnValue
@@ -199,6 +346,19 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2,
             BiFunction<T1, T2, R> { t1, t2 -> combineFunction(t1, t2) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, R : Any> zip(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
+
+
     /**
      * Emits `Pair<T1,T2>`
      */
@@ -207,6 +367,19 @@ object Flowables {
     @SchedulerSupport(SchedulerSupport.NONE)
     fun <T1 : Any, T2 : Any> zip(source1: Flowable<T1>, source2: Flowable<T2>): Flowable<Pair<T1, T2>> =
             Flowable.zip(source1, source2, BiFunction<T1, T2, Pair<T1, T2>> { t1, t2 -> t1 to t2 })
+
+    /**
+     * Emits `Pair<T1,T2>`
+     */
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any> zip(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize()
+    ): Flowable<Pair<T1, T2>> = zip(source1, source2, delayError, bufferSize, ::Pair)
 
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
@@ -223,6 +396,16 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3,
             Function3 { t1: T1, t2: T2, t3: T3 -> combineFunction(t1, t2, t3) })
 
+    fun <T1 : Any, T2 : Any, T3 : Any, R : Any> zip(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2, source3),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
+
     /**
      * Emits `Triple<T1,T2,T3>`
      */
@@ -235,6 +418,21 @@ object Flowables {
             source3: Flowable<T3>
     ): Flowable<Triple<T1, T2, T3>> = Flowable.zip(source1, source2, source3,
             Function3<T1, T2, T3, Triple<T1, T2, T3>> { t1, t2, t3 -> Triple(t1, t2, t3) })
+
+    /**
+     * Emits `Triple<T1,T2,T3>`
+     */
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any> zip(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize()
+    ): Flowable<Triple<T1, T2, T3>> = zip(source1, source2, source3, delayError, bufferSize, ::Triple)
+
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, combineFunction)", "io.reactivex.Flowable"),
@@ -251,6 +449,21 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4,
             Function4 { t1: T1, t2: T2, t3: T3, t4: T4 -> combineFunction(t1, t2, t3, t4) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, R : Any> zip(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3, T4) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2, source3, source4),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
+
+
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
@@ -263,6 +476,16 @@ object Flowables {
             source5: Flowable<T5>, crossinline combineFunction: (T1, T2, T3, T4, T5) -> R
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5,
             Function5 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5 -> combineFunction(t1, t2, t3, t4, t5) })
+
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R : Any> zip(
+            source1: Flowable<T1>, source2: Flowable<T2>,
+            source3: Flowable<T3>, source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3, T4, T5) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2, source3, source4, source5),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
 
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
@@ -278,6 +501,20 @@ object Flowables {
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6,
             Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
 
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R : Any> zip(
+            source1: Flowable<T1>, source2: Flowable<T2>,
+            source3: Flowable<T3>, source4: Flowable<T4>,
+            source5: Flowable<T5>, source6: Flowable<T6>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3, T4, T5, T6) -> R
+    ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6,
+            Function6 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6 -> combineFunction(t1, t2, t3, t4, t5, t6) })
+
+
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, combineFunction)", "io.reactivex.Flowable"),
             level = DeprecationLevel.WARNING)
@@ -291,6 +528,20 @@ object Flowables {
             source7: Flowable<T7>, crossinline combineFunction: (T1, T2, T3, T4, T5, T6, T7) -> R
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6, source7,
             Function7 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7 -> combineFunction(t1, t2, t3, t4, t5, t6, t7) })
+
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, R : Any> zip(
+            source1: Flowable<T1>, source2: Flowable<T2>,
+            source3: Flowable<T3>, source4: Flowable<T4>,
+            source5: Flowable<T5>, source6: Flowable<T6>,
+            source7: Flowable<T7>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3, T4, T5, T6, T7) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2, source3, source4, source5, source6, source7),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
 
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
@@ -307,6 +558,20 @@ object Flowables {
             crossinline combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8) -> R
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8,
             Function8 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8) })
+
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, R : Any> zip(
+            source1: Flowable<T1>, source2: Flowable<T2>,
+            source3: Flowable<T3>, source4: Flowable<T4>,
+            source5: Flowable<T5>, source6: Flowable<T6>,
+            source7: Flowable<T7>, source8: Flowable<T8>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2, source3, source4, source5, source6, source7, source8),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
 
     @Deprecated("New type inference algorithm in Kotlin 1.4 makes this method obsolete. Method will be removed in future RxKotlin release.",
             replaceWith = ReplaceWith("Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8, source9, combineFunction)", "io.reactivex.Flowable"),
@@ -327,6 +592,25 @@ object Flowables {
             crossinline combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
     ): Flowable<R> = Flowable.zip(source1, source2, source3, source4, source5, source6, source7, source8, source9,
             Function9 { t1: T1, t2: T2, t3: T3, t4: T4, t5: T5, t6: T6, t7: T7, t8: T8, t9: T9 -> combineFunction(t1, t2, t3, t4, t5, t6, t7, t8, t9) })
+
+    @CheckReturnValue
+    @BackpressureSupport(BackpressureKind.FULL)
+    @SchedulerSupport(SchedulerSupport.NONE)
+    fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, T7 : Any, T8 : Any, T9 : Any, R : Any> zip(
+            source1: Flowable<T1>,
+            source2: Flowable<T2>,
+            source3: Flowable<T3>,
+            source4: Flowable<T4>,
+            source5: Flowable<T5>,
+            source6: Flowable<T6>,
+            source7: Flowable<T7>,
+            source8: Flowable<T8>,
+            source9: Flowable<T9>,
+            delayError: Boolean = false,
+            bufferSize: Int = Flowable.bufferSize(),
+            combineFunction: (T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+    ): Flowable<R> = Flowable.zip(listOf(source1, source2, source3, source4, source5, source6, source7, source8, source9),
+            Functions.toFunction(combineFunction), delayError, bufferSize)
 
 }
 
