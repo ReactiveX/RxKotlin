@@ -177,3 +177,11 @@ fun <A : Any, B : Any> Observable<Pair<A, B>>.toMultimap(): Single<MutableMap<A,
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any> Iterable<ObservableSource<T>>.concatAll(): Observable<T> =
         Observable.concat(this)
+
+/**
+ * Merge multiple Observable by using plus operator
+ */
+@CheckReturnValue
+@SchedulerSupport(SchedulerSupport.NONE)
+operator fun <T: Any> Observable<T>.plus(other: Observable<T>): Observable<T> =
+        Observable.merge(this, other)
